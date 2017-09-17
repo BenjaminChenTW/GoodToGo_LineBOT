@@ -11,4 +11,3 @@
 ### License
 
 Copyright © 2017 Last Longer Project. All rights reserved.
-ㄋ

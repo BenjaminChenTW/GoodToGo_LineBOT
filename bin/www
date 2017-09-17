@@ -6,6 +6,7 @@
 var app = require('../app');
 var debug = require('debug')('goodtogo-linebot:server');
 var redLog = require('debug')('goodtogo-linebot:serverRedirect');
+var config = require('../config/config.js');
 debug.log = console.log.bind(console);
 redLog.log = console.log.bind(console);
 var https = require('https');
@@ -36,9 +37,8 @@ app.set('port', port);
  * Create HTTPS server.
  */
 var options = {
-
-    key: fs.readFileSync('/etc/letsencrypt/live/bot.goodtogo.tw/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/bot.goodtogo.tw/fullchain.pem')
+    key: fs.readFileSync(config.ssl - privkey),
+    cert: fs.readFileSync(config.fullchain)
 };
 var server = https.createServer(options, app);
 
