@@ -35,11 +35,11 @@ app.set('port', port);
 /**
  * Create HTTPS server.
  */
-/*var options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/app.goodtogo.tw/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/app.goodtogo.tw/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/app.goodtogo.tw/chain.pem')
-};*/
+var options = {
+
+    key: fs.readFileSync('/etc/letsencrypt/live/bot.goodtogo.tw/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/bot.goodtogo.tw/fullchain.pem')
+};
 var server = https.createServer(options, app);
 
 /**
