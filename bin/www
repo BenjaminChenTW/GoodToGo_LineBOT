@@ -37,8 +37,8 @@ app.set('port', port);
  * Create HTTPS server.
  */
 var options = {
-    key: fs.readFileSync(config.ssl - privkey),
-    cert: fs.readFileSync(config.fullchain)
+    key: fs.readFileSync(config.ssl_privkey),
+    cert: fs.readFileSync(config.ssl_fullchain)
 };
 var server = https.createServer(options, app);
 
