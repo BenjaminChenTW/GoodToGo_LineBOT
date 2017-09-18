@@ -10,7 +10,11 @@ const line = require('@line/bot-sdk');
 var index = require('./routes/index');
 var config = require('./config/config.js');
 
+/**
+ * EXPRESS init
+ */
 var app = express();
+app.use(logger('dev'));
 
 /**
  * BOT init
@@ -38,20 +42,19 @@ app.post('/webhook', line.middleware(config.bot), (req, res) => {
 });
 
 /**
- * EXPRESS init
+ * WEB init
  */
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
 
 /**
- * EXPRESS router
+ * WEB router
  */
 app.use('/index', index);
 
