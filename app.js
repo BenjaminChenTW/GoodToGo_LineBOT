@@ -36,9 +36,10 @@ function handleEvent(event) {
  * BOT router
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
-    Promise
+    /*Promise
         .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result));
+        .then((result) => res.json(result));*/
+    res.json(req.body.events);
 });
 
 /**
