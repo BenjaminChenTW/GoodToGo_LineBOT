@@ -5,22 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var linebot = require('linebot');
+const line = require('@line/bot-sdk');
 
 var index = require('./routes/index');
 var config = require('./config/config.js');
-
-/**
- * BOT init and router
- */
-var bot = linebot(config.bot);
-bot.on('message', function(event) {});
-bot.on('follow', function(event) {});
-bot.on('unfollow', function(event) {});
-bot.on('join', function(event) {});
-bot.on('leave', function(event) {});
-bot.on('postback', function(event) {});
-bot.on('beacon', function(event) {});
 
 /**
  * EXPRESS init
@@ -37,10 +25,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
 
 /**
+ * BOT init and router
+ */
+const client = new line.Client(config.bot);
+
+function handleEvent(event) {
+    if (event.type !== 'message' || event.message.type !== 'text') {
+        return Promise.resolve(null);
+    }
+
+    return client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: event.message.text
+    });
+}
+
+/**
  * EXPRESS router
  */
-const linebotParser = bot.parser();
-app.post('/', linebotParser);
+app.post('/webhook', line.middleware(config), (req, res) => {
+    Promise
+        .all(req.body.events.map(handleEvent))
+        .then((result) => res.json(result));
+});
 app.use('/index', index);
 
 /**
