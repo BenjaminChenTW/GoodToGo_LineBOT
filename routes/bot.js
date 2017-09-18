@@ -3,6 +3,7 @@
  */
 const Client = require('@line/bot-sdk').Client;
 const client = new Client(config.bot);
+var config = require('./config/config.js');
 
 module.exports = {
     // event handler
