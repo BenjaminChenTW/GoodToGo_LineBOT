@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 const line = require('@line/bot-sdk');
 
+var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');
 var config = require('./config/config.js');
 
@@ -17,29 +18,12 @@ var app = express();
 app.use(logger('dev'));
 
 /**
- * BOT init
- */
-const client = new line.Client(config.bot);
-
-function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        return Promise.resolve(null);
-    }
-
-    return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: event.message.text
-    });
-}
-
-/**
  * BOT router
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
-    /*Promise
-        .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result));*/
-    res.json(req.body.events);
+    Promise
+        .all(req.body.events.map(bot))
+        .then((result) => res.json(result));
 });
 
 /**
