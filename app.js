@@ -21,6 +21,7 @@ app.use(logger('dev'));
  * BOT router
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
+    console.log(req);
     console.log(line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature']))
     if (line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature'])) {
         Promise
