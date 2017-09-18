@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var debug = require('debug')('goodtogo-linebot:app');
 
 const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
@@ -23,13 +24,13 @@ app.use(logger('dev'));
  * BOT router
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
-    // if (line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature'])) {
-    Promise
-        .all(req.body.events.map(bot))
-        .then((result) => res.json(result));
-    // } else {
-    // res.status(401).json({});
-    // }
+    if (line.validateSignature(JSON.stringify(req.body), config.bot.channelSecret, req.headers['X-Line-Signature'])) {
+        Promise
+            .all(req.body.events.map(bot))
+            .then((result) => res.json(result));
+    } else {
+        res.status(401).json({});
+    }
 });
 
 /**
@@ -74,6 +75,8 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    debug(res.locals.message);
+    debug(res.locals.error);
 
     // render the error page
     res.status(err.status || 500);
