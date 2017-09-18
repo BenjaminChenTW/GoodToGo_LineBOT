@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 const line = require('@line/bot-sdk');
+const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
+const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
 
 var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');
@@ -22,6 +24,7 @@ app.use(logger('dev'));
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
     console.log(req);
+    console.log(config.bot.channelSecret);
     console.log(line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature']))
     if (line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature'])) {
         Promise
