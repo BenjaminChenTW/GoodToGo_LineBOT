@@ -23,9 +23,6 @@ app.use(logger('dev'));
  * BOT router
  */
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
-    console.log(req);
-    console.log(config.bot.channelSecret);
-    console.log(line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature']))
     if (line.validateSignature(req.body, config.bot.channelSecret, req.headers['X-Line-Signature'])) {
         Promise
             .all(req.body.events.map(bot))
@@ -77,6 +74,8 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    console.log(res.locals.message);
+    console.log(res.locals.error);
 
     // render the error page
     res.status(err.status || 500);
