@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
  * EXPRESS router
  */
 const linebotParser = bot.parser();
-app.post('/linewebhook', linebotParser);
+app.post('/webhook', linebotParser);
 app.use('/', index);
 
 /**
