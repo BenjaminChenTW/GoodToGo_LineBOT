@@ -11,11 +11,19 @@
 <body>
     <header>
          <nav>
-            <h1 id="goodtogo">好盒器</h1>         
+                <div id='cssmenu'>
+                        <ul>
+                            <li class='active' onclick="change_tab(this)" value="0"><a>照片審核</a>
+                            </li>
+                            <li onclick="change_tab(this)" value="1"><a>對話管理</a>
+                            </li>
+                        </ul>
+                </div>
+                <b id="goodtogo">LINE BOT 後台</b>
         </nav>
-        
+        <div id="blocker">
         <div id="picture_view">           
-            <div class="container"><a class="pic"><img class="button" type="button" src="src/pic1.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
+            <div class="container"><a class="pic"><img class="button" type="button" src="src/pic1.jpg" onclick="select_picture(this)"/><img class="icon" src="src/checked.png"/><p>asd</p></a></div>
             <div class="container"><a class="pic"><img class="button" type="button" src="src/pic2.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
             <div class="container"><a class="pic"><img class="button" type="button" src="src/pic3.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
             <div class="container"><a class="pic"><img class="button" type="button" src="src/pic3.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
@@ -26,38 +34,39 @@
             <div class="container"><a class="pic"><img class="button" type="button" src="src/pic1.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
             <div class="container"><a class="pic"><img class="button" type="button" src="src/pic2.jpg" onclick="select_picture(this)"/><p>asd</p></a></div>
         </div>
+        </div>
     </header>
-    <span class="helper"></span>
-    <section id="picture">
-        <span class="helper"></span>
-        <div id="main_pic_section">
-            <span class="helper"></span>
-            <img id="main_pic" alt="main_pic"/>
-        </div>
-    </section>
+    <div id="detail">
+            <div id="detail_pic">
+                    <span class="helper"></span>
+                    <div id="main_pic_section">
+                        <span class="helper"></span>
+                        <img id="main_pic" alt="main_pic"/>
+                    </div>
+            </div>
 
-    <section id="white_space"></section>
-    <span class="helper"></span>
-    <section id="data">
-        <span class="helper"></span>
-        <div class="data_container">
-            <div class="data">
-                <a id="user_id_title">使用者 id: </a><p id="user_id">e.zou.shen59</p>
-                <a id="upload_time_title">上傳時間: </a><p id="upload_time"></p>
+            <div id="detail_data">
+                    <span class="helper"></span>
+                    <div class="data_container">
+                        <div class="data">
+                            <a id="user_id_title">使用者 id: </a><p id="user_id">e.zou.shen59</p>
+                            <a id="upload_time_title">上傳時間: </a><p id="upload_time"></p>
+                        </div>
+                        <div class="detail">
+                            <p>可兌換抽獎次數: <input type="number"/></p>
+                            <p>資格不承認原因: 
+                                <select name="reasons">
+                                    <option value="not_at_the_site">不在現場</option>
+                                    <option value="not_our_container">容器非好盒器</option>
+                                </select>
+                            </p>
+                            <p id="status">＊此照片尚未經過首次審核</p>
+                            <button onclick="submit">保存</button>
+                        </div>
+                    </div>
             </div>
-            <div class="detail">
-                <p>可兌換抽獎次數: <input type="number"/></p>
-                <p>資格不承認原因: 
-                    <select name="reasons">
-                        <option value="not_at_the_site">不在現場</option>
-                        <option value="not_our_container">容器非好盒器</option>
-                    </select>
-                </p>
-                <p id="status">＊此照片尚未經過首次審核<button onclick="submit">保存</button></p>
-            </div>
-        </div>
-        
-    </section>
+    </div>
+
     
 </body>
 </html>
