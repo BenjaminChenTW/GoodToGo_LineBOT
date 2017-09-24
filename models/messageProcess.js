@@ -31,7 +31,8 @@ module.exports = {
             })
             .on('response', function(response) {
                 if (response.statusCode !== 200) debug('[IMG Error (1)] StatusCode : ' + response.statusCode);
-                else message.img.contentType = response.headers['content-type'];
+                else console.log(response)
+                    // else message.img.contentType = response.headers['content-type'];
             })
             .pipe(imgBuffer);
         message.img.data = imgBuffer;
