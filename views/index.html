@@ -67,6 +67,27 @@
             </div>
     </div>
 
-    
+    <div id="messenger_view">
+        <div class="manager">
+            <form class="form-wrapper">
+                <input type="text" id="search" placeholder="Search for..." required>
+            </form>
+            <ul id="customers_list">
+                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+            </ul>
+        </div>
+        <div class="message">
+            <div id="message_field">
+                <ul id="message_ul">
+                    <li class='me'><a class='box'><p>asdsadasdasdasdsa</p></a></li>
+                    <li class='customer'><a class='box'><p>asdsds33333333333</p></a></li>
+                </ul>
+            </div>
+            <form id="text_field">
+                <input id="message_text" type='text' placeholder="Type a message"/>
+                <input type='submit' onclick='send_message()'/>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
