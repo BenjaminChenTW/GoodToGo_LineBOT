@@ -22,9 +22,9 @@ function handlerCallback(success, replyToken, message) {
 module.exports = {
     // event handler
     handleEvent: function(event) {
-        if (event.type === 'message' && event.message.type !== 'text') {
+        if (event.type === 'message' && event.message.type === 'text') {
             textHandler(event, handlerCallback);
-        } else if (event.type === 'message' && event.message.type !== 'image') {
+        } else if (event.type === 'message' && event.message.type === 'image') {
             imgHandler(event, handlerCallback);
         } else {
             // ignore non-text-message event
