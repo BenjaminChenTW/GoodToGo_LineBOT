@@ -1,0 +1,332 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(240, 240, 240);
+    padding-bottom: 20px;
+    overflow: auto;
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+nav {
+    position: fixed;
+    left:0px;
+    top:0px;
+    z-index: 3;
+    background-color: rgba(64,185,216,1);
+    height: 10vh;
+    width: 100%;
+    vertical-align: middle;
+}
+
+nav b {
+    color: white;
+    position: absolute;
+    right: 1vw;
+    top:3vh;
+    text-align: right;
+    font-size: 3vh;
+}
+
+#cssmenu,
+#cssmenu ul,
+#cssmenu ul li,
+#cssmenu ul li a {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+    line-height: 0;
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#cssmenu:after,
+#cssmenu > ul:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+#cssmenu {
+    top: calc(10vh - 33px);
+    width: auto;
+    border-bottom: 3px solid rgba(255,233,92,1);
+    font-family: Raleway, sans-serif;
+    line-height: 1;
+}
+
+#cssmenu > ul > li {
+    float: left;
+}
+#cssmenu.align-center > ul {
+    font-size: 0;
+    text-align: center;
+}
+#cssmenu.align-center > ul > li {
+    display: inline-block;
+    float: none;
+}
+#cssmenu.align-right > ul > li {
+    float: right;
+}
+#cssmenu.align-right > ul > li > a {
+    margin-right: 0;
+    margin-left: -4px;
+}
+#cssmenu > ul > li > a {
+    z-index: 2;
+    padding: 18px 25px 12px 25px;
+    font-size: 2.5vh;
+    font-weight: 400;
+    text-decoration: none;
+    color: #fff;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    margin-right: -4px;
+}
+#cssmenu > ul > li.active > a,
+#cssmenu > ul > li:hover > a,
+#cssmenu > ul > li > a:hover {
+    color: #444;    
+}
+#cssmenu > ul > li > a:after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    width: 100%;
+    height: 120%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    content: "";
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    -webkit-transform: perspective(5px) rotateX(2deg);
+    -webkit-transform-origin: bottom;
+    -moz-transform: perspective(5px) rotateX(2deg);
+    -moz-transform-origin: bottom;
+    transform: perspective(5px) rotateX(2deg);
+    transform-origin: bottom;
+}
+#cssmenu > ul > li.active > a:after,
+#cssmenu > ul > li:hover > a:after,
+#cssmenu > ul > li > a:hover:after {
+    background: rgba(255,233,92,1);
+}
+
+div#picture_view{
+    transition: left 0.5s;
+    position: fixed;
+    left:0px;
+    top:10vh;
+    width: 100%;
+    height: 12vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    background-color: black;
+    z-index: 3;
+}
+
+div.container {
+    max-height: 10vh;
+    min-width: 15vh;
+    display: inline-block;
+    object-fit: contain;
+    position: relative;
+    text-align: center;
+
+}
+
+a.pic {
+    transition: opacity .5s;
+    text-align: center;
+    position: relative;
+}
+
+a.pic p{
+    color: white;
+    position: relative;
+    line-height: 0px;
+    height: 20px;
+    font-size: 10pt;
+    top:calc(-5px + 2vh);
+}
+
+img.button {
+    max-height: calc(10vh - 20px);
+    top: 2vh;
+    position: relative;
+    text-align: center;
+}
+
+img.icon {
+    position: absolute;
+    width: 2vh;
+    height: 2vh;
+    top: 10px;
+    right: 1%;
+} 
+
+#detail {
+    transition: left 0.5s;
+    margin: 0 auto;
+    text-align: center;
+    position:relative;
+    top: calc(20vh + 10vh);
+    padding-bottom: 10vh;
+    width: 100vw;
+}
+#detail > div#detail_pic {
+    min-width:300px;
+    display: inline;
+}
+
+#detail > div#detail_data {
+    width:30vw;
+    min-width: 300px;
+    height:60vh;
+    display: none;
+}
+@media screen and (max-width: 300pt) {
+    #detail > div#detail_data {
+        width:60vw;
+        min-width: 300px;
+        height:60vh;
+        display: none;
+    }
+}
+
+
+
+div#main_pic_section {
+    width: 60vw;
+    height: auto;
+    min-width: 300px;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center; margin: 0 auto;
+    
+    display: none;    
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    position: relative;
+}
+
+img#main_pic {
+    max-height: auto;
+    max-width: 60vw;
+    min-width: 300px;
+    position: relative;
+    left:-5px;
+    vertical-align: middle;
+    display: none;
+
+    border-radius: 5px;
+}
+
+div.data_container{
+    width: inherit;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    color: rgb(50,50,50)
+}
+
+div.data {
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+#user_id {
+    display: inline-block;
+}
+
+#upload_time_title{
+    display: block;
+}
+
+p#status{
+    color: red;
+}
+p#status button{
+    display: inline-block;
+    color: black;
+    width: 50px;
+    position: relative;
+}
+
+input{
+    width:100px;
+}
+
+
+.message {
+    width: 75vw;    
+    height: 90vh;
+
+    position: absolute;
+    top: 10vh;
+    right : 0;
+    background-color: red;
+
+}
+
+#message_field {
+    width: 100%;
+}
+
+#message_field ul{
+    background-color: orange;
+    width: 96%;
+    list-style-type: none;
+    padding:18px;
+    position:absolute;
+    bottom:10vh;
+    display:flex;
+    flex-direction: column;
+}
+
+#message_field ul li{
+    position: relative;
+    width: auto;
+    background-color: green;
+}
+
+div#text_field {
+    position: relative;
+    width: 100%;
+    top: 80vh;
+    background-color: blue;
+}
+
+div#text_field input[type="text"] {
+    width: 80%;
+    min-height: 20px;
+    height: 5vh;
+    padding-right: 50px;
+}
+
+div#text_field input[type="submit"] {
+    height: 20px;
+    width: 50px;
+
+    max-width: 10vw;
+
+    margin-left: -50px;
+}
+
