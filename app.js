@@ -5,20 +5,34 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('goodtogo-linebot:app');
+debug.log = console.log.bind(console);
 
 const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
+var mongoose = require('mongoose');
+var Server = require('http').Server(app);
 
 var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');
 var config = require('./config/config.js');
 
 /**
+ * DB init
+ */
+mongoose.Promise = global.Promise;
+mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
+    if (err) next(err);
+    debug('mongoDB connect succeed');
+});
+
+/**
  * EXPRESS init
  */
 var app = express();
 app.use(logger('dev'));
+var server = Server(app);
+var io = require('socket.io')(server);
 
 /**
  * BOT router
@@ -40,6 +54,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
+app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 
 /**
  * WEB router
