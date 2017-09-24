@@ -21,8 +21,7 @@ module.exports = {
         });
     },
     imgHandler: function(event, callback) {
-        imgBuffer = null
-
+        imgBuffer = [];
         message = new Message();
         message.event = event;
         request
@@ -31,14 +30,20 @@ module.exports = {
             })
             .on('response', function(response) {
                 if (response.statusCode !== 200) debug('[IMG Error (1)] StatusCode : ' + response.statusCode);
-                else console.log(response)
-                    // else message.img.contentType = response.headers['content-type'];
+                else message.img.contentType = response.headers['content-type'];
             })
-            .pipe(imgBuffer);
-        message.img.data = imgBuffer;
-        message.save(function(err) {
-            if (err) return callback(false);
-            return callback(true, event.replyToken, '收到你的照片！請等候審核。');
-        });
+            .on('error', function(err) {
+                debug('[IMG Error (2)] StatusCode : ' + err);
+            })
+            .on('data', function(data) {
+                imgBuffer.push(data);
+            })
+            .on('end', function() {
+                message.img.data = Buffer.concat(imgBuffer);
+                message.save(function(err) {
+                    if (err) return callback(false);
+                    return callback(true, event.replyToken, '收到你的照片！請等候審核。');
+                });
+            });
     }
 };

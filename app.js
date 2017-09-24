@@ -10,11 +10,14 @@ debug.log = console.log.bind(console);
 const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
+var basicAuth = require('basic-auth-connect');
 var mongoose = require('mongoose');
 var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');
+// var imgCheck = require('./routes/imgCheck');
+var chatroom = require('./routes/chatroom');
 var config = require('./config/config.js');
 
 /**
@@ -31,8 +34,6 @@ mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
  */
 var app = express();
 app.use(logger('dev'));
-var server = Server(app);
-var io = require('socket.io')(server);
 
 /**
  * BOT router
@@ -54,12 +55,21 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
+app.use(basicAuth(config.auth.user, config.auth.pwd));
 app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
+
+/**
+ * CHAT ROOM init
+ */
+// var server = Server(app);
+// var io = require('socket.io')(server);
 
 /**
  * WEB router
  */
-app.use('/index', index);
+app.use('/', index);
+// app.use('/img', imgCheck);
+app.use('/chatroom', chatroom);
 
 /**
  * Error handle
@@ -87,7 +97,7 @@ app.use(function(err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     debug(res.locals.message);
-    debug(res.locals.error);
+    // debug(res.locals.error);
 
     // render the error page
     res.status(err.status || 500);
