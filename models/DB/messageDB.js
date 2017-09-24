@@ -6,9 +6,14 @@ var schema = mongoose.Schema({
     event: Object,
     notify: Boolean,
     img: {
+        id: Number,
         data: Buffer,
         contentType: String,
-        checked: { type: Boolean, default: false }
+        checked: Boolean,
+        checkStatus: {
+            typeCode: String,
+            amount: Number
+        }
     },
     read: { type: Boolean, default: false },
     logTime: { type: Date, default: Date.now }

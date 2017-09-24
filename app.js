@@ -11,12 +11,13 @@ const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
 var basicAuth = require('basic-auth-connect');
+var compression = require('compression');
 var mongoose = require('mongoose');
 var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');
-// var imgCheck = require('./routes/imgCheck');
+var imgCheck = require('./routes/imgCheck');
 var chatroom = require('./routes/chatroom');
 var config = require('./config/config.js');
 
@@ -54,7 +55,10 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser());
+app.use(compression());
+app.use('/src', express.static(path.join(__dirname, 'views/src')));
+app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
 app.use(basicAuth(config.auth.user, config.auth.pwd));
 app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 
@@ -68,7 +72,7 @@ app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" })
  * WEB router
  */
 app.use('/', index);
-// app.use('/img', imgCheck);
+app.use('/img', imgCheck);
 app.use('/chatroom', chatroom);
 
 /**
