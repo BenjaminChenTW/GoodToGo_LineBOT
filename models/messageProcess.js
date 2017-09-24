@@ -1,6 +1,6 @@
 var request = require('request');
 var Message = require('./DB/messageDB.js');
-var config = require('./config/config.js');
+var config = require('../config/config.js');
 var debug = require('debug')('goodtogo-linebot:messageHandler');
 
 module.export = {

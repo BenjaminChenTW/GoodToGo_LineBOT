@@ -11,7 +11,7 @@ const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
 var mongoose = require('mongoose');
-var Server = require('http').Server(app);
+var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
 var index = require('./routes/index');

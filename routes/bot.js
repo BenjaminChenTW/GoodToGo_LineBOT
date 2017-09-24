@@ -4,8 +4,8 @@
 var config = require('../config/config.js');
 const Client = require('@line/bot-sdk').Client;
 const client = new Client(config.bot);
-var textHandler = require('../models/DB/messageHandler.js').textHandler;
-var imgHandler = require('../models/DB/messageHandler.js').imgHandler;
+var textHandler = require('../models/messageProcess.js').textHandler;
+var imgHandler = require('../models/messageProcess.js').imgHandler;
 
 function handlerCallback(success, replyToken, message) {
     if (!success) {
