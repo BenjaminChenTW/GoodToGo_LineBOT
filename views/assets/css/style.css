@@ -303,7 +303,7 @@ input{
 
 #message_field ul li{
     position: relative;
-    width: 
+    width: auto;
     background-color: green;
 }
 
