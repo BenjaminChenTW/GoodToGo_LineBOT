@@ -32,7 +32,7 @@ module.exports = {
                 }
                 return callback(messages.length, list);
             }
-            getList(index, function(list) {
+            getList(index, next, function(list) {
                 if (list.length < 20 && index !== 0) {
                     for (var i = index - 1; i < (20 - list.length) && i >= 0; i--) {
                         list.unshift(getListObj(messages[i]));
