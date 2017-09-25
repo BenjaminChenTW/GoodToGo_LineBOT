@@ -42,18 +42,28 @@ function change_tab(tab){
 
             document.getElementById('messenger_view').style.display = 'inline';
             document.getElementById('messenger_view').style.left = '0vw';
+
         }
     }
 }
 
 function send_message(){
-    
     var msg = document.getElementById('message_text').value;
     var msg_ul = document.getElementById('message_ul');
     var new_msg = document.createElement('li');
     var new_p = document.createElement('p');
+    var new_a = document.createElement('a');
+    var new_span = document.createElement('span');
+    var new_div = document.createElement('div');
+    new_div.setAttribute('class', 'border_right');
+    new_span.setAttribute('class', 'helper');
     new_p.appendChild(document.createTextNode(msg));
-    new_msg.appendChild(new_p);
+    new_a.appendChild(new_span);
+    new_a.appendChild(new_p);
+    new_a.appendChild(new_div);
+    new_a.setAttribute('class','box');
+    new_msg.appendChild(new_span);
+    new_msg.appendChild(new_a);
     new_msg.setAttribute('class','me');
     msg_ul.append(new_msg);
     msg_ul.scrollTop = msg_ul.scrollHeight;

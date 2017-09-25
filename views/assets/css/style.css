@@ -2,13 +2,15 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(240, 240, 240);
     padding-bottom: 20px;
-    overflow: auto;
+    overflow: hidden;
     display: inline-block;
     text-align: center;
     margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
 }
 
-nav {
+nav#main_nav {
     position: fixed;
     left:0px;
     top:0px;
@@ -19,7 +21,7 @@ nav {
     vertical-align: middle;
 }
 
-nav b {
+nav#main_nav b {
     color: white;
     position: absolute;
     right: 1vw;
@@ -179,11 +181,13 @@ img.icon {
 } 
 
 #detail {
+    overflow: auto;
+    height: 80%;
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
     position:relative;
-    top: calc(20vh + 10vh);
+    top: calc(20vh);
     padding-bottom: 10vh;
     width: 100vw;
 }
@@ -222,6 +226,7 @@ div#main_pic_section {
 
 .helper {
     display: inline-block;
+    width:0;
     height: 100%;
     vertical-align: middle;
     position: relative;
@@ -244,7 +249,7 @@ div.data_container{
     text-align: center;
     display: inline-block;
     vertical-align: middle;
-    color: rgb(50,50,50)
+    color: rgb(50,50,50);
 }
 
 div.data {
@@ -275,10 +280,11 @@ input{
 }
 
 #messenger_view{
-    position: absolute;
     transition: left 0.5s;
+    position: absolute;
     left: 100vw;
-    top: 0vh;
+    top: 0;
+
     display: none;
 }
 
@@ -289,32 +295,59 @@ input{
     position: absolute;
     top: 10vh;
     left: 0;
-    background-color: maroon;
+
+    background-color: white;
+
+    border-right-style: solid;
+    border-right-color: rgba(220,220,220,1);
+    border-right-width: 1px;
 }
 
 .manager form{
-    position: absolute;
+    position: fixed;
     z-index: 1;
 
+    background-color: lightblue;
+
     width: 25vw;
-    height: 20px;
+    height: 60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
 }
+
+.manager input{
+    display: inline-block;
+
+    width: 90%;
+    height: 50%;
+
+    border-style: none;
+    border-radius: 10px;
+
+} 
 
 ul#customers_list{
     position: relative;
     list-style: none;
-    top: 20px;
+    top: 60px;
+    margin-top: 0px;
 }
 
 ul#customers_list li{
     position: relative;
     height: 75px;
     width: 25vw;
-    background-color: gainsboro;
 
     vertical-align: middle;
 
     left: -40px;
+
+    border-bottom-color:rgba(220,220,220,1);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
 }
 
 ul#customers_list li a {
@@ -323,7 +356,6 @@ ul#customers_list li a {
     height: 75px;
     display: inline-block;
     text-align: left;
-    background-color: crimson;
     vertical-align: middle;
 }
 ul#customers_list li a img {
@@ -334,25 +366,28 @@ ul#customers_list li a img {
 
     position: absolute;
 
-    margin-top: 15px;
-    margin-left: 5px;
+    margin-top: 12.5px;
+    margin-left: 12.5px;
 }
 
 ul#customers_list li a p {
     position: relative;
-    background-color: green;
     display: inline-block;
-    left: 60px;
+    left: 75px;
+
+    font-size: 17px;
+
+    color: rgb(50,50,50);
 }
 
 .message {
-    width: 75vw;    
+    width: calc(75vw - 1px);    
     height: 90vh;
 
     position: absolute;
     top: 10vh;
-    left: 25vw;
-    background-color: red;
+    left: calc(25vw + 1px);
+    background-color: white;
     overflow-y: auto;
 
 }
@@ -360,78 +395,151 @@ ul#customers_list li a p {
 #message_field {
     width: 100%;
     overflow: scroll;
+
+    text-align: center;
 }
 
 #message_field ul{
-    background-color: orange;
-    width: 96%;
+    width: calc(100% - 36px);
     list-style-type: none;
-    padding:18px;
+    padding:0 18px 0 18px ;
     position:absolute;
-    bottom:10vh;
+    bottom:50px;
     display:flex;
     flex-direction: column;
     overflow: scroll;
-
-    max-height: 70vh;
+    max-height: calc(90vh - 120px);
 }
 
 
 #message_ul li {
-    height: 50px;
+    height: 60px;
+
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 li.me{
-    right: 10px;
     text-align: right;
-    background-color: green;
 }
 
 li.customer{
-    left: 10px;
     text-align: left;
-    background-color: yellow;
 }
 
 li a.box {
     display: inline-block;
-    height: 90%;
+    height: 45px;
     vertical-align: middle;
+
+    border-radius: 10px;
 }
 
 li.me a.box {
-    background-color:greenyellow;
+    background-color:lightblue;
 }
 
 li.customer a.box{
-    background-color: purple;
+    background-color: rgb(240,240,240);
+}
+
+li a.box div{
+    background-color: transparent;
+
+    height: 0px;
+    width: 0px;
+
+    position: relative;
+    
+    display: inline-block;
+
+    border-width: 10px;
+    border-style: solid; 
+}
+
+div.border_left{
+    left: -20px;
+    top:1px;
+    border-color: transparent rgb(240,240,240) transparent transparent;
+}
+
+div.border_right{
+    right: -20px;
+    top: 1px;
+    border-color: transparent transparent transparent lightblue;
 }
 
 #message_ul li a p {
+    margin-top: 10px;
     display: inline-block;
-    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    padding:0px 0px 0px 10px;   
+    line-height: 24px; 
+
+    margin-right: -10px;
 }
 
-form#text_field {
-    position: relative;
+#message_ul li a div+p {
+    padding:0px 10px 0px 0px; 
+    margin-left: -10px;  
+    margin-right: 0px;
+    color: #444;
+
+}
+
+#message_field nav{
+    position: fixed;
+    top:10vh;
+    left: calc(25vw + 1px);
+    width: 75vw;
+    height: 60px;
+
+    z-index:2;
+
+    background-color: lightblue;
+}
+
+div#text_field {
+    position: absolute;
     width: 100%;
-    top: 80vh;
-    background-color: blue;
+    height: 60px;
+    vertical-align: middle;
+    white-space: nowrap;
+    bottom: 0px;
+    background-color: lightblue;
 }
 
-form#text_field input[type="text"] {
-    width: 80%;
-    min-height: 20px;
-    height: 5vh;
+
+div#text_field input[type="text"] {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    height: 40px;
     padding-right: 50px;
+
+    border-radius: 5px;
+    border-style: none;
+
+    padding: 0 10px 0 10px;
+
+    font-size: 14px;
 }
 
-form#text_field input[type="submit"] {
-    height: 20px;
+div#text_field input[type="submit"] {
+    position: relative;
+    display: inline-block;
+    height: 42px;
     width: 50px;
 
     max-width: 10vw;
 
     margin-left: -50px;
+
+    border-style: none;
+
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
