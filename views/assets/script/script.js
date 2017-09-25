@@ -63,3 +63,16 @@ function send_message(){
     msg_ul.append(new_msg);
     msg_ul.scrollTop = msg_ul.scrollHeight;
 }
+
+function showDialog(customer){
+
+    var message_field = document.getElementsByClassName('message')[0];
+
+    message_field.style.display = 'block';
+    var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
+    nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
+}
+
+function closeDiaog(){
+    
+}

@@ -73,14 +73,14 @@
                 <input type="text" id="search" placeholder=" 輸入id搜尋..." required>
             </form>
             <ul id="customers_list">
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+                <li><a onclick="showDialog(this)"><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+                <li><a onclick="showDialog(this)"><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+                <li><a onclick="showDialog(this)"><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
             </ul>
         </div>
         <div class="message">
             <div id="message_field">
-                <nav id="customer_id"><p>陳泓碩</p></nav>
+                <nav id="customer_id"><a class="back_button" onclick="closeDialog()">&#60</a><p></p></nav>
                 <ul id="message_ul">
                     <li class='me'><span class="helper"></span><a class='box'><span class="helper"></span><p>asdsadasdasdasdsa</p><div class="border_right"></div></a></li>
                     <li class='customer'><span class="helper customer"><img src='src/pic4.jpg'/></span><a class='box'><span class="helper"></span><div class="border_left"></div><p>asdsds33333333333</p></a></li>
