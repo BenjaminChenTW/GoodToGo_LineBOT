@@ -42,7 +42,8 @@ app.use(logger('dev'));
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
     Promise
         .all(req.body.events.map(bot))
-        .then((result) => res.json(result));
+        .then((result) => res.json(result))
+        .catch((err) => console.log(err.message));
 });
 
 /**

@@ -1,6 +1,8 @@
 var request = require('request');
 var Message = require('./DB/messageDB.js');
 var config = require('../config/config.js');
+
+var lottery = require('../models/lottery/lottery.js');
 var debug = require('debug')('goodtogo-linebot:messageHandler');
 
 function textHandlerCallback(message, user, returnStr, callback) {
@@ -80,6 +82,11 @@ module.exports = {
         });
     },
     imgHandler: function(event, callback) {
+        lottery(function(isWin, price, replyMessage) {
+            callback(event.replyToken, replyMessage);
+        });
+    },
+    imgHandler1: function(event, callback) {
         imgBuffer = [];
         message = new Message();
         message.event = event;
