@@ -3,6 +3,7 @@ var router = express.Router();
 
 var getInitList = require('../models/imgProcess.js').getInitList;
 var getImageList = require('../models/imgProcess.js').getImageList;
+var getImageListBackward = require('../models/imgProcess.js').getImageListBackward;
 
 router.get('/', function(req, res, next) {
     getInitList(getImageList, next, function(lastIndex, list) {
@@ -22,7 +23,7 @@ router.get('/new/:id', function(req, res, next) {
 
 router.get('/old/:id', function(req, res, next) {
     var id = req.params.id;
-    getImageList(id, next, function(list) {
+    getImageListBackward(id, next, function(list) {
         res.json({ 'list': list });
     });
 });

@@ -43,6 +43,8 @@ module.exports = {
         });
     },
     getImageList: function(index, next, callback) {
+        index = parseInt(index);
+        if (index <= 0) callback([]);
         Message.find({ 'event.message.type': 'image' }, function(err, messages) {
             if (err) next(err);
             messages.sort(function(a, b) { return a.img.id - b.img.id });
@@ -50,6 +52,31 @@ module.exports = {
             var listLength = 20;
             if (index > messages.length) return callback([]);
             else if (index > (messages.length - 20)) listLength = (messages.length - index);
+            for (var i = 0; i < listLength; i++, index++) {
+                if (index < messages.length) {
+                    list.push(getListObj(messages[index]));
+                }
+            }
+            callback(list);
+        });
+    },
+    getImageListBackward: function(index, next, callback) {
+        index = parseInt(index);
+        if (index <= 0) callback([]);
+        Message.find({ 'event.message.type': 'image' }, function(err, messages) {
+            if (err) next(err);
+            messages.sort(function(a, b) { return a.img.id - b.img.id });
+            var list = [];
+            var listLength = 20;
+            if (index > messages.length) return callback([]);
+            else if ((index - 20) < 0) {
+                listLength = index + 1;
+                index = 0;
+            } else {
+                index = index - 20;
+            }
+            console.log(listLength)
+            console.log(index)
             for (var i = 0; i < listLength; i++, index++) {
                 if (index < messages.length) {
                     list.push(getListObj(messages[index]));

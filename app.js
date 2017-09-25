@@ -71,7 +71,7 @@ app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" })
 /**
  * WEB router
  */
-app.use('/', index);
+// app.use('/', index);
 app.use('/img', imgCheck);
 app.use('/chatroom', chatroom);
 
