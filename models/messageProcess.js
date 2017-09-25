@@ -1,8 +1,8 @@
 var request = require('request');
 var Message = require('./DB/messageDB.js');
 var config = require('../config/config.js');
+var multicast = require('../routers/bot.js').multicast;
 
-var lottery = require('../models/lottery/lottery.js');
 var debug = require('debug')('goodtogo-linebot:messageHandler');
 
 function textHandlerCallback(message, user, returnStr, callback) {
@@ -45,6 +45,26 @@ function imgHandlerCallback(message, user, event, callback) {
         });
 }
 
+function textSendlerCallback(id, message, sended) {
+    var echo = { type: 'text', text: message };
+    multicast(id, echo, sended);
+}
+
+function templateSendlerCallback(id, messageContent, sended) {
+    var echo = {
+        "type": "template",
+        "altText": messageContent.altText,
+        "template": {
+            "type": "buttons",
+            "thumbnailImageUrl": messageContent.thumbnailImageUrl,
+            "title": messageContent.title,
+            "text": messageContent.text,
+            "actions": messageContent.actions
+        }
+    };
+    multicast(id, echo, sended);
+}
+
 module.exports = {
     textHandler: function(event, callback) {
         var returnStr = '';
@@ -82,11 +102,6 @@ module.exports = {
         });
     },
     imgHandler: function(event, callback) {
-        lottery(function(isWin, price, replyMessage) {
-            callback(event.replyToken, replyMessage);
-        });
-    },
-    imgHandler1: function(event, callback) {
         imgBuffer = [];
         message = new Message();
         message.event = event;
@@ -113,6 +128,66 @@ module.exports = {
                 });
             }
         });
+    },
+    textSendler: function(lineUserId, message, sended) {
+        textSendlerCallback(id, message, sended);
+    },
+    templateSendler: function(lineUserId, couponId, couponType, couponContent, sended) {
+        var altText;
+        var thumbnailImageUrl;
+        var title;
+        var text;
+        var actions = [];
+        if (!couponType) {
+            // 抽獎券DB
+            altText = "傳給您抽獎券！";
+            thumbnailImageUrl = ""; // 抽檢券照片
+            title = "抽獎券";
+            text = "您的照片 #" + couponId + " 審核通過！\n目前您有n次抽獎機會！";
+            actions.push({
+                "type": "uri",
+                "label": "全部抽出",
+                "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
+            });
+            templateSendlerCallback(lineUserId, {
+                altText: altText,
+                thumbnailImageUrl: thumbnailImageUrl,
+                title: title,
+                actions: actions
+            }, sended);
+        } else {
+            if (couponType === 'E') {
+                return textSendlerCallback(lineUserId, '請再接再厲！', sended);
+            }
+            altText = "傳給您一張兌換券！";
+            title = "兌換券";
+            text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵\n若因此喪失兌換資格恕不負責！"
+            switch (couponType) {
+                case 'A':
+                    thumbnailImageUrl = ""; // A獎品照片
+                    break;
+                case 'B':
+                    thumbnailImageUrl = ""; // B獎品照片
+                    break;
+                case 'C':
+                    thumbnailImageUrl = ""; // C獎品照片
+                    break;
+                case 'D':
+                    thumbnailImageUrl = ""; // D獎品照片
+                    break;
+            }
+            actions.push({
+                "type": "uri",
+                "label": "兌換",
+                "uri": "https://bot.goodtogo.tw/lottery/exchange/" + couponId
+            });
+            templateSendlerCallback(lineUserId, {
+                altText: altText,
+                thumbnailImageUrl: thumbnailImageUrl,
+                title: title,
+                actions: actions
+            }, sended);
+        }
     }
 };
 
@@ -120,3 +195,30 @@ var idIndex = 0
 Message.findOne({ 'event.message.type': 'image' }, {}, { sort: { 'img.id': -1 } }, function(err, message) {
     if (message) idIndex = message.img.id + 1;
 });
+
+var template = {
+    "type": "template",
+    "altText": "this is a buttons template",
+    "template": {
+        "type": "buttons",
+        "thumbnailImageUrl": "https://163a5d76.ngrok.io/assets/icon/checked.png",
+        "title": "Menu",
+        "text": "Please select",
+        "actions": [{
+                "type": "postback",
+                "label": "Buy",
+                "data": "action=buy&itemid=123"
+            },
+            {
+                "type": "postback",
+                "label": "Add to cart",
+                "data": "action=add&itemid=123"
+            },
+            {
+                "type": "uri",
+                "label": "View detail",
+                "uri": "https://163a5d76.ngrok.io/img"
+            }
+        ]
+    }
+};

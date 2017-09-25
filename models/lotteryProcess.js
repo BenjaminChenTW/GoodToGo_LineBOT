@@ -1,5 +1,5 @@
-var rewardObjArray = new Array;
 var rank;
+var didAppear = [];
 
 var A = {
     name: "huge cock",
@@ -45,8 +45,7 @@ function getTicket(callback) {
     var minNum = 0;
     var random = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
     var winProb;
-    var didAppear = new Array;
-
+    // var didAppear = new Array;
 
     if (random === 0) {
         rank = "A";
@@ -67,7 +66,7 @@ function getTicket(callback) {
         if (A.amount > 0) {
             for (var i = 0; i < 1; i++) {
                 var random2 = Math.floor(Math.random() * (winProb - minNum + 1)) + minNum;
-                //console.log(didAppear.indexOf(random2));
+                console.log(didAppear.indexOf(random2));
                 if (didAppear.indexOf(random2) === -1) {
                     didAppear.push(random2);
                 } else {
@@ -77,7 +76,7 @@ function getTicket(callback) {
             if (didAppear.indexOf(random) !== -1) {
                 A.amount--;
                 console.log("in A win")
-                return callback(true, 'A', replyMessage);
+                return callback(true, 'A');
             }
         }
         console.log("in A lose")
@@ -97,7 +96,7 @@ function getTicket(callback) {
             if (didAppear.indexOf(random) !== -1) {
                 B.amount--;
                 console.log("in B win")
-                return callback(true, 'B', replyMessage);
+                return callback(true, 'B');
             }
         }
         console.log("in B lose")
@@ -115,7 +114,7 @@ function getTicket(callback) {
             if (didAppear.indexOf(random) !== -1) {
                 C.amount--
                     console.log("in C win")
-                return callback(true, 'C', replyMessage);
+                return callback(true, 'C');
             }
         }
         console.log("in C lose")
@@ -133,17 +132,22 @@ function getTicket(callback) {
             if (didAppear.indexOf(random) !== -1) {
                 D.amount--;
                 console.log("in D win")
-                return callback(true, 'D', replyMessage);
+                return callback(true, 'D');
             }
         }
         console.log("in D lose")
         return callback(false);
     } else if (rank === "E") {
         console.log("in E win")
-        return callback(true, 'E', replyMessage);
+        return callback(true, 'E');
     }
 }
 
-// getTicket()
+function callback(isWin, type) {
+    console.log(isWin)
+    console.log(didAppear)
+}
+
+getTicket(callback)
 
 module.exports = getTicket;

@@ -1,13 +1,15 @@
 <%- include ./header.ejs %>
 <% const imgTagHeader = '<img src=\"'; %>
 <% const imgTagFooter = '"/>'; %>
+<% const aTagHeader = '<a onclick="showDialog(this, \''; %>
+<% const aTagFooter = '\')">'; %>
     <header>
         <nav id="main_nav">
                 <div id='cssmenu'>
                         <ul>
-                            <li onclick="change_tab(this)" value="0"><a>照片審核</a>
+                            <li><a href='/img'>照片審核</a>
                             </li>
-                            <li class='active' onclick="change_tab(this)" value="1"><a>對話管理</a>
+                            <li class='active'><a>對話管理</a>
                             </li>
                         </ul>
                 </div>
@@ -21,22 +23,20 @@
             </form>
             <ul id="customers_list">
                 <% var imgTag = ''; %>
-                <% for(var i = 0; i < othersMessage.length; i++){ %>
-                <% imgTag = imgTagHeader + othersMessage[i].userImg + imgTagFooter; %>
-                <li><a onclick="showDialog(this)">
-                <%- imgTag %>
-                <span class="helper"></span><p>
-                <%- othersMessage[i].userName %>
-                </p></a></li>
+                <% var aTag = ''; %>
+                <% for(var i = 0; i < roomList.length; i++){ %>
+                <% imgTag = imgTagHeader + roomList[i].userImg + imgTagFooter; %>
+                <% aTag = aTagHeader + roomList[i].userId + aTagFooter; %>
+                <li><%- aTag %><%- imgTag %><span class="helper"></span><p><%- roomList[i].userName %></p></a></li>
                 <% } %>
             </ul>
         </div>
-        <div class="message">
+        <div class="message" id='message'>
             <div id="message_field">
-                <nav id="customer_id"><p>Test Name</p></nav>
+                <nav id="customer_id"><a class="back_button" onclick="closeDialog()">ㄑ</a><p></p></nav>
                 <ul id="message_ul">
-                    <li class='customer'><span class="helper customer"><img src=""/></span><a class='box'><span class="helper"></span><div class="border_left"></div><p>Message</p></a></li>
-                    <li class='me'><span class="helper"></span><a class='box'><span class="helper"></span><p>asdsadasdasdasdsa</p><div class="border_right"></div></a></li>
+                    <li class='me'><span class="helper"></span><p><a class='box'>asdsasa</a></p></li>
+                    <li class='customer'><span class="helper customer"></span><p><a class='box'>asdsds33333333333</a></p></li>
                 </ul>
             </div>
             <div id="text_field">

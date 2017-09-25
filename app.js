@@ -16,7 +16,6 @@ var mongoose = require('mongoose');
 var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
-var index = require('./routes/index');
 var imgCheck = require('./routes/imgCheck');
 var chatroom = require('./routes/chatroom');
 var config = require('./config/config.js');
@@ -42,8 +41,7 @@ app.use(logger('dev'));
 app.post('/webhook', line.middleware(config.bot), (req, res) => {
     Promise
         .all(req.body.events.map(bot))
-        .then((result) => res.json(result))
-        .catch((err) => console.log(err.message));
+        .then((result) => res.json(result));
 });
 
 /**
@@ -72,7 +70,6 @@ var io = require('socket.io')(server);
 /**
  * WEB router
  */
-// app.use('/', index);
 app.use('/img', imgCheck);
 app.use('/chatroom', chatroom);
 
