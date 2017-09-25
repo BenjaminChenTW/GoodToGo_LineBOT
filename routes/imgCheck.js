@@ -13,7 +13,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/new/:id', function(req, res, next) {
+    var id = req.params.id;
+    getImageList(id, next, function(list) {
+        res.json({ 'list': list });
+    });
+});
+
+router.get('/old/:id', function(req, res, next) {
     var id = req.params.id;
     getImageList(id, next, function(list) {
         res.json({ 'list': list });
