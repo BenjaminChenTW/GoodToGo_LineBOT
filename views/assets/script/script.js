@@ -7,11 +7,7 @@ function select_picture(pic){
         } else {
             blockers[i].style.opacity = "1";
             document.getElementById('main_pic').src = pic.src;
-            
-            document.getElementById('main_pic').style.display = "inline-block";
-            document.getElementById('main_pic_section').style.display = "inline-block";
-            
-            document.getElementById('detail_data').style.display = "inline";
+            document.getElementById('detail').style.display = "block";
         }
     }
 }
@@ -32,16 +28,15 @@ function change_tab(tab){
         }
 
         if (tab.value == "0") {
-            document.getElementById('picture_view').style.left = '0vw';
-            document.getElementById('detail').style.left = '0vw';
+            document.getElementById('picture_view').style.display = 'block';
+            document.getElementById('detail').style.visibility = 'visible';
 
-            document.getElementById('messenger_view').style.left = '150vw';
+            document.getElementById('messenger_view').style.display = 'none';
         } else if (tab.value == "1") {
-            document.getElementById('picture_view').style.left = '-150vw';
-            document.getElementById('detail').style.left = '-150vw';
+            document.getElementById('picture_view').style.display = 'none';
+            document.getElementById('detail').style.visibility = 'hidden';
 
             document.getElementById('messenger_view').style.display = 'inline';
-            document.getElementById('messenger_view').style.left = '0vw';
 
         }
     }

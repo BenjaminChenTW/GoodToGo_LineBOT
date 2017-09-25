@@ -190,6 +190,8 @@ img.icon {
     top: calc(20vh);
     padding-bottom: 10vh;
     width: 100vw;
+
+    display: none;
 }
 #detail > div#detail_pic {
     min-width:300px;
@@ -197,17 +199,23 @@ img.icon {
 }
 
 #detail > div#detail_data {
-    width:30vw;
     min-width: 300px;
-    height:60vh;
-    display: none;
+    display: inline;
 }
-@media screen and (max-width: 300pt) {
-    #detail > div#detail_data {
-        width:60vw;
-        min-width: 300px;
-        height:60vh;
-        display: none;
+@media screen and (max-width: 460pt) {
+    #detail > div#detail_data{
+        width: 80vw;
+        margin-right: 10vw;
+        margin-left: 10vw; 
+        display: block;
+    }
+
+    #detail > div#detail_pic{
+        margin-top: 30px;
+        width: 80vw;
+        margin-right: 10vw;
+        margin-left: 10vw;
+        display: block;
     }
 }
 
@@ -221,7 +229,8 @@ div#main_pic_section {
     vertical-align: middle;
     text-align: center; margin: 0 auto;
     
-    display: none;    
+    display: inline-block;    
+    
 }
 
 .helper {
@@ -234,22 +243,38 @@ div#main_pic_section {
 
 img#main_pic {
     max-height: auto;
-    max-width: 60vw;
+    max-width: 100%;
     min-width: 300px;
     position: relative;
     left:-5px;
     vertical-align: middle;
-    display: none;
+    display: inline-block;
 
     border-radius: 5px;
 }
 
 div.data_container{
     width: inherit;
-    text-align: center;
+    text-align: left;
     display: inline-block;
     vertical-align: middle;
     color: rgb(50,50,50);
+}
+
+@media screen and (max-width: 460pt) {
+    div#main_pic_section {
+        width: 80vw;    
+    }
+
+    div.data_container{
+        text-align: center;
+    }
+}
+
+div#detail_data{
+    margin-left: 10px;
+    margin-right: 10px;
+    display: none;
 }
 
 div.data {
@@ -273,6 +298,8 @@ p#status button{
     color: black;
     width: 50px;
     position: relative;
+
+    height: 20px;
 }
 
 input{
@@ -292,7 +319,7 @@ input{
     width:25vw;
     height: 90vh;
 
-    position: absolute;
+    position: fixed;
     top: 10vh;
     left: 0;
 
@@ -321,12 +348,14 @@ input{
 .manager input{
     display: inline-block;
 
-    width: 90%;
+    width: 85%;
     height: 50%;
 
     border-style: none;
     border-radius: 10px;
 
+    padding: 0 10px 0 10px;
+    font-size: 14px;
 } 
 
 ul#customers_list{
@@ -358,6 +387,11 @@ ul#customers_list li a {
     text-align: left;
     vertical-align: middle;
 }
+
+ul#customers_list li a:hover {
+    background-color: rgb(240, 240, 240);
+}
+
 ul#customers_list li a img {
     width: 50px;
     height: 50px;
@@ -384,7 +418,7 @@ ul#customers_list li a p {
     width: calc(75vw - 1px);    
     height: 90vh;
 
-    position: absolute;
+    position: fixed;
     top: 10vh;
     left: calc(25vw + 1px);
     background-color: white;
@@ -420,6 +454,21 @@ ul#customers_list li a p {
     white-space: nowrap;
 }
 
+#message_ul li span.customer {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
+
+#message_ul li span.customer img{
+    max-width: 40px;
+    max-height: 40px;
+
+    position: relative;
+
+    border-radius: 20px;
+}
+
 li.me{
     text-align: right;
 }
@@ -442,6 +491,7 @@ li.me a.box {
 
 li.customer a.box{
     background-color: rgb(240,240,240);
+    margin-left: 15px;
 }
 
 li a.box div{
@@ -499,6 +549,14 @@ div.border_right{
     z-index:2;
 
     background-color: lightblue;
+
+    vertical-align: middle;
+    white-space: nowrap;
+
+    display: inline-block;
+
+    font-size: 20px;
+    color: #444;
 }
 
 div#text_field {
@@ -543,3 +601,6 @@ div#text_field input[type="submit"] {
     border-bottom-right-radius: 5px;
 }
 
+input:focus {
+    outline: none;
+}
