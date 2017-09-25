@@ -75,8 +75,6 @@ module.exports = {
             } else {
                 index = index - 20;
             }
-            console.log(listLength)
-            console.log(index)
             for (var i = 0; i < listLength; i++, index++) {
                 if (index < messages.length) {
                     list.push(getListObj(messages[index]));
