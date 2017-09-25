@@ -38,8 +38,7 @@ function imgHandlerCallback(message, user, event, callback) {
             message.img.id = idIndex;
             message.save(function(err) {
                 if (err) return callback(false);
-                idIndex++;
-                return callback(true, event.replyToken, '收到你的照片！請等候審核。');
+                return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為：' + idIndex++ + '\n請靜候審核。');
             });
         });
 }
