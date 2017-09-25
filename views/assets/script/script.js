@@ -69,6 +69,9 @@ function showDialog(customer){
     message_field.style.display = 'block';
     var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
     nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
+
+    var msg_ul = document.getElementById('message_ul');
+    msg_ul.scrollTop = msg_ul.scrollHeight;
 }
 
 function closeDialog(){

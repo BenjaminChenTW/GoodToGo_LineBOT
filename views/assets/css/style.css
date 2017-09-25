@@ -440,6 +440,7 @@ ul#customers_list li a p {
     overflow: scroll;
 
     text-align: center;
+    padding-bottom: 0px;
 }
 
 #message_field ul{
@@ -447,18 +448,17 @@ ul#customers_list li a p {
     list-style-type: none;
     padding:0 18px 0 18px ;
     position:absolute;
-    bottom:50px;
+    bottom:44px;
     display:flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
     max-height: calc(90vh - 120px);
 }
 
 
 #message_ul li {
-    height: 60px;
 
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
     white-space: nowrap;
 }
