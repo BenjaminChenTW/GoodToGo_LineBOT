@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var id = req.params.id;
     getMessage(id, next, function(isEmpty, messageObj) {
+        console.log(messageObj)
         if (isEmpty) {
             var err = new Error('Not Found');
             err.status = 404;
@@ -20,7 +21,7 @@ router.get('/:id', function(req, res, next) {
         } else {
             res.render('chatroom', {
                 'userInfo': messageObj.userInfo,
-                'userMessage': messageObj.userMessage,
+                'userMessage': messageObj.userMessages,
                 'othersMessage': messageObj.otherMessages
             });
         }
@@ -33,7 +34,7 @@ router.get('/api/:id', function(req, res, next) {
         res.json({
             'isEmpty': isEmpty,
             'userInfo': messageObj.userInfo,
-            'userMessage': messageObj.userMessage,
+            'userMessage': messageObj.userMessages,
             'othersMessage': messageObj.otherMessages
         });
     });

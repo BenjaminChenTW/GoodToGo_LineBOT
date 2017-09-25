@@ -2,6 +2,12 @@ var Message = require('./DB/messageDB.js');
 var debug = require('debug')('goodtogo-linebot:chatroomHandler');
 
 module.exports = {
+    getFirstID: function(next, callback) {
+        Message.findOne({ 'event.message.type': 'text' }, {}, { sort: { 'event.timestamp': -1 } }, function(err, message) {
+            if (err) return next(err);
+            callback(message.event.source.userId);
+        });
+    },
     getFirst: function(next, callback) {
         Message.findOne({ 'event.message.type': 'text' }, {}, { sort: { 'event.timestamp': -1 } }, function(err, message) {
             if (err) return next(err);
@@ -12,9 +18,9 @@ module.exports = {
         Message.find({ 'event.message.type': 'text' }, function(err, messages) {
             messages.sort(function(a, b) { return b.event.timestamp - a.event.timestamp });
             if (err) return next(err);
-            userInfo = {};
-            userMessages = [];
-            otherMessages = [];
+            var userInfo = {};
+            var userMessages = [];
+            var otherMessages = [];
             for (var i = 0; i < messages.length; i++) {
                 if (messages[i].event.source.userId === id) {
                     if (userMessages.length === 0) {
@@ -22,6 +28,7 @@ module.exports = {
                         userInfo['img'] = messages[i].event.source.pictureUrl;
                     }
                     userMessages.push({
+                        type: 'user',
                         text: messages[i].event.message.text,
                         time: messages[i].event.timestamp
                     });
@@ -31,8 +38,9 @@ module.exports = {
                             userId: messages[i].event.source.userId,
                             userName: messages[i].event.source.displayName || '無名稱',
                             userImg: messages[i].event.source.pictureUrl,
-                            text: messages[i].event.message.text,
-                            time: messages[i].event.timestamp
+                            // text: messages[i].event.message.text,
+                            // time: messages[i].event.timestamp,
+                            hasRead: false
                         });
                     }
                 }

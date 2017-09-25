@@ -1,23 +1,42 @@
 <%- include ./header.ejs %>
+<% const imgTagHeader = '<img src=\"'; %>
+<% const imgTagFooter = '"/>'; %>
+    <header>
+        <nav id="main_nav">
+                <div id='cssmenu'>
+                        <ul>
+                            <li onclick="change_tab(this)" value="0"><a>照片審核</a>
+                            </li>
+                            <li class='active' onclick="change_tab(this)" value="1"><a>對話管理</a>
+                            </li>
+                        </ul>
+                </div>
+                <b id="goodtogo">LINE BOT 後台</b>
+        </nav>
+    </header>
     <div id="messenger_view">
         <div class="manager">
             <form class="form-wrapper">
                 <input type="text" id="search" placeholder=" 輸入id搜尋..." required>
             </form>
             <ul id="customers_list">
+                <% var imgTag = ''; %>
                 <% for(var i = 0; i < othersMessage.length; i++){ %>
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
-                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+                <% imgTag = imgTagHeader + othersMessage[i].userImg + imgTagFooter; %>
+                <li><a onclick="showDialog(this)">
+                <%- imgTag %>
+                <span class="helper"></span><p>
+                <%- othersMessage[i].userName %>
+                </p></a></li>
                 <% } %>
             </ul>
         </div>
         <div class="message">
             <div id="message_field">
-                <nav id="customer_id"><p>陳泓碩</p></nav>
+                <nav id="customer_id"><p>Test Name</p></nav>
                 <ul id="message_ul">
+                    <li class='customer'><span class="helper customer"><img src=""/></span><a class='box'><span class="helper"></span><div class="border_left"></div><p>Message</p></a></li>
                     <li class='me'><span class="helper"></span><a class='box'><span class="helper"></span><p>asdsadasdasdasdsa</p><div class="border_right"></div></a></li>
-                    <li class='customer'><span class="helper customer"><img src='src/pic4.jpg'/></span><a class='box'><span class="helper"></span><div class="border_left"></div><p>asdsds33333333333</p></a></li>
                 </ul>
             </div>
             <div id="text_field">
