@@ -73,6 +73,6 @@ function showDialog(customer){
     nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
 }
 
-function closeDiaog(){
-    
+function closeDialog(){
+    document.getElementsByClassName('message')[0].style.display = 'none';
 }

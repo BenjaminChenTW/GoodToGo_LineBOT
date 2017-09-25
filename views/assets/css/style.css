@@ -435,14 +435,6 @@ ul#customers_list li a p {
     display: none;
 }
 
-@media screen and (max-width: 460pt) {
-    .message{
-        width: 100vw;
-        z-index: 5;
-        left: 0px;
-    }
-}
-
 #message_field {
     width: 100%;
     overflow: scroll;
@@ -566,14 +558,43 @@ div.border_right{
 
     background-color: lightblue;
 
-    vertical-align: middle;
-    white-space: nowrap;
-
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     font-size: 20px;
     color: #444;
 
+}
+
+#message_field nav a{
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 60px;
+
+    left:0;
+    top:0;
+
+    position: absolute
+}
+
+#message_field nav a:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+
+@media screen and (max-width: 460pt) {
+    .message{
+        width: 100vw;
+        z-index: 5;
+        left: 0px;
+    }
+
+    #message_field nav a{
+        display: flex;
+    }
 }
 
 div#text_field {
