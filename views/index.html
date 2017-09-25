@@ -10,7 +10,7 @@
 
 <body>
     <header>
-         <nav>
+         <nav id="main_nav">
                 <div id='cssmenu'>
                         <ul>
                             <li class='active' onclick="change_tab(this)" value="0"><a>照片審核</a>
@@ -70,23 +70,27 @@
     <div id="messenger_view">
         <div class="manager">
             <form class="form-wrapper">
-                <input type="text" id="search" placeholder="Search for..." required>
+                <input type="text" id="search" placeholder=" 輸入id搜尋..." required>
             </form>
             <ul id="customers_list">
+                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
+                <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
                 <li><a><img src="src/pic4.jpg"/><span class="helper"></span><p>陳泓碩</p></a></li>
             </ul>
         </div>
         <div class="message">
             <div id="message_field">
+                <nav id="customer_id"><p>陳泓碩</p></nav>
                 <ul id="message_ul">
-                    <li class='me'><a class='box'><p>asdsadasdasdasdsa</p></a></li>
-                    <li class='customer'><a class='box'><p>asdsds33333333333</p></a></li>
+                    <li class='me'><span class="helper"></span><a class='box'><span class="helper"></span><p>asdsadasdasdasdsa</p><div class="border_right"></div></a></li>
+                    <li class='customer'><span class="helper customer"><img src='src/pic4.jpg'/></span><a class='box'><span class="helper"></span><div class="border_left"></div><p>asdsds33333333333</p></a></li>
                 </ul>
             </div>
-            <form id="text_field">
-                <input id="message_text" type='text' placeholder="Type a message"/>
+            <div id="text_field">
+                <span class="helper"></span>
+                <input id="message_text" type='text' placeholder=" 輸入訊息..." autocomplete="off"/>
                 <input type='submit' onclick='send_message()'/>
-            </form>
+            </div>
         </div>
     </div>
 </body>
