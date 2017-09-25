@@ -6,15 +6,36 @@ var getMessage = require('../models/chatroomProcess.js').getMessage;
 
 router.get('/', function(req, res, next) {
     getFirst(next, function(id) {
-        res.redirect('http://localhost:3000/chatroom/' + id);
-        // res.writeHead(301, { Location: 'https://bot.goodtogo.tw/chatroom/' + id });
+        res.redirect('/chatroom/' + id);
     });
 });
 
 router.get('/:id', function(req, res, next) {
     var id = req.params.id;
-    getMessage(id, next, function(messages) {
-        res.json(messages);
+    getMessage(id, next, function(isEmpty, messageObj) {
+        if (isEmpty) {
+            var err = new Error('Not Found');
+            err.status = 404;
+            next(err);
+        } else {
+            res.render('chatroom', {
+                'userInfo': messageObj.userInfo,
+                'userMessage': messageObj.userMessage,
+                'othersMessage': messageObj.otherMessages
+            });
+        }
+    });
+});
+
+router.get('/api/:id', function(req, res, next) {
+    var id = req.params.id;
+    getMessage(id, next, function(isEmpty, messageObj) {
+        res.json({
+            'isEmpty': isEmpty,
+            'userInfo': messageObj.userInfo,
+            'userMessage': messageObj.userMessage,
+            'othersMessage': messageObj.otherMessages
+        });
     });
 });
 

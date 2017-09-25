@@ -12,26 +12,34 @@ module.exports = {
         Message.find({ 'event.message.type': 'text' }, function(err, messages) {
             messages.sort(function(a, b) { return b.event.timestamp - a.event.timestamp });
             if (err) return next(err);
+            userInfo = {};
             userMessages = [];
             otherMessages = [];
             for (var i = 0; i < messages.length; i++) {
                 if (messages[i].event.source.userId === id) {
+                    if (userMessages.length === 0) {
+                        userInfo['name'] = messages[i].event.source.displayName || messages[i].event.source.userId;
+                        userInfo['img'] = messages[i].event.source.pictureUrl;
+                    }
                     userMessages.push({
                         text: messages[i].event.message.text,
                         time: messages[i].event.timestamp
                     });
                 } else {
-                    if (checkExist(otherMessages, messages[i].event.source.userId)) break;
-                    else {
+                    if (!checkExist(otherMessages, messages[i].event.source.userId)) {
                         otherMessages.push({
                             userId: messages[i].event.source.userId,
+                            userName: messages[i].event.source.displayName || '無名稱',
+                            userImg: messages[i].event.source.pictureUrl,
                             text: messages[i].event.message.text,
                             time: messages[i].event.timestamp
                         });
                     }
                 }
             }
-            callback({
+            if (userMessages.length === 0) { callback(true) }
+            callback(false, {
+                userInfo: userInfo,
                 userMessages: userMessages,
                 otherMessages: otherMessages
             });

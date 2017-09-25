@@ -7,7 +7,7 @@ var getImageListBackward = require('../models/imgProcess.js').getImageListBackwa
 
 router.get('/', function(req, res, next) {
     getInitList(getImageList, next, function(lastIndex, list) {
-        res.render('checkimg/index', {
+        res.render('checkimg', {
             'lastIndex': lastIndex,
             'list': list
         });
