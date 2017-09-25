@@ -330,13 +330,20 @@ input{
     border-right-width: 1px;
 }
 
+@media screen and (max-width: 460pt) {
+    .manager{
+        width: 100vw;
+        z-index: 4;
+    }
+}
+
 .manager form{
-    position: fixed;
+    position: absolute;
     z-index: 1;
 
     background-color: lightblue;
 
-    width: 25vw;
+    width: 100%;
     height: 60px;
 
     display:flex;
@@ -363,16 +370,17 @@ ul#customers_list{
     list-style: none;
     top: 60px;
     margin-top: 0px;
+    width: 100%;
+
+    left: -40px;
 }
 
 ul#customers_list li{
     position: relative;
     height: 75px;
-    width: 25vw;
+    width: 100%;
 
     vertical-align: middle;
-
-    left: -40px;
 
     border-bottom-color:rgba(220,220,220,1);
     border-bottom-width: 1px;
@@ -424,6 +432,15 @@ ul#customers_list li a p {
     background-color: white;
     overflow-y: auto;
 
+    display: none;
+}
+
+@media screen and (max-width: 460pt) {
+    .message{
+        width: 100vw;
+        z-index: 5;
+        left: 0px;
+    }
 }
 
 #message_field {
@@ -486,7 +503,7 @@ li a.box {
 }
 
 li.me a.box {
-    background-color:lightblue;
+    background-color:rgb(240,240,240);
 }
 
 li.customer a.box{
@@ -517,7 +534,7 @@ div.border_left{
 div.border_right{
     right: -20px;
     top: 1px;
-    border-color: transparent transparent transparent lightblue;
+    border-color: transparent transparent transparent rgb(240,240,240);
 }
 
 #message_ul li a p {
@@ -529,21 +546,20 @@ div.border_right{
     line-height: 24px; 
 
     margin-right: -10px;
+    color: #444;
 }
 
 #message_ul li a div+p {
     padding:0px 10px 0px 0px; 
     margin-left: -10px;  
     margin-right: 0px;
-    color: #444;
-
 }
 
 #message_field nav{
-    position: fixed;
-    top:10vh;
-    left: calc(25vw + 1px);
-    width: 75vw;
+    position: relative;
+    top:0;
+    left: 0;
+    width: 100%;
     height: 60px;
 
     z-index:2;
@@ -557,6 +573,7 @@ div.border_right{
 
     font-size: 20px;
     color: #444;
+
 }
 
 div#text_field {
