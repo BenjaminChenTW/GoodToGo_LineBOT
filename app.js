@@ -16,9 +16,9 @@ var mongoose = require('mongoose');
 var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
-var index = require('./routes/index');
 var imgCheck = require('./routes/imgCheck');
 var chatroom = require('./routes/chatroom');
+var lottery = require('./routes/lottery');
 var config = require('./config/config.js');
 
 /**
@@ -57,10 +57,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
-app.use('/src', express.static(path.join(__dirname, 'views/src')));
 app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
-app.use(basicAuth(config.auth.user, config.auth.pwd));
-app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 
 /**
  * CHAT ROOM init
@@ -71,9 +68,11 @@ var io = require('socket.io')(server);
 /**
  * WEB router
  */
-// app.use('/', index);
+app.use('/lottery', lottery);
+app.use(basicAuth(config.auth.user, config.auth.pwd));
 app.use('/img', imgCheck);
 app.use('/chatroom', chatroom);
+app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 
 /**
  * Error handle

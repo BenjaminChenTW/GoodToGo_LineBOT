@@ -4,10 +4,11 @@
 var config = require('../config/config.js');
 const Client = require('@line/bot-sdk').Client;
 const client = new Client(config.bot);
+var debug = require('debug')('goodtogo-linebot:bot');
 var textHandler = require('../models/messageProcess.js').textHandler;
 var imgHandler = require('../models/messageProcess.js').imgHandler;
 
-function handlerCallback(success, replyToken, message) {
+function textReply(success, replyToken, message) {
     if (!success) {
         message = '伺服器維修中...'
     } else if (message === '') {
@@ -16,28 +17,30 @@ function handlerCallback(success, replyToken, message) {
     // create a echoing text message
     const echo = { type: 'text', text: message };
     // use reply API
-    return client.replyMessage(replyToken, echo);
+    return client.replyMessage(replyToken, echo).catch((err) => {
+        debug(JSON.stringify(err.originalError.response.config.data));
+        debug(JSON.stringify(err.originalError.response.data));
+    });
 };
 
 module.exports = {
     // event handler
     handleEvent: function(event) {
         if (event.type === 'message' && event.message.type === 'text') {
-            textHandler(event, handlerCallback);
+            textHandler(event, textReply);
         } else if (event.type === 'message' && event.message.type === 'image') {
-            imgHandler(event, handlerCallback);
+            imgHandler(event, textReply);
         } else {
             // ignore non-text-message event
             return Promise.resolve(null);
         }
     },
-    multicast: function(id, message) {
+    multicast: function(id, message, sended) {
         client.pushMessage(id, message)
-            .then(() => {
-                console.log(message)
-            })
+            .then((res) => sended())
             .catch((err) => {
-                console.log(err)
-            })
+                debug(JSON.stringify(err.originalError.response.config.data));
+                debug(JSON.stringify(err.originalError.response.data));
+            });
     }
 };

@@ -1,7 +1,12 @@
+html {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(240, 240, 240);
-    padding-bottom: 20px;
     overflow: hidden;
     display: inline-block;
     text-align: center;
@@ -11,9 +16,9 @@ body {
 }
 
 nav#main_nav {
-    position: fixed;
-    left: 0px;
-    top: 0px;
+    position: absolute;
+    left:0px;
+    top:0px;
     z-index: 3;
     background-color: rgba(64, 185, 216, 1);
     height: 10vh;
@@ -138,9 +143,9 @@ nav#main_nav b {
 
 div#picture_view {
     transition: left 0.5s;
-    position: fixed;
-    left: 0px;
-    top: 10vh;
+    position: absolute;
+    left:0px;
+    top:10vh;
     width: 100%;
     height: 12vh;
     overflow-x: auto;
@@ -191,13 +196,14 @@ img.icon {
 
 #detail {
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     height: 80%;
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
     position: relative;
     top: calc(20vh);
-    padding-bottom: 10vh;
+    margin-bottom: 10vh;
     width: 100vw;
     display: none;
 }
@@ -310,19 +316,21 @@ input {
     width: 100px;
 }
 
-#messenger_view {
-    transition: left 0.5s;
+#messenger_view{
     position: absolute;
-    left: 100vw;
+    left: 0;
     top: 0;
 }
 
 .manager {
     width: 25vw;
     height: 90vh;
-    position: fixed;
+
+    position: absolute;
     top: 10vh;
     left: 0;
+    bottom: 0;
+
     background-color: white;
     border-right-style: solid;
     border-right-color: rgba(220, 220, 220, 1);
@@ -409,9 +417,11 @@ ul#customers_list li a p {
 .message {
     width: calc(75vw - 1px);
     height: 90vh;
-    position: fixed;
+
+    position: absolute;
     top: 10vh;
     left: calc(25vw + 1px);
+    bottom: 0;
     background-color: white;
     overflow-y: auto;
     display: none;
@@ -421,22 +431,23 @@ ul#customers_list li a p {
     width: 100%;
     overflow: scroll;
     text-align: center;
+    padding-bottom: 0px;
 }
 
-#message_field ul {
+#message_field ul{
+
     width: calc(100% - 36px);
     list-style-type: none;
     padding: 0 18px 0 18px;
     position: absolute;
-    bottom: 50px;
+    bottom: 44px;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
     max-height: calc(90vh - 120px);
 }
 
 #message_ul li {
-    height: 60px;
     display: inline-block;
     vertical-align: middle;
     white-space: nowrap;
@@ -463,59 +474,25 @@ li.customer {
     text-align: left;
 }
 
-li a.box {
+li p a.box {
     display: inline-block;
-    height: 45px;
+    height: auto;
+    padding: 10px 15px 10px 15px;
     vertical-align: middle;
+    max-width: 40vw;
     border-radius: 10px;
-}
-
-li.me a.box {
-    background-color: rgb(240, 240, 240);
-}
-
-li.customer a.box {
     background-color: rgb(240, 240, 240);
     margin-left: 15px;
 }
 
-li a.box div {
-    background-color: transparent;
-    height: 0px;
-    width: 0px;
-    position: relative;
+#message_ul li p {
     display: inline-block;
-    border-width: 10px;
-    border-style: solid;
-}
-
-div.border_left {
-    left: -20px;
-    top: 1px;
-    border-color: transparent rgb(240, 240, 240) transparent transparent;
-}
-
-div.border_right {
-    right: -20px;
-    top: 1px;
-    border-color: transparent transparent transparent rgb(240, 240, 240);
-}
-
-#message_ul li a p {
-    margin-top: 10px;
-    display: inline-block;
-    text-align: center;
+    max-width: 35vw;
+    white-space: pre-wrap;
+    word-break: break-all;
+    text-align: left;
     vertical-align: middle;
-    padding: 0px 0px 0px 10px;
-    line-height: 24px;
-    margin-right: -10px;
     color: #444;
-}
-
-#message_ul li a div+p {
-    padding: 0px 10px 0px 0px;
-    margin-left: -10px;
-    margin-right: 0px;
 }
 
 #message_field nav {
@@ -524,7 +501,6 @@ div.border_right {
     left: 0;
     width: 100%;
     height: 60px;
-    z-index: 2;
     background-color: lightblue;
     display: flex;
     justify-content: center;
@@ -559,13 +535,39 @@ div.border_right {
     }
 }
 
+#message_field nav a {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60px;
+    left: 0;
+    top: 0;
+    position: absolute
+}
+
+#message_field nav a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 460pt) {
+    .message {
+        width: 100vw;
+        z-index: 5;
+        left: 0px;
+    }
+    #message_field nav a {
+        display: flex;
+    }
+}
+
 div#text_field {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 60px;
     vertical-align: middle;
     white-space: nowrap;
-    bottom: 0px;
+    top: calc(100% - 120px);
     background-color: lightblue;
 }
 
@@ -595,4 +597,8 @@ div#text_field input[type="submit"] {
 
 input:focus {
     outline: none;
+}
+
+ul {
+    -webkit-overflow-scrolling: touch;
 }
