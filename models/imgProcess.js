@@ -14,10 +14,32 @@ function getListObj(ori) {
 }
 
 module.exports = {
-    getInitList: function(next, callback) {
+    getInitIndex: function(next, callback) {
         Message.findOne({ 'event.message.type': 'image', 'img.checked': false }, {}, { sort: { 'img.id': 1 } }, function(err, message) {
             if (err) next(err);
             callback(message.img.id);
+        });
+    },
+    getInitList: function(index, next, callback) {
+        index = parseInt(index);
+        var returnList = [];
+        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+            if (err) next(err);
+            if (messages.length < 20) {
+                Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index - (20 - messages.length), '$lt': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messagesFront) {
+                    if (err) next(err);
+                    messages = messagesFront.concat(messages);
+                    for (var i = 0; i < messages.length; i++) {
+                        returnList.push(getListObj(messages[i]));
+                    }
+                    return callback(returnList);
+                });
+            } else {
+                for (var i = 0; i < messages.length; i++) {
+                    returnList.push(getListObj(messages[i]));
+                }
+                return callback(returnList);
+            }
         });
     },
     getImageList: function(index, next, callback) {

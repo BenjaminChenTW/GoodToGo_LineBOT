@@ -205,7 +205,6 @@ module.exports = {
 var idIndex = 0
 Message.findOne({ 'event.message.type': 'image' }, {}, { sort: { 'img.id': -1 } }, function(err, message) {
     if (message) idIndex = message.img.id + 1;
-    console.log(idIndex)
 });
 
 var template = {
