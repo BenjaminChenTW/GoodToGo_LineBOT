@@ -82,6 +82,7 @@ module.exports = {
             returnStr += '不告訴你'
         }
         Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
             if (user) {
                 textHandlerCallback(message, {
                     displayName: user.event.source.displayName,
@@ -110,6 +111,7 @@ module.exports = {
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
             if (user) {
                 imgHandlerCallback(message, {
                     displayName: user.event.source.displayName,
@@ -144,6 +146,7 @@ module.exports = {
         var actions = [];
         if (!couponType) {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
+                if (err) return debug(JSON.stringify(err));
                 altText = "傳給您抽獎券！";
                 thumbnailImageUrl = ""; // 抽檢券照片
                 title = "抽獎券";
@@ -202,6 +205,7 @@ module.exports = {
 var idIndex = 0
 Message.findOne({ 'event.message.type': 'image' }, {}, { sort: { 'img.id': -1 } }, function(err, message) {
     if (message) idIndex = message.img.id + 1;
+    console.log(idIndex)
 });
 
 var template = {

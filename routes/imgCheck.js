@@ -17,10 +17,9 @@ Coupon.findOne({}, {}, { sort: { 'CouponId': -1 } }, function(err, coupon) {
 });
 
 router.get('/', function(req, res, next) {
-    getInitList(getImageList, next, function(lastIndex, list) {
+    getInitList(next, function(lastIndex) {
         res.render('checkimg', {
-            'lastIndex': lastIndex,
-            'list': list
+            'lastIndex': lastIndex
         });
     });
 });
