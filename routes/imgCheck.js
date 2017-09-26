@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var debug = require('debug')('goodtogo-linebot:imgAPI');
 
+var getInitIndex = require('../models/imgProcess.js').getInitIndex;
 var getInitList = require('../models/imgProcess.js').getInitList;
 var getImageList = require('../models/imgProcess.js').getImageList;
 var getImageListBackward = require('../models/imgProcess.js').getImageListBackward;
@@ -17,10 +18,17 @@ Coupon.findOne({}, {}, { sort: { 'CouponId': -1 } }, function(err, coupon) {
 });
 
 router.get('/', function(req, res, next) {
-    getInitList(next, function(lastIndex) {
+    getInitIndex(next, function(lastIndex) {
         res.render('checkimg', {
             'lastIndex': lastIndex
         });
+    });
+});
+
+router.get('/first/:id', function(req, res, next) {
+    var id = req.params.id;
+    getInitList(id, next, function(list) {
+        res.json({ 'list': list });
     });
 });
 

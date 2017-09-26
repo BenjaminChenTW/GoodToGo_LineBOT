@@ -46,15 +46,15 @@ function change_tab(tab) {
     }
 }
 
-function create_message(type, message, img){
-    var msg_ul = document.getElementById('message_ul'); 
-    
+function create_message(type, message, img) {
+    var msg_ul = document.getElementById('message_ul');
+
     var new_msg = document.createElement('li');
     var new_span = document.createElement('span');
     var new_p = document.createElement('p');
     var new_a = document.createElement('a');
 
-    if (type === 'customer') {                
+    if (type === 'customer') {
         new_span.setAttribute('class', 'helper customer');
         new_span.appendChild(img);
         new_msg.setAttribute('class', 'customer');
@@ -82,7 +82,7 @@ function send_message() {
 function showDialog(customer, customerId) {
     clear_message_field();
 
-    selected_customer.style.backgroundColor = 'white';    
+    selected_customer.style.backgroundColor = 'white';
     selected_customer = customer;
 
     customer.style.backgroundColor = 'rgb(240, 240, 240)';
@@ -92,7 +92,7 @@ function showDialog(customer, customerId) {
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            for (var i=data.userMessage.length-1 ; i >= 0 ; i--){
+            for (var i = data.userMessage.length - 1; i >= 0; i--) {
                 var img = customer.getElementsByTagName('img')[0].cloneNode(true);
                 let record = data.userMessage[i];
                 create_message(record.type, record.text, img);
@@ -103,23 +103,23 @@ function showDialog(customer, customerId) {
         },
         complete: function() {
             var message_field = document.getElementsByClassName('message')[0];
-            
-                message_field.style.display = 'block';
-                var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-                nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
-            
-            
-                var msg_ul = document.getElementById('message_ul');
-                msg_ul.scrollTop = msg_ul.scrollHeight;
+
+            message_field.style.display = 'block';
+            var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
+            nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
+
+
+            var msg_ul = document.getElementById('message_ul');
+            msg_ul.scrollTop = msg_ul.scrollHeight;
         }
-        
+
     });
 }
 
-function clear_message_field(){
-    var msg_ul = document.getElementById('message_ul'); 
+function clear_message_field() {
+    var msg_ul = document.getElementById('message_ul');
 
-    while(msg_ul.firstChild)
+    while (msg_ul.firstChild)
         msg_ul.removeChild(msg_ul.firstChild);
 }
 
@@ -129,27 +129,31 @@ function closeDialog() {
 
 var pic_data = [];
 
-function load_pic_data(last_index){
+function load_pic_data(last_index) {
     $.ajax({
+<<<<<<< HEAD
         url: "/img/first/1",
+=======
+        url: "/img/first/" + last_index,
+>>>>>>> 42e89649030c95a9ac4032e7927063ccf4df4b7e
         type: "GET",
         dataType: "JSON",
-        success: function(data){
-            pic_data=data.list;
+        success: function(data) {
+            pic_data = data.list;
         },
-        error: function(){
+        error: function() {
 
         },
-        complete: function(){
+        complete: function() {
             let gallery = document.getElementById('picture_view');
             
             end_index = last_index;
             start_index = ((last_index - pic_data.length + 1) < 0) ? 0 : (last_index - pic_data.length + 1);
 
-            for( var i=0; i<pic_data.length; i++){
+            for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
                 var imgtag = document.createElement('img');
-                imgtag.setAttribute('class','button');
+                imgtag.setAttribute('class', 'button');
                 imgtag.setAttribute('type', 'button');
                 imgtag.setAttribute('src', imgstr);
                 imgtag.setAttribute('onclick', "select_picture(this)");
@@ -179,7 +183,7 @@ function load_pic_data(last_index){
 
                 gallery.appendChild(container);
             }
-            
+
             gallery.scrollLeft = 0;
         }
     });
