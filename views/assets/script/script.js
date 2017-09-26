@@ -59,6 +59,8 @@ function send_message() {
     new_msg.setAttribute('class', 'me');
     msg_ul.append(new_msg);
     msg_ul.scrollTop = msg_ul.scrollHeight;
+
+    document.getElementById('message_text').value = '';
 }
 var userImgTag;
 
@@ -77,27 +79,6 @@ function showDialog(customer, customerId) {
 
     /*
         JUST testing HAHA - Start
-    */
-    // Testing 1
-    var userImgTag = customer.getElementsByTagName('img')[0]
-    var oriImgTagList = document.getElementsByClassName('helper customer');
-    for (var i = 0; i < oriImgTagList.length; i++) {
-        while (oriImgTagList[i].firstChild) {
-            oriImgTagList[i].removeChild(oriImgTagList[i].firstChild);
-        }
-        oriImgTagList[i].innerHTML = userImgTag.outerHTML;
-    }
-    // Testing 2
-    userImgTag = customer.getElementsByTagName('img')[0].cloneNode(true);
-    var oriImgTagList = document.getElementsByClassName('helper customer');
-    for (var i = 0; i < oriImgTagList.length; i++) {
-        while (oriImgTagList[i].firstChild) {
-            oriImgTagList[i].removeChild(oriImgTagList[i].firstChild);
-        }
-        oriImgTagList[i].appendChild(userImgTag);
-    }
-    /*
-        JUST testing HAHA - end
     */
 
     var message_field = document.getElementsByClassName('message')[0];

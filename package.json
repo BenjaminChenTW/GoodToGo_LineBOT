@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore tmp/",
-    "test": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/www --ignore tmp/",
+    "test": "echo \"Debudding Mode\" & DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore tmp/",
     "start": "nodemon bin/www --ignore tmp/"
   },
   "dependencies": {
