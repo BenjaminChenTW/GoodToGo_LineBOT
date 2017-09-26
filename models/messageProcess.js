@@ -1,7 +1,7 @@
 var request = require('request');
 var Message = require('./DB/messageDB.js');
 var config = require('../config/config.js');
-var multicast = require('../routers/bot.js').multicast;
+var multicast = require('../routes/bot.js').multicast;
 
 var debug = require('debug')('goodtogo-linebot:messageHandler');
 
