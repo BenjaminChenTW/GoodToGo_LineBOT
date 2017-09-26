@@ -1,3 +1,5 @@
+var selected_customer;
+
 function select_picture(pic) {
     var blockers = picture_view.getElementsByClassName('pic');
     for (var i = 0; i < blockers.length; i += 1) {
@@ -73,10 +75,14 @@ function send_message() {
     create_message('me', msg);
     document.getElementById('message_text').value = '';
 }
-var userImgTag;
 
 function showDialog(customer, customerId) {
     clear_message_field();
+
+    selected_customer.style.backgroundColor = 'white';    
+    selected_customer = customer;
+
+    customer.style.backgroundColor = 'rgb(240, 240, 240)';
 
     $.ajax({
         url: "/chatroom/" + customerId,
@@ -116,4 +122,59 @@ function clear_message_field(){
 
 function closeDialog() {
     document.getElementsByClassName('message')[0].style.display = 'none';
+}
+
+var pic_data = [];
+
+function load_pic_data(last_index){
+    $.ajax({
+        url: "/img/old/" + last_index,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data){
+            pic_data=data.list;
+        },
+        error: function(){
+
+        },
+        complete: function(){
+            let gallery = document.getElementById('picture_view');
+
+            for( var i=0; i<pic_data.length; i++){
+                var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
+                var imgtag = document.createElement('img');
+                imgtag.setAttribute('class','button');
+                imgtag.setAttribute('type', 'button');
+                imgtag.setAttribute('src', imgstr);
+                imgtag.setAttribute('onclick', "select_picture(this)");
+
+                var container = document.createElement('div');
+                container.setAttribute('class', 'container');
+
+                var pic_a = document.createElement('a');
+                pic_a.setAttribute('class', 'pic');
+
+                pic_a.appendChild(imgtag);
+
+                if (pic_data[i].checked) {
+                    var img = document.createElement('img');
+                    img.setAttribute('class', 'icon');
+                    img.setAttribute('src', '/assets/icon/checked.png');
+
+                    pic_a.appendChild(img);
+                }
+
+                var name_p = document.createElement('p');
+                name_p.appendChild(document.createTextNode(pic_data[i].userName));
+
+                pic_a.appendChild(name_p);
+
+                container.appendChild(pic_a);
+
+                gallery.appendChild(container);
+            }
+            
+            gallery.scrollLeft = 0;
+        }
+    });
 }

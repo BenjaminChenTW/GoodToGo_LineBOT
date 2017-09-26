@@ -14,21 +14,6 @@
     </header>
     <div id="blocker">
         <div id="picture_view">
-            <% for(var i = 0; i < list.length; i++){ %>
-            <% var imgstr = "data:" + list[i].imgType + ";base64," + list[i].imgBinary %>
-            <% var imgtag = "<img class=\"button\" type=\"button\" src=\"" + imgstr + "\" onclick=\"select_picture(this)\" />" %>
-            <div class="container">
-                <a class="pic">
-                    <%- imgtag %>
-                    <% if (list[i].checked){ %>
-                    <img class="icon" src="assets/icon/checked.png" />
-                    <% } %>
-                    <p>
-                    <%- list[i].userName %>
-                    </p>
-                </a>
-            </div>
-            <% } %>
         </div>
     </div>
     <div id="detail">
@@ -64,6 +49,34 @@
         </div>
     <script>
         var lastIndex = <%- lastIndex %>
-        var list = <%- JSON.stringify(list) %>
+        load_pic_data(lastIndex);
+
+        var should_update = true;
+
+        $( "#picture_view" ).on( "scroll", function() {
+            if ((this.scrollLeft+this.clientWidth) >= this.scrollWidth) {
+                if (should_update === true) {
+                    
+                    should_update = false;
+
+                    this.scrollLeft = this.scrollWidth;
+                    $.ajax({
+                        url: "/img/old/" + last_index,
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data){
+                            pic_data=data.list;
+                        },
+                        error: function(){
+
+                        },
+                        complete: function(){
+                            should_update = true;
+                        }    
+                    });
+                }
+            }
+        });
+
     </script>
 <%- include ./footer.ejs %>
