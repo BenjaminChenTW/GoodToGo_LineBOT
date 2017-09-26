@@ -1,7 +1,6 @@
-
-function select_picture(pic){
+function select_picture(pic) {
     var blockers = picture_view.getElementsByClassName('pic');
-    for (var i = 0 ; i < blockers.length ; i+=1) {
+    for (var i = 0; i < blockers.length; i += 1) {
         if (blockers[i].getElementsByTagName('img')[0] != pic) {
             blockers[i].style.opacity = "0.3";
         } else {
@@ -12,14 +11,14 @@ function select_picture(pic){
     }
 }
 
-function submit(){
-    
+function submit() {
+
 }
 
-function change_tab(tab){
+function change_tab(tab) {
     let elements = document.getElementById('cssmenu').getElementsByTagName('ul')[0].getElementsByTagName('li');
     if (!tab.classList.contains('active')) {
-        for(var i = 0 ; i < elements.length ; i++){
+        for (var i = 0; i < elements.length; i++) {
             if (elements[i] != tab) {
                 elements[i].classList.remove('active');
             } else {
@@ -42,7 +41,7 @@ function change_tab(tab){
     }
 }
 
-function send_message(){    
+function send_message() {
     var msg = document.getElementById('message_text').value;
     var msg_ul = document.getElementById('message_ul');
 
@@ -50,21 +49,22 @@ function send_message(){
     var new_span = document.createElement('span');
     var new_p = document.createElement('p');
     var new_a = document.createElement('a');
-    
+
     new_span.setAttribute('class', 'helper');
     new_a.appendChild(document.createTextNode(msg));
-    new_a.setAttribute('class','box');
-    new_p.appendChild(new_a);    
+    new_a.setAttribute('class', 'box');
+    new_p.appendChild(new_a);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
-    new_msg.setAttribute('class','me');
+    new_msg.setAttribute('class', 'me');
     msg_ul.append(new_msg);
     msg_ul.scrollTop = msg_ul.scrollHeight;
 
     document.getElementById('message_text').value = '';
 }
+var userImgTag;
 
-function showDialog(customer){
+function showDialog(customer, customerId) {
     /*
         Should do AJAX here
         API uri: /chatroom/customerId
@@ -87,10 +87,11 @@ function showDialog(customer){
     var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
     nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
 
+
     var msg_ul = document.getElementById('message_ul');
     msg_ul.scrollTop = msg_ul.scrollHeight;
 }
 
-function closeDialog(){
+function closeDialog() {
     document.getElementsByClassName('message')[0].style.display = 'none';
 }

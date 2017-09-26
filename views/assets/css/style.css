@@ -20,7 +20,7 @@ nav#main_nav {
     left:0px;
     top:0px;
     z-index: 3;
-    background-color: rgba(64,185,216,1);
+    background-color: rgba(64, 185, 216, 1);
     height: 10vh;
     width: 100%;
     vertical-align: middle;
@@ -30,7 +30,7 @@ nav#main_nav b {
     color: white;
     position: absolute;
     right: 1vw;
-    top:3vh;
+    top: 3vh;
     text-align: right;
     font-size: 3vh;
 }
@@ -50,8 +50,9 @@ nav#main_nav b {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 #cssmenu:after,
-#cssmenu > ul:after {
+#cssmenu>ul:after {
     content: ".";
     display: block;
     clear: both;
@@ -59,33 +60,39 @@ nav#main_nav b {
     line-height: 0;
     height: 0;
 }
+
 #cssmenu {
     top: calc(10vh - 33px);
     width: auto;
-    border-bottom: 3px solid rgba(255,233,92,1);
+    border-bottom: 3px solid rgba(255, 233, 92, 1);
     font-family: Raleway, sans-serif;
     line-height: 1;
 }
 
-#cssmenu > ul > li {
+#cssmenu>ul>li {
     float: left;
 }
-#cssmenu.align-center > ul {
+
+#cssmenu.align-center>ul {
     font-size: 0;
     text-align: center;
 }
-#cssmenu.align-center > ul > li {
+
+#cssmenu.align-center>ul>li {
     display: inline-block;
     float: none;
 }
-#cssmenu.align-right > ul > li {
+
+#cssmenu.align-right>ul>li {
     float: right;
 }
-#cssmenu.align-right > ul > li > a {
+
+#cssmenu.align-right>ul>li>a {
     margin-right: 0;
     margin-left: -4px;
 }
-#cssmenu > ul > li > a {
+
+#cssmenu>ul>li>a {
     z-index: 2;
     padding: 18px 25px 12px 25px;
     font-size: 2.5vh;
@@ -99,12 +106,14 @@ nav#main_nav b {
     transition: all 0.2s ease;
     margin-right: -4px;
 }
-#cssmenu > ul > li.active > a,
-#cssmenu > ul > li:hover > a,
-#cssmenu > ul > li > a:hover {
-    color: #444;    
+
+#cssmenu>ul>li.active>a,
+#cssmenu>ul>li:hover>a,
+#cssmenu>ul>li>a:hover {
+    color: #444;
 }
-#cssmenu > ul > li > a:after {
+
+#cssmenu>ul>li>a:after {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -125,13 +134,14 @@ nav#main_nav b {
     transform: perspective(5px) rotateX(2deg);
     transform-origin: bottom;
 }
-#cssmenu > ul > li.active > a:after,
-#cssmenu > ul > li:hover > a:after,
-#cssmenu > ul > li > a:hover:after {
-    background: rgba(255,233,92,1);
+
+#cssmenu>ul>li.active>a:after,
+#cssmenu>ul>li:hover>a:after,
+#cssmenu>ul>li>a:hover:after {
+    background: rgba(255, 233, 92, 1);
 }
 
-div#picture_view{
+div#picture_view {
     transition: left 0.5s;
     position: absolute;
     left:0px;
@@ -152,7 +162,6 @@ div.container {
     object-fit: contain;
     position: relative;
     text-align: center;
-
 }
 
 a.pic {
@@ -161,13 +170,13 @@ a.pic {
     position: relative;
 }
 
-a.pic p{
+a.pic p {
     color: white;
     position: relative;
     line-height: 0px;
     height: 20px;
     font-size: 10pt;
-    top:calc(-5px + 2vh);
+    top: calc(-5px + 2vh);
 }
 
 img.button {
@@ -183,7 +192,7 @@ img.icon {
     height: 2vh;
     top: 10px;
     right: 1%;
-} 
+}
 
 #detail {
     overflow: auto;
@@ -192,31 +201,31 @@ img.icon {
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
-    position:relative;
+    position: relative;
     top: calc(20vh);
     margin-bottom: 10vh;
     width: 100vw;
-
     display: none;
 }
-#detail > div#detail_pic {
-    min-width:300px;
-    display: inline;
-}
 
-#detail > div#detail_data {
+#detail>div#detail_pic {
     min-width: 300px;
     display: inline;
 }
+
+#detail>div#detail_data {
+    min-width: 300px;
+    display: inline;
+}
+
 @media screen and (max-width: 460pt) {
-    #detail > div#detail_data{
+    #detail>div#detail_data {
         width: 80vw;
         margin-right: 10vw;
-        margin-left: 10vw; 
+        margin-left: 10vw;
         display: block;
     }
-
-    #detail > div#detail_pic{
+    #detail>div#detail_pic {
         margin-top: 30px;
         width: 80vw;
         margin-right: 10vw;
@@ -225,23 +234,20 @@ img.icon {
     }
 }
 
-
-
 div#main_pic_section {
     width: 60vw;
     height: auto;
     min-width: 300px;
     white-space: nowrap;
     vertical-align: middle;
-    text-align: center; margin: 0 auto;
-    
-    display: inline-block;    
-    
+    text-align: center;
+    margin: 0 auto;
+    display: inline-block;
 }
 
 .helper {
     display: inline-block;
-    width:0;
+    width: 0;
     height: 100%;
     vertical-align: middle;
     position: relative;
@@ -252,32 +258,30 @@ img#main_pic {
     max-width: 100%;
     min-width: 300px;
     position: relative;
-    left:-5px;
+    left: -5px;
     vertical-align: middle;
     display: inline-block;
-
     border-radius: 5px;
 }
 
-div.data_container{
+div.data_container {
     width: inherit;
     text-align: left;
     display: inline-block;
     vertical-align: middle;
-    color: rgb(50,50,50);
+    color: rgb(50, 50, 50);
 }
 
 @media screen and (max-width: 460pt) {
     div#main_pic_section {
-        width: 80vw;    
+        width: 80vw;
     }
-
-    div.data_container{
+    div.data_container {
         text-align: center;
     }
 }
 
-div#detail_data{
+div#detail_data {
     margin-left: 10px;
     margin-right: 10px;
     display: none;
@@ -292,37 +296,34 @@ div.data {
     display: inline-block;
 }
 
-#upload_time_title{
+#upload_time_title {
     display: block;
 }
 
-p#status{
+p#status {
     color: red;
 }
-p#status button{
+
+p#status button {
     display: inline-block;
     color: black;
     width: 50px;
     position: relative;
-
     height: 20px;
 }
 
-input{
-    width:100px;
+input {
+    width: 100px;
 }
 
 #messenger_view{
     position: absolute;
     left: 0;
     top: 0;
-    bottom: 0;
-
-    display: none;
 }
 
-.manager{
-    width:25vw;
+.manager {
+    width: 25vw;
     height: 90vh;
 
     position: absolute;
@@ -331,65 +332,54 @@ input{
     bottom: 0;
 
     background-color: white;
-
     border-right-style: solid;
-    border-right-color: rgba(220,220,220,1);
+    border-right-color: rgba(220, 220, 220, 1);
     border-right-width: 1px;
 }
 
 @media screen and (max-width: 460pt) {
-    .manager{
+    .manager {
         width: 100vw;
         z-index: 4;
     }
 }
 
-.manager form{
+.manager form {
     position: absolute;
     z-index: 1;
-
     background-color: lightblue;
-
     width: 100%;
     height: 60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.manager input{
+.manager input {
     display: inline-block;
-
     width: 85%;
     height: 50%;
-
     border-style: none;
     border-radius: 10px;
-
     padding: 0 10px 0 10px;
     font-size: 14px;
-} 
+}
 
-ul#customers_list{
+ul#customers_list {
     position: relative;
     list-style: none;
     top: 60px;
     margin-top: 0px;
     width: 100%;
-
     left: -40px;
 }
 
-ul#customers_list li{
+ul#customers_list li {
     position: relative;
     height: 75px;
     width: 100%;
-
     vertical-align: middle;
-
-    border-bottom-color:rgba(220,220,220,1);
+    border-bottom-color: rgba(220, 220, 220, 1);
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
@@ -410,11 +400,8 @@ ul#customers_list li a:hover {
 ul#customers_list li a img {
     width: 50px;
     height: 50px;
-
     border-radius: 25px;
-
     position: absolute;
-
     margin-top: 12.5px;
     margin-left: 12.5px;
 }
@@ -423,14 +410,12 @@ ul#customers_list li a p {
     position: relative;
     display: inline-block;
     left: 75px;
-
     font-size: 17px;
-
-    color: rgb(50,50,50);
+    color: rgb(50, 50, 50);
 }
 
 .message {
-    width: calc(75vw - 1px);    
+    width: calc(75vw - 1px);
     height: 90vh;
 
     position: absolute;
@@ -439,14 +424,12 @@ ul#customers_list li a p {
     bottom: 0;
     background-color: white;
     overflow-y: auto;
-
     display: none;
 }
 
 #message_field {
     width: 100%;
     overflow: scroll;
-
     text-align: center;
     padding-bottom: 0px;
 }
@@ -455,15 +438,14 @@ ul#customers_list li a p {
 
     width: calc(100% - 36px);
     list-style-type: none;
-    padding:0 18px 0 18px ;
-    position:absolute;
-    bottom:44px;
-    display:flex;
+    padding: 0 18px 0 18px;
+    position: absolute;
+    bottom: 44px;
+    display: flex;
     flex-direction: column;
     overflow: auto;
     max-height: calc(90vh - 120px);
 }
-
 
 #message_ul li {
     display: inline-block;
@@ -477,20 +459,18 @@ ul#customers_list li a p {
     display: inline-block;
 }
 
-#message_ul li span.customer img{
+#message_ul li span.customer img {
     max-width: 40px;
     max-height: 40px;
-
     position: relative;
-
     border-radius: 20px;
 }
 
-li.me{
+li.me {
     text-align: right;
 }
 
-li.customer{
+li.customer {
     text-align: left;
 }
 
@@ -499,72 +479,84 @@ li p a.box {
     height: auto;
     padding: 10px 15px 10px 15px;
     vertical-align: middle;
-
     max-width: 40vw;
     border-radius: 10px;
-    background-color:rgb(240,240,240);
+    background-color: rgb(240, 240, 240);
     margin-left: 15px;
-    
 }
 
 #message_ul li p {
-
     display: inline-block;
     max-width: 35vw;
-
     white-space: pre-wrap;
     word-break: break-all;
-    
     text-align: left;
     vertical-align: middle;
-
     color: #444;
 }
 
-#message_field nav{
+#message_field nav {
     position: relative;
-    top:0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 60px;
-
     background-color: lightblue;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-size: 20px;
     color: #444;
-
 }
 
-#message_field nav a{
+#message_field nav a {
     display: none;
     justify-content: center;
     align-items: center;
-
     height: 100%;
     width: 60px;
-
-    left:0;
-    top:0;
-
+    left: 0;
+    top: 0;
     position: absolute
 }
 
-#message_field nav a:hover{
-    background-color: rgba(0,0,0,0.1);
+#message_field nav a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 @media screen and (max-width: 460pt) {
-    .message{
+    .message {
         width: 100vw;
         z-index: 5;
         left: 0px;
     }
+    #message_field nav a {
+        display: flex;
+    }
+}
 
-    #message_field nav a{
+#message_field nav a {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 60px;
+    left: 0;
+    top: 0;
+    position: absolute
+}
+
+#message_field nav a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 460pt) {
+    .message {
+        width: 100vw;
+        z-index: 5;
+        left: 0px;
+    }
+    #message_field nav a {
         display: flex;
     }
 }
@@ -579,19 +571,15 @@ div#text_field {
     background-color: lightblue;
 }
 
-
 div#text_field input[type="text"] {
     position: relative;
     display: inline-block;
     width: 90%;
     height: 40px;
     padding-right: 50px;
-
     border-radius: 5px;
     border-style: none;
-
     padding: 0 10px 0 10px;
-
     font-size: 14px;
 }
 
@@ -600,13 +588,9 @@ div#text_field input[type="submit"] {
     display: inline-block;
     height: 42px;
     width: 50px;
-
     max-width: 10vw;
-
     margin-left: -50px;
-
     border-style: none;
-
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }

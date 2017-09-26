@@ -5,14 +5,30 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('goodtogo-linebot:app');
+debug.log = console.log.bind(console);
 
 const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
+var basicAuth = require('basic-auth-connect');
+var compression = require('compression');
+var mongoose = require('mongoose');
+var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
-var index = require('./routes/index');
+var imgCheck = require('./routes/imgCheck');
+var chatroom = require('./routes/chatroom');
+var lottery = require('./routes/lottery');
 var config = require('./config/config.js');
+
+/**
+ * DB init
+ */
+mongoose.Promise = global.Promise;
+mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
+    if (err) next(err);
+    debug('mongoDB connect succeed');
+});
 
 /**
  * EXPRESS init
@@ -39,12 +55,24 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser());
+app.use(compression());
+app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
+
+/**
+ * CHAT ROOM init
+ */
+var server = Server(app);
+var io = require('socket.io')(server);
 
 /**
  * WEB router
  */
-app.use('/index', index);
+app.use('/lottery', lottery);
+app.use(basicAuth(config.auth.user, config.auth.pwd));
+app.use('/img', imgCheck);
+app.use('/chatroom', chatroom);
+app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 
 /**
  * Error handle
@@ -71,8 +99,10 @@ app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-    debug(res.locals.message);
-    debug(res.locals.error);
+    if (err.status !== 404) {
+        debug(res.locals.message);
+        debug(res.locals.error);
+    }
 
     // render the error page
     res.status(err.status || 500);

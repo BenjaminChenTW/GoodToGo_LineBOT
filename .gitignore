@@ -42,3 +42,10 @@ config
 
 # Developping trash file
 tmp
+
+# Local Test APP
+.ngrok2
+ngrok
+
+# Private file
+*.pem

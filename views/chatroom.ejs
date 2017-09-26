@@ -1,0 +1,49 @@
+<%- include ./header.ejs %>
+<% const imgTagHeader = '<img src=\"'; %>
+<% const imgTagFooter = '"/>'; %>
+<% const aTagHeader = '<a onclick="showDialog(this, \''; %>
+<% const aTagFooter = '\')">'; %>
+    <header>
+        <nav id="main_nav">
+                <div id='cssmenu'>
+                        <ul>
+                            <li><a href='/img'>照片審核</a>
+                            </li>
+                            <li class='active'><a>對話管理</a>
+                            </li>
+                        </ul>
+                </div>
+                <b id="goodtogo">LINE BOT 後台</b>
+        </nav>
+    </header>
+    <div id="messenger_view">
+        <div class="manager">
+            <form class="form-wrapper">
+                <input type="text" id="search" placeholder=" 輸入id搜尋..." required>
+            </form>
+            <ul id="customers_list">
+                <% var imgTag = ''; %>
+                <% var aTag = ''; %>
+                <% for(var i = 0; i < roomList.length; i++){ %>
+                <% imgTag = imgTagHeader + roomList[i].userImg + imgTagFooter; %>
+                <% aTag = aTagHeader + roomList[i].userId + aTagFooter; %>
+                <li><%- aTag %><%- imgTag %><span class="helper"></span><p><%- roomList[i].userName %></p></a></li>
+                <% } %>
+            </ul>
+        </div>
+        <div class="message" id='message'>
+            <div id="message_field">
+                <nav id="customer_id"><a class="back_button" onclick="closeDialog()">ㄑ</a><p></p></nav>
+                <ul id="message_ul">
+                    <li class='me'><span class="helper"></span><p><a class='box'>asdsasa</a></p></li>
+                    <li class='customer'><span class="helper customer"></span><p><a class='box'>asdsds33333333333</a></p></li>
+                </ul>
+            </div>
+            <div id="text_field">
+                <span class="helper"></span>
+                <input id="message_text" type='text' placeholder=" 輸入訊息..." autocomplete="off"/>
+                <input type='submit' onclick='send_message()'/>
+            </div>
+        </div>
+    </div>
+<%- include ./footer.ejs %>
