@@ -40,6 +40,37 @@ var probability = {
 };
 
 function getTicket() {
+    var message = {
+        "type": "template",
+        "altText": "this is a buttons template",
+        "template": {
+            "type": "buttons",
+            "thumbnailImageUrl": "http://www.teepr.com/wp-content/uploads/2017/07/19989470_10156407126623012_4272061543745416917_n.jpg",
+            "title": "Menu",
+            "text": "Please select",
+            "actions": [
+                {
+                  "type": "postback",
+                  "label": "Buy",
+                  "data": "action=buy&itemid=123"
+                },
+                {
+                  "type": "postback",
+                  "label": "Add to cart",
+                  "data": "action=add&itemid=123"
+                },
+                {
+                  "type": "uri",
+                  "label": "View detail",
+                  "uri": "http://gitbook.tw/chapters/config/user-config.html"
+                }
+            ]
+        }
+    }
+    return message
+}
+
+function isWin() {
    
     var maxNum = 4;  
     var minNum = 0;  
@@ -81,8 +112,7 @@ function getTicket() {
             }
         }
         console.log("in A lose")
-        console.log(random)
-        console.log(random2)
+
         return false;
     } else if(rank === "B") {
         if(B.amount > 0) {
@@ -143,5 +173,3 @@ function getTicket() {
         return true;
     }
 }
-
-getTicket()
