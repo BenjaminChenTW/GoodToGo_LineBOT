@@ -60,9 +60,26 @@ function send_message(){
     new_msg.setAttribute('class','me');
     msg_ul.append(new_msg);
     msg_ul.scrollTop = msg_ul.scrollHeight;
+
+    document.getElementById('message_text').value = '';
 }
 
 function showDialog(customer){
+    /*
+        Should do AJAX here
+        API uri: /chatroom/customerId
+        reply JSON: [
+            {
+                type: String, // 'customer' or 'manager'
+                text: String,
+                time: Date // 毫秒
+            }, ...
+        ]
+    */
+
+    /*
+        JUST testing HAHA - Start
+    */
 
     var message_field = document.getElementsByClassName('message')[0];
 
