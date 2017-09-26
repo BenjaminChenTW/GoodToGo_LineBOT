@@ -1,5 +1,6 @@
 var request = require('request');
 var Message = require('./DB/messageDB.js');
+var Coupon = require('../models/DB/couponDB.js');
 var config = require('../config/config.js');
 var multicast = require('../routes/bot.js').multicast;
 
@@ -76,6 +77,9 @@ module.exports = {
         } else if (event.message.text === "沒問題了") {
             message.notify = false;
             returnStr += '掰掰~~'
+        } else if (event.message.text === "查看累積功德數") {
+            message.notify = false;
+            returnStr += '不告訴你'
         }
         Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
             if (user) {
@@ -139,22 +143,23 @@ module.exports = {
         var text;
         var actions = [];
         if (!couponType) {
-            // 抽獎券DB
-            altText = "傳給您抽獎券！";
-            thumbnailImageUrl = ""; // 抽檢券照片
-            title = "抽獎券";
-            text = "您的照片 #" + couponId + " 審核通過！\n目前您有n次抽獎機會！";
-            actions.push({
-                "type": "uri",
-                "label": "全部抽出",
-                "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
+            Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
+                altText = "傳給您抽獎券！";
+                thumbnailImageUrl = ""; // 抽檢券照片
+                title = "抽獎券";
+                text = "您的照片 #" + couponId + " 審核通過！\n目前您有" + amount + "次抽獎機會！";
+                actions.push({
+                    "type": "uri",
+                    "label": "全部抽出",
+                    "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
+                });
+                templateSendlerCallback(lineUserId, {
+                    altText: altText,
+                    thumbnailImageUrl: thumbnailImageUrl,
+                    title: title,
+                    actions: actions
+                }, sended);
             });
-            templateSendlerCallback(lineUserId, {
-                altText: altText,
-                thumbnailImageUrl: thumbnailImageUrl,
-                title: title,
-                actions: actions
-            }, sended);
         } else {
             if (!isWin) {
                 return textSendlerCallback(lineUserId, '請再接再厲！', sended);

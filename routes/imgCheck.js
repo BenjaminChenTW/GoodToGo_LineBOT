@@ -5,6 +5,7 @@ var debug = require('debug')('goodtogo-linebot:imgAPI');
 var getInitList = require('../models/imgProcess.js').getInitList;
 var getImageList = require('../models/imgProcess.js').getImageList;
 var getImageListBackward = require('../models/imgProcess.js').getImageListBackward;
+var templateSendler = require('../models/messageProcess.js').templateSendler;
 var textSendler = require('../models/messageProcess.js').textSendler;
 var lottery = require('../models/lotteryProcess.1.js');
 var Message = require('../models/DB/messageDB.js');
@@ -47,7 +48,6 @@ router.get('/accept/:amount/:id', function(req, res, next) {
             funcList.push(
                 new Promise((resolve, reject) => {
                     lottery(function(isWin, rank, name) {
-                        // lotteryDB
                         coupon = new Coupon();
                         coupon.userId = message.event.source.userId;
                         coupon.couponId = couponIndex++;
@@ -56,7 +56,7 @@ router.get('/accept/:amount/:id', function(req, res, next) {
                         coupon.isWin = isWin;
                         coupon.save((err) => {
                             if (err) return reject(err);
-                            return resolve();
+                            templateSendler(message.event.source.userId, resolve, isWin, message.img.id);
                         });
                     });
                 })
