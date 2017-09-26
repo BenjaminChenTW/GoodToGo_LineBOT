@@ -4,7 +4,9 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema({
     userId: String,
     couponId: String,
-    price: { type: String, default: "Nothing" },
+    priceType: String,
+    priceName: String,
+    isWin: Boolean,
     exchanged: { type: Boolean, default: false },
     logTime: { type: Date, default: Date.now }
 });
@@ -12,4 +14,4 @@ var schema = mongoose.Schema({
 schema.index({ "logTime": -1 });
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('Message', schema);
+module.exports = mongoose.model('Coupon', schema);

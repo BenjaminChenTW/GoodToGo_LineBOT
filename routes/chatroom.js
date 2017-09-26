@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
     var id = req.params.id;
+    if (id === 'undefined') return res.status(404).end;
     getMessage(id, next, function(isEmpty, messageList) {
         res.json({
             'isEmpty': isEmpty,
