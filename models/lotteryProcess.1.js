@@ -1,8 +1,8 @@
 var fs = require('fs');
-var priceList;
-fs.readFile("./config/price.json", 'utf8', function(err, data) {
+var prizeList;
+fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     if (err) throw err;
-    priceList = JSON.parse(data);
+    prizeList = JSON.parse(data);
 });
 
 // getTicket(function(isWin, rank, name) {
@@ -11,21 +11,21 @@ fs.readFile("./config/price.json", 'utf8', function(err, data) {
 
 module.exports = {
     getTicket: function(callback) {
-        var maxNum = priceList.rank.length - 1;
+        var maxNum = prizeList.rank.length - 1;
         var minNum = 0;
         var random = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
         var didAppear = [];
 
-        var rank = priceList.rank[random];
+        var rank = prizeList.rank[random];
 
         console.log(rank)
-        var winProb = 1 / priceList["A"].probability - 1;
+        var winProb = 1 / prizeList["A"].probability - 1;
         random = Math.floor(Math.random() * (winProb - minNum + 1)) + minNum;
         if (rank === "E") {
             console.log("in E win")
-            return callback(true, 'E', priceList[rank].name);
-        } else if (priceList[rank].amount > 0) {
-            for (var i = 0; i < winProb * priceList[rank].probability; i++) {
+            return callback(true, 'E', prizeList[rank].name);
+        } else if (prizeList[rank].amount > 0) {
+            for (var i = 0; i < winProb * prizeList[rank].probability; i++) {
                 var random2 = Math.floor(Math.random() * (winProb - minNum + 1)) + minNum;
                 //console.log(didAppear.indexOf(random2));
                 if (didAppear.indexOf(random2) === -1) {
@@ -35,16 +35,16 @@ module.exports = {
                 }
             }
             if (didAppear.indexOf(random) !== -1) {
-                priceList[rank].amount--;
+                prizeList[rank].amount--;
                 console.log("in " + rank + " win")
                 console.log(random)
                 console.log(didAppear)
-                return callback(true, rank, priceList[rank].name);
+                return callback(true, rank, prizeList[rank].name);
             }
         }
         console.log("in " + rank + " lose")
         console.log(random)
         console.log(didAppear)
-        return callback(false, rank, priceList[rank].name);
+        return callback(false, rank, prizeList[rank].name);
     }
 };
