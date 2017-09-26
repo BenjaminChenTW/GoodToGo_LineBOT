@@ -1,31 +1,9 @@
-var priceList = {
-    rank: ['A', 'B', 'C', 'D', 'E'],
-    A: {
-        name: "huge cock",
-        amount: 7,
-        probability: 0.01
-    },
-    B: {
-        name: "big cock",
-        amount: 10,
-        probability: 0.1
-    },
-    C: {
-        name: "middle cock",
-        amount: 20,
-        probability: 0.5
-    },
-    D: {
-        name: "little cock",
-        amount: 30,
-        probability: 0.9
-    },
-    E: {
-        name: "tiny cock",
-        amount: 100000,
-        probability: 1.0
-    }
-};
+var fs = require('fs');
+var priceList;
+fs.readFile("./config/price.json", 'utf8', function(err, data) {
+    if (err) throw err;
+    priceList = JSON.parse(data);
+});
 
 // getTicket(function(isWin, rank, name) {
 //     console.log(isWin, name)
@@ -67,6 +45,6 @@ module.exports = {
         console.log("in " + rank + " lose")
         console.log(random)
         console.log(didAppear)
-        return callback(false);
+        return callback(false, rank, priceList[rank].name);
     }
 };

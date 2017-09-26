@@ -132,7 +132,7 @@ module.exports = {
     textSendler: function(lineUserId, message, sended) {
         textSendlerCallback(id, message, sended);
     },
-    templateSendler: function(lineUserId, couponId, couponType, couponContent, sended) {
+    templateSendler: function(lineUserId, sended, isWin, couponId, couponType, couponContent) {
         var altText;
         var thumbnailImageUrl;
         var title;
@@ -156,7 +156,7 @@ module.exports = {
                 actions: actions
             }, sended);
         } else {
-            if (couponType === 'E') {
+            if (!isWin) {
                 return textSendlerCallback(lineUserId, '請再接再厲！', sended);
             }
             altText = "傳給您一張兌換券！";
@@ -174,6 +174,9 @@ module.exports = {
                     break;
                 case 'D':
                     thumbnailImageUrl = ""; // D獎品照片
+                    break;
+                case 'E':
+                    thumbnailImageUrl = ""; // E獎品照片
                     break;
             }
             actions.push({

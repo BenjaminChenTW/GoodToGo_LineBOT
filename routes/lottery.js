@@ -15,9 +15,9 @@ router.get('/draw/:id', function(req, res, next) {
 router.get('/sendcoupon/:id', function(req, res, next) {
     var id = req.params.id;
     // 抽獎券DB
-    templateSendler(lineUserId, couponId, couponType, couponContent, function() {
+    templateSendler(lineUserId, function() {
         res.status(200).json({});
-    });
+    }, isWin, couponId, couponType, couponContent);
 });
 
 router.get('/exchange/:id', function(req, res, next) {

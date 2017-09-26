@@ -5,6 +5,7 @@ module.exports = {
     getFirst: function(next, callback) {
         Message.find({ 'event.message.type': 'text' }, function(err, messages) {
             if (err) return next(err);
+            if (!messages || messages.length === 0) { return callback(true); }
             messages.sort(function(a, b) { return b.event.timestamp - a.event.timestamp });
             var roomList = [];
             for (var i = 0; i < messages.length; i++) {
@@ -19,13 +20,14 @@ module.exports = {
                     });
                 }
             }
-            if (roomList.length === 0) { callback(true) }
+            if (roomList.length === 0) { return callback(true); }
             callback(false, roomList);
         });
     },
     getMessage: function(id, next, callback) {
         Message.find({ 'event.message.type': 'text' }, function(err, messages) {
             if (err) return next(err);
+            if (!messages || messages.length === 0) { return callback(true); }
             messages.sort(function(a, b) { return b.event.timestamp - a.event.timestamp });
             var userMessages = [];
             for (var i = 0; i < messages.length; i++) {
@@ -39,7 +41,7 @@ module.exports = {
                     messages[i].save((err) => debug(err));
                 }
             }
-            if (userMessages.length === 0) { callback(true) }
+            if (userMessages.length === 0) { return callback(true); }
             callback(false, userMessages);
         });
     }

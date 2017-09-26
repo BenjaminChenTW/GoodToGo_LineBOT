@@ -17,8 +17,8 @@ module.exports = {
     getInitList: function(getList, next, callback) {
         Message.find({ 'event.message.type': 'image' }, function(err, messages) {
             if (err) next(err);
+            if (!messages || messages.length === 0) return callback(0, []);
             messages.sort(function(a, b) { return a.img.id - b.img.id });
-            if (messages.length === 0) return callback(0, []);
             var index = -1;
             for (var i = 0; i < messages.length; i++) {
                 if (messages[i].img.checked === false) {
@@ -47,6 +47,7 @@ module.exports = {
         if (index <= 0) callback([]);
         Message.find({ 'event.message.type': 'image' }, function(err, messages) {
             if (err) next(err);
+            if (!messages || messages.length === 0) return callback([]);
             messages.sort(function(a, b) { return a.img.id - b.img.id });
             var list = [];
             var listLength = 20;
@@ -65,6 +66,7 @@ module.exports = {
         if (index <= 0) callback([]);
         Message.find({ 'event.message.type': 'image' }, function(err, messages) {
             if (err) next(err);
+            if (!messages || messages.length === 0) return callback([]);
             messages.sort(function(a, b) { return a.img.id - b.img.id });
             var list = [];
             var listLength = 20;
