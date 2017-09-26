@@ -49,6 +49,7 @@
         </div>
     <script>
         var lastIndex = <%- lastIndex %>
+        
         load_pic_data(lastIndex);
 
         var should_update = true;
@@ -60,18 +61,128 @@
                     should_update = false;
 
                     this.scrollLeft = this.scrollWidth;
+
+                    var new_pic = [];
+
                     $.ajax({
-                        url: "/img/old/" + last_index,
+                        url: "/img/new/" + (end_index+1),
                         type: "GET",
                         dataType: "JSON",
                         success: function(data){
-                            pic_data=data.list;
+                            console.log(data.list.length);
+                            new_pic = data.list;
+                            pic_data.concat(new_pic);
                         },
                         error: function(){
-
+                            console.log('error');                            
                         },
                         complete: function(){
                             should_update = true;
+
+                            let gallery = this;
+            
+                            end_index += new_pic.length;
+
+                            for( var i=0; i<new_pic.length; i++){
+                                var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
+                                var imgtag = document.createElement('img');
+                                imgtag.setAttribute('class','button');
+                                imgtag.setAttribute('type', 'button');
+                                imgtag.setAttribute('src', imgstr);
+                                imgtag.setAttribute('onclick', "select_picture(this)");
+
+                                var container = document.createElement('div');
+                                container.setAttribute('class', 'container');
+
+                                var pic_a = document.createElement('a');
+                                pic_a.setAttribute('class', 'pic');
+
+                                pic_a.appendChild(imgtag);
+
+                                if (pic_data[i].checked) {
+                                    var img = document.createElement('img');
+                                    img.setAttribute('class', 'icon');
+                                    img.setAttribute('src', '/assets/icon/checked.png');
+
+                                    pic_a.appendChild(img);
+                                }
+
+                                var name_p = document.createElement('p');
+                                name_p.appendChild(document.createTextNode(new_pic[i].userName));
+
+                                pic_a.appendChild(name_p);
+
+                                container.appendChild(pic_a);
+
+                                gallery.appendChild(container);
+                            }
+            
+                            gallery.scrollLeft = gallery.scrollWidth;
+                        }    
+                    });
+                }
+            }
+
+            if ((this.scrollLeft+this.clientWidth)<0 && start_index>0) {
+                if (should_update) {
+                    should_update = false;
+
+                    this.scrollLeft = this.scrollWidth;
+
+                    var new_pic = [];
+
+                    $.ajax({
+                        url: "/img/old/" + (start_index-1),
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data){
+                            console.log(data.list.length);
+                            new_pic = data.list;
+                            pic_data.concat(new_pic);
+                        },
+                        error: function(){
+                            console.log('error');                            
+                        },
+                        complete: function(){
+                            should_update = true;
+
+                            let gallery = this;
+            
+                            end_index += new_pic.length;
+
+                            for( var i=0; i<new_pic.length; i++){
+                                var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
+                                var imgtag = document.createElement('img');
+                                imgtag.setAttribute('class','button');
+                                imgtag.setAttribute('type', 'button');
+                                imgtag.setAttribute('src', imgstr);
+                                imgtag.setAttribute('onclick', "select_picture(this)");
+
+                                var container = document.createElement('div');
+                                container.setAttribute('class', 'container');
+
+                                var pic_a = document.createElement('a');
+                                pic_a.setAttribute('class', 'pic');
+
+                                pic_a.appendChild(imgtag);
+
+                                if (pic_data[i].checked) {
+                                    var img = document.createElement('img');
+                                    img.setAttribute('class', 'icon');
+                                    img.setAttribute('src', '/assets/icon/checked.png');
+
+                                    pic_a.appendChild(img);
+                                }
+
+                                var name_p = document.createElement('p');
+                                name_p.appendChild(document.createTextNode(new_pic[i].userName));
+
+                                pic_a.appendChild(name_p);
+
+                                container.appendChild(pic_a);
+
+                                gallery.insertBefore(container, gallert.firstNode);
+                            }
                         }    
                     });
                 }
