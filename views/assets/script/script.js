@@ -131,11 +131,7 @@ var pic_data = [];
 
 function load_pic_data(last_index) {
     $.ajax({
-<<<<<<< HEAD
         url: "/img/first/1",
-=======
-        url: "/img/first/" + last_index,
->>>>>>> 42e89649030c95a9ac4032e7927063ccf4df4b7e
         type: "GET",
         dataType: "JSON",
         success: function(data) {
