@@ -41,70 +41,77 @@ function change_tab(tab) {
     }
 }
 
-function send_message() {
-    var msg = document.getElementById('message_text').value;
-    var msg_ul = document.getElementById('message_ul');
-
+function create_message(type, message, img){
+    var msg_ul = document.getElementById('message_ul'); 
+    
     var new_msg = document.createElement('li');
     var new_span = document.createElement('span');
     var new_p = document.createElement('p');
     var new_a = document.createElement('a');
 
-    new_span.setAttribute('class', 'helper');
-    new_a.appendChild(document.createTextNode(msg));
+    if (type === 'customer') {                
+        new_span.setAttribute('class', 'helper customer');
+        new_span.appendChild(img);
+        new_msg.setAttribute('class', 'customer');
+    } else {
+        new_span.setAttribute('class', 'helper');
+        new_msg.setAttribute('class', 'me');
+    }
+
+    new_a.appendChild(document.createTextNode(message));
     new_a.setAttribute('class', 'box');
     new_p.appendChild(new_a);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
-    new_msg.setAttribute('class', 'me');
     msg_ul.append(new_msg);
-    msg_ul.scrollTop = msg_ul.scrollHeight;
 
+    msg_ul.scrollTop = msg_ul.scrollHeight;
+}
+
+function send_message() {
+    var msg = document.getElementById('message_text').value;
+    create_message('me', msg);
     document.getElementById('message_text').value = '';
 }
 var userImgTag;
 
 function showDialog(customer, customerId) {
-    /*
-        Should do AJAX here
-        API uri: /chatroom/customerId
-        reply JSON: [
-            {
-                type: String, // 'customer' or 'manager'
-                text: String,
-                time: Date // 毫秒
-            }, ...
-        ]
-    */
-
-    /*
-        JUST testing HAHA - Start
-    */
+    clear_message_field();
 
     $.ajax({
         url: "/chatroom/" + customerId,
         type: "GET",
-        success: function(data,textStatus,jqXHR) {
-            alert('success')
+        dataType: "JSON",
+        success: function(data) {
+            for (var i=data.userMessage.length-1 ; i >= 0 ; i--){
+                var img = customer.getElementsByTagName('img')[0].cloneNode(true);
+                let record = data.userMessage[i];
+                create_message(record.type, record.text, img);
+            }
         },
         error: function() {
             alert('error')
         },
         complete: function() {
-            alert('complete')
+            var message_field = document.getElementsByClassName('message')[0];
+            
+                message_field.style.display = 'block';
+                var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
+                nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
+            
+            
+                var msg_ul = document.getElementById('message_ul');
+                msg_ul.scrollTop = msg_ul.scrollHeight;
         }
         
     });
+}
 
-    var message_field = document.getElementsByClassName('message')[0];
+function clear_message_field(){
+    var msg_ul = document.getElementById('message_ul'); 
 
-    message_field.style.display = 'block';
-    var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-    nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
-
-
-    var msg_ul = document.getElementById('message_ul');
-    msg_ul.scrollTop = msg_ul.scrollHeight;
+    while(msg_ul.firstChild)
+        msg_ul.removeChild(msg_ul.firstChild);
 }
 
 function closeDialog() {

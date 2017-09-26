@@ -235,14 +235,12 @@ img.icon {
 }
 
 div#main_pic_section {
-    width: 60vw;
-    height: auto;
     min-width: 300px;
     white-space: nowrap;
     vertical-align: middle;
     text-align: center;
-    margin: 0 auto;
-    display: inline-block;
+    margin: 10px auto;
+    display: inline;
 }
 
 .helper {
@@ -254,9 +252,10 @@ div#main_pic_section {
 }
 
 img#main_pic {
-    max-height: auto;
-    max-width: 100%;
-    min-width: 300px;
+    height: auto;
+    width: auto;
+    max-width: 60vw;
+    max-height: 70vh;
     position: relative;
     left: -5px;
     vertical-align: middle;
@@ -275,7 +274,15 @@ div.data_container {
 @media screen and (max-width: 460pt) {
     div#main_pic_section {
         width: 80vw;
+        height: auto;
     }
+
+    img#main_pic{
+        height: auto;
+        max-height: initial;
+        max-width: 80vw;
+    }
+
     div.data_container {
         text-align: center;
     }
