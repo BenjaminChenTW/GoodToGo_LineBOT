@@ -6,7 +6,6 @@ function getListObj(ori) {
         userId: ori.event.source.userId,
         userName: ori.event.source.displayName,
         uploadTime: ori.event.timestamp,
-        messageId: ori.event.message.id,
         imgType: ori.img.contentType,
         imgBinary: ori.img.data.toString('base64'),
         checked: ori.img.checked
@@ -15,7 +14,7 @@ function getListObj(ori) {
 
 module.exports = {
     getInitIndex: function(next, callback) {
-        Message.findOne({ 'event.message.type': 'image', 'img.checked': false }, {}, { sort: { 'img.id': 1 } }, function(err, message) {
+        Message.findOne({ 'event.message.type': 'image', 'img.checked': false }, 'img.id', { sort: { 'img.id': 1 } }, function(err, message) {
             if (err) next(err);
             callback(message.img.id);
         });
