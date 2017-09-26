@@ -81,6 +81,21 @@ function showDialog(customer, customerId) {
         JUST testing HAHA - Start
     */
 
+    $.ajax({
+        url: "/chatroom/" + customerId,
+        type: "GET",
+        success: function(data,textStatus,jqXHR) {
+            alert('success')
+        },
+        error: function() {
+            alert('error')
+        },
+        complete: function() {
+            alert('complete')
+        }
+        
+    });
+
     var message_field = document.getElementsByClassName('message')[0];
 
     message_field.style.display = 'block';
