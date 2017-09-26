@@ -1,5 +1,8 @@
 var selected_customer;
 
+var start_index = 0;
+var end_index = 0;
+
 function select_picture(pic) {
     var blockers = picture_view.getElementsByClassName('pic');
     for (var i = 0; i < blockers.length; i += 1) {
@@ -128,7 +131,7 @@ var pic_data = [];
 
 function load_pic_data(last_index) {
     $.ajax({
-        url: "/img/first/" + last_index,
+        url: "/img/first/1",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -139,6 +142,9 @@ function load_pic_data(last_index) {
         },
         complete: function() {
             let gallery = document.getElementById('picture_view');
+            
+            end_index = last_index;
+            start_index = ((last_index - pic_data.length + 1) < 0) ? 0 : (last_index - pic_data.length + 1);
 
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
