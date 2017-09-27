@@ -46,7 +46,7 @@ router.get('/old/:id', function(req, res, next) {
     });
 });
 
-router.get('/accept/:amount/:id', function(req, res, next) {
+router.post('/accept/:amount/:id', function(req, res, next) {
     var picIndex = req.params.id;
     var amount = req.params.amount;
     if (!(picIndex || amount)) return res.status(404).end();
