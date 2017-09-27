@@ -66,13 +66,7 @@ router.post('/accept/:amount/:id', function(req, res, next) {
                         coupon.isWin = isWin;
                         coupon.save((err) => {
                             if (err) return reject(err);
-                            message.img.checked = true;
-                            message.img.checkStatus.amount = amount;
-                            message.save((err) => {
-                                if (err) return reject(err);
-                                templateSendler(message.event.source.userId, resolve, isWin, picIndex);
-                            });
-
+                            templateSendler(message.event.source.userId, resolve, isWin, picIndex);
                         });
                     });
                 })
@@ -82,7 +76,12 @@ router.post('/accept/:amount/:id', function(req, res, next) {
             .all(funcList)
             .then((err) => {
                 if (err) return debug(JSON.stringify(err));
-                res.status(200).end();
+                message.img.checked = true;
+                message.img.checkStatus.amount = amount;
+                message.save((err) => {
+                    if (err) return debug(JSON.stringify(err));
+                    res.status(200).end();
+                });
             });
     });
 });
