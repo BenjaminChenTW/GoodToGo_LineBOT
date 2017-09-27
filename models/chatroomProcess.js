@@ -36,30 +36,28 @@ module.exports = {
     },
     getMessage: function(id, next, callback) {
         var startNotify = 0;
-        Message.find({ 'event.message.type': 'text' }, {}, { sort: { 'event.timestamp': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'text', 'event.source.userId': id }, {}, { sort: { 'event.timestamp': 1 } }, function(err, messages) {
             if (err) return next(err);
             if (!messages || messages.length === 0) { return callback(true); }
             var userMessages = [];
             for (var i = 0; i < messages.length; i++) {
-                if (messages[i].event.source.userId === id) {
-                    if (messages[i].notify === true) {
-                        startNotify = messages[i].event.timestamp;
-                    } else if (messages[i].notify === false) {
-                        startNotify = 0;
-                        if (userMessages.length !== 0)
-                            userMessages.unshift({
-                                type: 'system',
-                                text: '-- 以上為上一對話階段 --'
-                            });
-                    } else if (messages[i].event.timestamp < getDate(startNotify, 3)) {
+                if (messages[i].notify === true) {
+                    startNotify = messages[i].event.timestamp;
+                } else if (messages[i].notify === false) {
+                    startNotify = 0;
+                    if (userMessages.length !== 0)
                         userMessages.unshift({
-                            type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
-                            text: messages[i].event.message.text,
-                            time: messages[i].event.timestamp
+                            type: 'system',
+                            text: '-- 以上為上一對話階段 --'
                         });
-                        messages[i].read = true;
-                        messages[i].save((err) => { if (err) debug(err) });
-                    }
+                } else if (messages[i].event.timestamp < getDate(startNotify, 3)) {
+                    userMessages.unshift({
+                        type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
+                        text: messages[i].event.message.text,
+                        time: messages[i].event.timestamp
+                    });
+                    messages[i].read = true;
+                    messages[i].save((err) => { if (err) debug(err) });
                 }
             }
             if (userMessages.length === 0) { return callback(true, userMessages); }
