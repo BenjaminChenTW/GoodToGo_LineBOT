@@ -60,12 +60,13 @@ router.get('/accept/:amount/:id', function(req, res, next) {
                         coupon = new Coupon();
                         coupon.userId = message.event.source.userId;
                         coupon.couponId = couponIndex++;
-                        coupon.priceType = rank;
-                        coupon.priceName = name;
+                        coupon.picIndex = picIndex;
+                        coupon.prizeType = rank;
+                        coupon.prizeName = name;
                         coupon.isWin = isWin;
                         coupon.save((err) => {
                             if (err) return reject(err);
-                            templateSendler(message.event.source.userId, resolve, isWin, message.img.id);
+                            templateSendler(message.event.source.userId, resolve, isWin, picIndex);
                         });
                     });
                 })

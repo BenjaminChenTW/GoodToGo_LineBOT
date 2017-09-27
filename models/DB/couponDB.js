@@ -4,8 +4,9 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema({
     userId: String,
     couponId: String,
-    priceType: String,
-    priceName: String,
+    picIndex: Number,
+    prizeType: String,
+    prizeName: String,
     isWin: Boolean,
     exchanged: { type: Boolean, default: false },
     logTime: { type: Date, default: Date.now }
