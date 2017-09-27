@@ -97,6 +97,7 @@ router.post('/decline/:type/:id', function(req, res, next) {
             message.img.checked = true;
             message.img.checkStatus.typeCode = declineType;
             message.save((err) => {
+                if (err) return debug(JSON.stringify(err));
                 res.status(200).json({});
             });
         });
