@@ -10,9 +10,27 @@ function select_picture(pic) {
             blockers[i].style.opacity = "0.3";
         } else {
             blockers[i].style.opacity = "1";
-            document.getElementById('main_pic').src = pic.src;
-            document.getElementById('detail').style.display = "block";
-        }
+
+            let main_pic = document.getElementById('main_pic');
+            let detail = document.getElementById('detail');
+
+            main_pic.src = pic.src;
+
+            detail.style.display = "block";
+            
+            document.getElementById('user_id').textContent = pic.getAttribute('userName');
+            let timeInterval = pic.getAttribute('uploadTime');
+            let time = new Date(Number(timeInterval));
+            
+            document.getElementById('upload_time').textContent = time.toLocaleString()
+
+            let status = pic.getAttribute('checked')==='true' ? 'checked' : 'unchecked';
+
+            console.log(pic.getAttribute('checked'));
+            console.log(status);
+            document.getElementById('status').setAttribute('type', status)
+;        }
+
     }
 }
 
@@ -129,7 +147,51 @@ function closeDialog() {
 
 var pic_data = [];
 
-function load_pic_data(last_index) {
+function create_pic(place, imgstr, userName, uploadTime, checked){
+    let gallery = document.getElementById('picture_view');
+
+    var imgtag = document.createElement('img');
+    imgtag.setAttribute('class', 'button');
+    imgtag.setAttribute('type', 'button');
+    imgtag.setAttribute('src', imgstr);
+    imgtag.setAttribute('onclick', "select_picture(this)");
+    imgtag.setAttribute('userName', userName);
+    imgtag.setAttribute('uploadTime', uploadTime);
+    imgtag.setAttribute('checked', checked);
+
+
+    var container = document.createElement('div');
+    container.setAttribute('class', 'container');
+
+    var pic_a = document.createElement('a');
+    pic_a.setAttribute('class', 'pic');
+
+    pic_a.appendChild(imgtag);
+
+    if (checked) {
+        var img = document.createElement('img');
+        img.setAttribute('class', 'icon');
+        img.setAttribute('src', '/assets/icon/checked.png');
+
+        pic_a.appendChild(img);
+    }
+
+    var name_p = document.createElement('p');
+    name_p.appendChild(document.createTextNode(userName));
+
+    pic_a.appendChild(name_p);
+
+    container.appendChild(pic_a);
+
+    if (place === 'front') {
+        gallery.prepend(container);
+    } else if (place === 'back') {
+        gallery.appendChild(container);
+    }
+
+}
+
+function load_pic_data() {
     $.ajax({
         url: "/img/first/1",
         type: "GET",
@@ -140,47 +202,16 @@ function load_pic_data(last_index) {
         error: function() {
 
         },
-        complete: function() {
-            let gallery = document.getElementById('picture_view');
-            
-            end_index = last_index;
-            start_index = ((last_index - pic_data.length + 1) < 0) ? 0 : (last_index - pic_data.length + 1);
+        complete: function() {            
+            end_index = pic_data[pic_data.length-1].indexId;
+            start_index = pic_data[0].indexId;
 
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
-                var imgtag = document.createElement('img');
-                imgtag.setAttribute('class', 'button');
-                imgtag.setAttribute('type', 'button');
-                imgtag.setAttribute('src', imgstr);
-                imgtag.setAttribute('onclick', "select_picture(this)");
-
-                var container = document.createElement('div');
-                container.setAttribute('class', 'container');
-
-                var pic_a = document.createElement('a');
-                pic_a.setAttribute('class', 'pic');
-
-                pic_a.appendChild(imgtag);
-
-                if (pic_data[i].checked) {
-                    var img = document.createElement('img');
-                    img.setAttribute('class', 'icon');
-                    img.setAttribute('src', '/assets/icon/checked.png');
-
-                    pic_a.appendChild(img);
-                }
-
-                var name_p = document.createElement('p');
-                name_p.appendChild(document.createTextNode(pic_data[i].userName));
-
-                pic_a.appendChild(name_p);
-
-                container.appendChild(pic_a);
-
-                gallery.appendChild(container);
+                create_pic('back', imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
             }
 
-            gallery.scrollLeft = 0;
+            document.getElementById('picture_view').scrollLeft = 0;
         }
     });
 }

@@ -299,6 +299,9 @@ div.data {
     border-bottom: 1px solid black;
 }
 
+#user_id_title {
+    display: block;
+}
 #user_id {
     display: inline-block;
 }
@@ -307,8 +310,15 @@ div.data {
     display: block;
 }
 
-p#status {
+#upload_time {
+    display: inline-block;    
+}
+p#status[type='unchecked'] {
     color: red;
+}
+
+p#status[type='checked'] {
+    display: none;
 }
 
 p#status button {

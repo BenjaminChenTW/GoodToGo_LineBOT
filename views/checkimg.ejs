@@ -29,33 +29,36 @@
             <span class="helper"></span>
             <div class="data_container">
                 <div class="data">
-                    <a id="user_id_title">使用者 id: </a>
+                    <a id="user_id_title">用戶名稱: 
                     <p id="user_id">e.zou.shen59</p>
-                    <a id="upload_time_title">上傳時間: </a>
+                    </a>
+                    <a id="upload_time_title">上傳時間: 
                     <p id="upload_time"></p>
+                    </a>
                 </div>
                 <div class="detail">
-                    <p>可兌換抽獎次數: <input type="number" /></p>
-                    <p>資格不承認原因:
-                        <select name="reasons">
-                                    <option value="not_at_the_site">不在現場</option>
-                                    <option value="not_our_container">容器非好盒器</option>
-                                </select>
+                    <p>可兌換抽獎次數: <input id='check_availible_num' type="number" min='0' value='0'/></p>
+                    <p id='reasons_tag'>資格不承認原因:
+                        <select name="reasons" id='reasons'>
+                            <option value="not_at_the_site">不在現場</option>
+                            <option value="not_our_container">容器非好盒器</option>
+                            <option value="others">其他</option>
+                        </select>
+                        <textarea id='other_reasons' style='display:none ;width: 100%;'></textarea>
                     </p>
-                    <p id="status">＊此照片尚未經過首次審核</p>
+                    <p id="status" type='unchecked'>＊此照片尚未經過首次審核</p>
                     <button onclick="submit">保存</button>
                 </div>
             </div>
         </div>
     <script>
-        var lastIndex = <%- lastIndex %>
         
-        load_pic_data(lastIndex);
+        load_pic_data();
 
         var should_update = true;
 
         $( "#picture_view" ).on( "scroll", function() {
-            if ((this.scrollLeft+this.clientWidth) >= this.scrollWidth) {
+            if ((this.scrollLeft+this.clientWidth) > this.scrollWidth) {
                 if (should_update === true) {
                     
                     should_update = false;
@@ -69,9 +72,8 @@
                         type: "GET",
                         dataType: "JSON",
                         success: function(data){
-                            console.log(data.list.length);
                             new_pic = data.list;
-                            pic_data.concat(new_pic);
+                            pic_data = pic_data.concat(new_pic);
                         },
                         error: function(){
                             console.log('error');                            
@@ -79,42 +81,15 @@
                         complete: function(){
                             should_update = true;
 
-                            let gallery = this;
+                            if (new_pic.length === 0) {
+                                return;
+                            }
             
-                            end_index += new_pic.length;
+                            end_index = new_pic[new_pic.length-1].indexId;
 
-                            for( var i=0; i<new_pic.length; i++){
+                            for( var i=0; i<new_pic.length; i++){  
                                 var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
-                                var imgtag = document.createElement('img');
-                                imgtag.setAttribute('class','button');
-                                imgtag.setAttribute('type', 'button');
-                                imgtag.setAttribute('src', imgstr);
-                                imgtag.setAttribute('onclick', "select_picture(this)");
-
-                                var container = document.createElement('div');
-                                container.setAttribute('class', 'container');
-
-                                var pic_a = document.createElement('a');
-                                pic_a.setAttribute('class', 'pic');
-
-                                pic_a.appendChild(imgtag);
-
-                                if (pic_data[i].checked) {
-                                    var img = document.createElement('img');
-                                    img.setAttribute('class', 'icon');
-                                    img.setAttribute('src', '/assets/icon/checked.png');
-
-                                    pic_a.appendChild(img);
-                                }
-
-                                var name_p = document.createElement('p');
-                                name_p.appendChild(document.createTextNode(new_pic[i].userName));
-
-                                pic_a.appendChild(name_p);
-
-                                container.appendChild(pic_a);
-
-                                gallery.appendChild(container);
+                                create_pic('back', imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
                             }
             
                             gallery.scrollLeft = gallery.scrollWidth;
@@ -122,7 +97,6 @@
                     });
                 }
             }
-
             if ((this.scrollLeft+this.clientWidth)<0 && start_index>0) {
                 if (should_update) {
                     should_update = false;
@@ -136,9 +110,8 @@
                         type: "GET",
                         dataType: "JSON",
                         success: function(data){
-                            console.log(data.list.length);
                             new_pic = data.list;
-                            pic_data.concat(new_pic);
+                            pic_data = new_pic.concat(pic_data);
                         },
                         error: function(){
                             console.log('error');                            
@@ -146,46 +119,35 @@
                         complete: function(){
                             should_update = true;
 
-                            let gallery = this;
-            
-                            end_index += new_pic.length;
+                            if (new_pic.length === 0) {
+                                return;
+                            }
 
-                            for( var i=0; i<new_pic.length; i++){
+                            start_index = new_pic[0].indexId;
+
+                            for( var i=new_pic.length-1; i>=0; i--){
                                 var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
-                                var imgtag = document.createElement('img');
-                                imgtag.setAttribute('class','button');
-                                imgtag.setAttribute('type', 'button');
-                                imgtag.setAttribute('src', imgstr);
-                                imgtag.setAttribute('onclick', "select_picture(this)");
-
-                                var container = document.createElement('div');
-                                container.setAttribute('class', 'container');
-
-                                var pic_a = document.createElement('a');
-                                pic_a.setAttribute('class', 'pic');
-
-                                pic_a.appendChild(imgtag);
-
-                                if (pic_data[i].checked) {
-                                    var img = document.createElement('img');
-                                    img.setAttribute('class', 'icon');
-                                    img.setAttribute('src', '/assets/icon/checked.png');
-
-                                    pic_a.appendChild(img);
-                                }
-
-                                var name_p = document.createElement('p');
-                                name_p.appendChild(document.createTextNode(new_pic[i].userName));
-
-                                pic_a.appendChild(name_p);
-
-                                container.appendChild(pic_a);
-
-                                gallery.insertBefore(container, gallert.firstNode);
+                                create_pic('front', imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
                             }
                         }    
                     });
                 }
+            }
+        });
+
+        $('#check_availible_num').on('change', function(){
+            if (this.value === '0') {
+                document.getElementById('reasons_tag').style.display = 'block';
+            } else {
+                document.getElementById('reasons_tag').style.display = 'none';
+            }
+        })
+
+        $('#reasons').on('change', function() {
+            if (this.value === 'others'){
+                document.getElementById('other_reasons').style.display = 'block';
+            } else {
+                document.getElementById('other_reasons').style.display = 'none';
             }
         });
 
