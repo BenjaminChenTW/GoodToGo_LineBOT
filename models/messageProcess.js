@@ -78,8 +78,9 @@ module.exports = {
             message.notify = false;
             returnStr += '掰掰~~'
         } else if (event.message.text === "查看累積功德數") {
-            message.notify = false;
             returnStr += '不告訴你'
+        } else {
+            returnStr += '請說人話'
         }
         Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
             if (err) return debug(JSON.stringify(err));

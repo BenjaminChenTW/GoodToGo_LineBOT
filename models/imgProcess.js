@@ -8,7 +8,8 @@ function getListObj(ori) {
         uploadTime: ori.event.timestamp,
         imgType: ori.img.contentType,
         imgBinary: ori.img.data.toString('base64'),
-        checked: ori.img.checked
+        checked: ori.img.checked,
+        checkedStatus: ori.img.checkStatus
     };
 }
 

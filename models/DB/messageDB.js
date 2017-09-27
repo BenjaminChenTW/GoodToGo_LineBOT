@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 // define the schema for our user model
 var schema = mongoose.Schema({
-    messageType: { type: String, default: 'GET' },
     event: Object,
     notify: Boolean,
     img: {
