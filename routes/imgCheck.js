@@ -75,11 +75,16 @@ router.post('/accept/:amount/:id', function(req, res, next) {
         Promise
             .all(funcList)
             .then((err) => {
-                if (err) return debug(JSON.stringify(err));
+                for (var i = 0; i < err.length; i++) {
+                    if (err[i]) {
+                        debug('1: ' + JSON.stringify(err));
+                        return res.status(402).end();
+                    }
+                }
                 message.img.checked = true;
                 message.img.checkStatus.amount = amount;
                 message.save((err) => {
-                    if (err) return debug(JSON.stringify(err));
+                    if (err) return debug('2: ' + JSON.stringify(err));
                     res.status(200).end();
                 });
             });

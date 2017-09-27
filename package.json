@@ -2,8 +2,8 @@
     "name": "goodtogo-linebot",
     "version": "0.0.1",
     "scripts": {
-        "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore tmp/",
-        "test": "echo \"Debudding Mode\" & export DEBUG=\"goodtogo-linebot:*\" & nodemon bin/wwwhttp --ignore tmp/",
+        "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore *.json",
+        "test": "echo \"Debudding Mode\" & export DEBUG=\"goodtogo-linebot:*\" & nodemon bin/wwwhttp --ignore *.json ",
         "start": "nodemon bin/www --ignore tmp/"
     },
     "dependencies": {
