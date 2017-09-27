@@ -40,14 +40,14 @@
                     <p>可兌換抽獎次數: <input id='check_availible_num' type="number" min='0' value='0'/></p>
                     <p id='reasons_tag'>資格不承認原因:
                         <select name="reasons" id='reasons'>
-                            <option value="not_at_the_site">不在現場</option>
-                            <option value="not_our_container">容器非好盒器</option>
-                            <option value="others">其他</option>
+                            <option value="0">不在現場</option>
+                            <option value="1">容器非好盒器</option>
+                            <option value="2">其他</option>
                         </select>
-                        <textarea id='other_reasons' style='display:none ;width: 100%;'></textarea>
+                        <textarea id='other_reasons' style='display:none ;width: 70%;'></textarea>
                     </p>
                     <p id="status" type='unchecked'>＊此照片尚未經過首次審核</p>
-                    <button onclick="submit">保存</button>
+                    <button onclick="submit()">保存</button>
                 </div>
             </div>
         </div>
@@ -144,8 +144,8 @@
         })
 
         $('#reasons').on('change', function() {
-            if (this.value === 'others'){
-                document.getElementById('other_reasons').style.display = 'block';
+            if (this.value === '2'){
+                document.getElementById('other_reasons').style.display = 'inline-block';
             } else {
                 document.getElementById('other_reasons').style.display = 'none';
             }

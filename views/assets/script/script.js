@@ -1,10 +1,29 @@
 var selected_customer;
+var pic_data = [];
+
+var selected_picture;
 
 var start_index = 0;
 var end_index = 0;
 
+function reset_button() {
+    document.getElementById('check_availible_num').value = '0';
+    document.getElementById('reasons').value = '0';
+    document.getElementById('reasons_tag').style.display = 'block';
+    document.getElementById('other_reasons').value = '';
+    document.getElementById('other_reasons').style.display = 'none';
+}
+
 function select_picture(pic) {
+    if(pic === selected_picture) {
+        return;
+    }
+
+    selected_picture = pic;
+
     var blockers = picture_view.getElementsByClassName('pic');
+    reset_button();
+
     for (var i = 0; i < blockers.length; i += 1) {
         if (blockers[i].getElementsByTagName('img')[0] != pic) {
             blockers[i].style.opacity = "0.3";
@@ -28,14 +47,39 @@ function select_picture(pic) {
 
             console.log(pic.getAttribute('checked'));
             console.log(status);
-            document.getElementById('status').setAttribute('type', status)
-;        }
-
+            document.getElementById('status').setAttribute('type', status);
+        }
     }
 }
 
 function submit() {
+    let id = selected_picture.getAttribute('indexId');
+    var request_url = '/img/';
+    var para = document.getElementById('check_availible_num').value;
+    var type = 'accept';
 
+    if (para === '0') {
+        para = document.getElementById('reasons').value;
+        type = 'decline';
+    } 
+
+    request_url += type + '/' + para + '/' + id;
+    
+    $.ajax({
+        url: request_url,
+        type: 'GET',
+        success: function(data){
+            console.log(data.statusCode);
+            selected_picture.parent.getElementsByClassName('icon')[0].setAttribute('src', '/assets/icon/checked.png');
+            selected_picture.setAttribute('status', 'true');
+
+            selected_picture.setAttribute('checked', 'true');
+            document.getElementById('status').setAttribute('type', 'checked');
+        },
+        error: function(){
+            console.log('error');
+        }
+    })
 }
 
 function change_tab(tab) {
@@ -100,7 +144,9 @@ function send_message() {
 function showDialog(customer, customerId) {
     clear_message_field();
 
-    selected_customer.style.backgroundColor = 'white';
+    if (selected_customer != undefined) {
+        selected_customer.style.backgroundColor = 'white';
+    }
     selected_customer = customer;
 
     customer.style.backgroundColor = 'rgb(240, 240, 240)';
@@ -145,9 +191,7 @@ function closeDialog() {
     document.getElementsByClassName('message')[0].style.display = 'none';
 }
 
-var pic_data = [];
-
-function create_pic(place, imgstr, userName, uploadTime, checked){
+function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
     let gallery = document.getElementById('picture_view');
 
     var imgtag = document.createElement('img');
@@ -158,6 +202,7 @@ function create_pic(place, imgstr, userName, uploadTime, checked){
     imgtag.setAttribute('userName', userName);
     imgtag.setAttribute('uploadTime', uploadTime);
     imgtag.setAttribute('checked', checked);
+    imgtag.setAttribute('indexId', indexId)
 
 
     var container = document.createElement('div');
@@ -172,9 +217,10 @@ function create_pic(place, imgstr, userName, uploadTime, checked){
         var img = document.createElement('img');
         img.setAttribute('class', 'icon');
         img.setAttribute('src', '/assets/icon/checked.png');
-
-        pic_a.appendChild(img);
+        pic_a.appendChild(img);    
+        
     }
+
 
     var name_p = document.createElement('p');
     name_p.appendChild(document.createTextNode(userName));
@@ -208,7 +254,7 @@ function load_pic_data() {
 
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
-                create_pic('back', imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
+                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
             }
 
             document.getElementById('picture_view').scrollLeft = 0;
