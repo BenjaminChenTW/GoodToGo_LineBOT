@@ -187,6 +187,7 @@ img.button {
 }
 
 img.icon {
+    border-width: 0px;
     position: absolute;
     width: 2vh;
     height: 2vh;
@@ -513,6 +514,7 @@ li p a.box {
 }
 
 #message_field nav {
+    overflow: hidden;
     position: relative;
     top: 0;
     left: 0;
