@@ -5,23 +5,6 @@ var config = require('../config/config.js');
 const Client = require('@line/bot-sdk').Client;
 const client = new Client(config.bot);
 var debug = require('debug')('goodtogo-linebot:bot');
-var textHandler = require('../models/messageProcess.js').textHandler;
-var imgHandler = require('../models/messageProcess.js').imgHandler;
-
-function textReply(success, replyToken, message) {
-    if (!success) {
-        message = '伺服器維修中...'
-    } else if (message === '') {
-        return Promise.resolve(null);
-    }
-    // create a echoing text message
-    const echo = { type: 'text', text: message };
-    // use reply API
-    return client.replyMessage(replyToken, echo).catch((err) => {
-        debug(JSON.stringify(err.originalError.response.config.data));
-        debug(JSON.stringify(err.originalError.response.data));
-    });
-};
 
 module.exports = {
     // event handler
@@ -43,4 +26,22 @@ module.exports = {
                 debug(JSON.stringify(err.originalError.response.data));
             });
     }
+};
+
+var textHandler = require('../models/messageProcess.js').textHandler;
+var imgHandler = require('../models/messageProcess.js').imgHandler;
+
+function textReply(success, replyToken, message) {
+    if (!success) {
+        message = '伺服器維修中...'
+    } else if (message === '') {
+        return Promise.resolve(null);
+    }
+    // create a echoing text message
+    const echo = { type: 'text', text: message };
+    // use reply API
+    return client.replyMessage(replyToken, echo).catch((err) => {
+        debug(JSON.stringify(err.originalError.response.config.data));
+        debug(JSON.stringify(err.originalError.response.data));
+    });
 };

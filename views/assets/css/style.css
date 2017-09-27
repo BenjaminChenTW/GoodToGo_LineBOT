@@ -17,8 +17,8 @@ body {
 
 nav#main_nav {
     position: absolute;
-    left:0px;
-    top:0px;
+    left: 0px;
+    top: 0px;
     z-index: 3;
     background-color: rgba(64, 185, 216, 1);
     height: 10vh;
@@ -65,7 +65,7 @@ nav#main_nav b {
     top: calc(10vh - 33px);
     width: auto;
     border-bottom: 3px solid rgba(255, 233, 92, 1);
-    font-family: Raleway, sans-serif;
+    /* font-family: Raleway, sans-serif; */
     line-height: 1;
 }
 
@@ -144,8 +144,8 @@ nav#main_nav b {
 div#picture_view {
     transition: left 0.5s;
     position: absolute;
-    left:0px;
-    top:10vh;
+    left: 0px;
+    top: 10vh;
     width: 100%;
     height: 12vh;
     overflow-x: auto;
@@ -276,13 +276,11 @@ div.data_container {
         width: 80vw;
         height: auto;
     }
-
-    img#main_pic{
+    img#main_pic {
         height: auto;
         max-height: initial;
         max-width: 80vw;
     }
-
     div.data_container {
         text-align: center;
     }
@@ -302,6 +300,7 @@ div.data {
 #user_id_title {
     display: block;
 }
+
 #user_id {
     display: inline-block;
 }
@@ -311,8 +310,9 @@ div.data {
 }
 
 #upload_time {
-    display: inline-block;    
+    display: inline-block;
 }
+
 p#status[type='unchecked'] {
     color: red;
 }
@@ -333,7 +333,7 @@ input {
     width: 100px;
 }
 
-#messenger_view{
+#messenger_view {
     position: absolute;
     left: 0;
     top: 0;
@@ -342,12 +342,10 @@ input {
 .manager {
     width: 25vw;
     height: 90vh;
-
     position: absolute;
     top: 10vh;
     left: 0;
     bottom: 0;
-
     background-color: white;
     border-right-style: solid;
     border-right-color: rgba(220, 220, 220, 1);
@@ -434,7 +432,6 @@ ul#customers_list li a p {
 .message {
     width: calc(75vw - 1px);
     height: 90vh;
-
     position: absolute;
     top: 10vh;
     left: calc(25vw + 1px);
@@ -446,13 +443,12 @@ ul#customers_list li a p {
 
 #message_field {
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
     text-align: center;
     padding-bottom: 0px;
 }
 
-#message_field ul{
-
+#message_field ul {
     width: calc(100% - 36px);
     list-style-type: none;
     padding: 0 18px 0 18px;
@@ -618,4 +614,94 @@ input:focus {
 
 ul {
     -webkit-overflow-scrolling: touch;
+}
+
+
+/*
+* Noto Sans TC (Chinese_traditional) http://www.google.com/fonts/earlyaccess
+ */
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 100;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Thin.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 300;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Light.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 400;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Medium.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 700;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Bold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans TC';
+    font-style: normal;
+    font-weight: 900;
+    src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Black.otf) format('opentype');
+}
+
+
+/*
+ * cwTeXMing (Chinese Traditional) http://www.google.com/fonts/earlyaccess
+ */
+
+@font-face {
+    font-family: 'cwTeXMing';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexming/v3/cwTeXMing-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexming/v3/cwTeXMing-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexming/v3/cwTeXMing-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexming/v3/cwTeXMing-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexming/v3/cwTeXMing-zhonly.ttf) format('truetype');
+}
+
+
+/*
+ * cwTeXYen (Chinese Traditional) http://www.google.com/fonts/earlyaccess
+ */
+
+@font-face {
+    font-family: 'cwTeXYen';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
+}
+
+
+/*
+ * cwTeXHei (Chinese-traditional) http://www.google.com/fonts/earlyaccess
+ */
+
+@font-face {
+    font-family: 'cwTeXHei';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
+}
+
+body {
+    font-family: 'cwTeXHei', 'cwTeXYen', 'cwTeXMing', 'Noto Sans TC', sans-serif;
 }

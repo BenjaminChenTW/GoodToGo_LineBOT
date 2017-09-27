@@ -18,11 +18,11 @@ module.exports = {
 
         var rank = prizeList.rank[random];
 
-        console.log(rank)
+        // console.log(rank)
         var winProb = 1 / prizeList["A"].probability - 1;
         random = Math.floor(Math.random() * (winProb - minNum + 1)) + minNum;
         if (rank === "E") {
-            console.log("in E win")
+            // console.log("in E win")
             return callback(true, 'E', prizeList[rank].name);
         } else if (prizeList[rank].amount > 0) {
             for (var i = 0; i < winProb * prizeList[rank].probability; i++) {
@@ -36,15 +36,15 @@ module.exports = {
             }
             if (didAppear.indexOf(random) !== -1) {
                 prizeList[rank].amount--;
-                console.log("in " + rank + " win")
-                console.log(random)
-                console.log(didAppear)
+                // console.log("in " + rank + " win")
+                // console.log(random)
+                // console.log(didAppear)
                 return callback(true, rank, prizeList[rank].name);
             }
         }
-        console.log("in " + rank + " lose")
-        console.log(random)
-        console.log(didAppear)
+        // console.log("in " + rank + " lose")
+        // console.log(random)
+        // console.log(didAppear)
         return callback(false, rank, prizeList[rank].name);
     }
 };
