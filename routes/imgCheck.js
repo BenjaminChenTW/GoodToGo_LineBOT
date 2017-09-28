@@ -46,12 +46,12 @@ router.get('/old/:id', function(req, res, next) {
     });
 });
 
-router.post('/accept/:amount/:id', function(req, res, next) {
+router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     var picIndex = req.params.id;
-    var amount = req.params.amount;
+    var amount = req.params.container;
     if (!(picIndex || amount)) return res.status(404).end();
     if (amount <= 0) return res.status(402).end();
-    Message.findOne({ "img.id": picIndex }, function(err, message) {
+    Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
         funcList = [];
         for (var i = 0; i < amount; i++) {
             funcList.push(
@@ -66,7 +66,7 @@ router.post('/accept/:amount/:id', function(req, res, next) {
                         coupon.isWin = isWin;
                         coupon.save((err) => {
                             if (err) return reject(err);
-                            templateSendler(message.event.source.userId, resolve, isWin, picIndex);
+                            resolve();
                         });
                     });
                 })
@@ -81,12 +81,15 @@ router.post('/accept/:amount/:id', function(req, res, next) {
                         return res.status(402).end();
                     }
                 }
-                message.img.checked = true;
-                message.img.checkStatus.amount = amount;
-                message.save((err) => {
-                    if (err) return debug('2: ' + JSON.stringify(err));
-                    res.status(200).end();
-                });
+                templateSendler(message.event.source.userId, function() {
+                    message.img.checked = true;
+                    message.img.checkStatus.amount = amount;
+                    message.img.checkStatus.checkTime = Date.now();
+                    message.save((err) => {
+                        if (err) return debug('2: ' + JSON.stringify(err));
+                        res.status(200).end();
+                    });
+                }, isWin, picIndex);
             });
     });
 });
@@ -101,15 +104,17 @@ router.post('/decline/:type/:id', function(req, res, next) {
     picIndex = parseInt(picIndex);
     declineType = parseInt(declineType);
 
-    Message.findOne({ "img.id": picIndex }, function(err, message) {
-        textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 已完成審核/n但由於我們認為該照片" + decline[declineType] + "/n您無法獲得抽獎資格", function() {
-            message.img.checked = true;
-            message.img.checkStatus.typeCode = declineType;
-            message.save((err) => {
-                if (err) return debug(JSON.stringify(err));
-                res.status(200).json({});
+    Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
+        if (!message)
+            textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 已完成審核，但由於我們認為該照片" + decline[declineType] + "，您無法獲得抽獎資格QQ", function() {
+                message.img.checked = true;
+                message.img.checkStatus.typeCode = declineType;
+                message.img.checkStatus.checkTime = Date.now();
+                message.save((err) => {
+                    if (err) return debug(JSON.stringify(err));
+                    res.status(200).json({});
+                });
             });
-        });
     });
 });
 

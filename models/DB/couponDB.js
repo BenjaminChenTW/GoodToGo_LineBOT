@@ -8,6 +8,7 @@ var schema = mongoose.Schema({
     prizeType: String,
     prizeName: String,
     isWin: Boolean,
+    read: { type: Boolean, default: false },
     exchanged: { type: Boolean, default: false },
     logTime: { type: Date, default: Date.now }
 });

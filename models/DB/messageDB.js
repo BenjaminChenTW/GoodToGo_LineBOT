@@ -11,7 +11,8 @@ var schema = mongoose.Schema({
         checked: Boolean,
         checkStatus: {
             typeCode: String,
-            amount: Number
+            amount: Number,
+            checkTime: Date
         }
     },
     read: { type: Boolean, default: false },
