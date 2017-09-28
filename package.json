@@ -1,26 +1,26 @@
 {
-  "name": "goodtogo-linebot",
-  "version": "0.0.1",
-  "scripts": {
-    "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore tmp/",
-    "test": "echo \"Debudding Mode\" & export DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore tmp/",
-    "start": "nodemon bin/www --ignore tmp/"
-  },
-  "dependencies": {
-    "@line/bot-sdk": "^3.0.0",
-    "basic-auth-connect": "^1.0.0",
-    "body-parser": "~1.17.1",
-    "compression": "^1.7.0",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "ejs": "~2.5.6",
-    "express": "~4.15.2",
-    "express-status-monitor": "^1.0.0",
-    "mongoose": "^4.11.12",
-    "morgan": "~1.8.1",
-    "nodemon": "^1.12.1",
-    "request": "^2.82.0",
-    "serve-favicon": "~2.4.2",
-    "socket.io": "^2.0.3"
-  }
+    "name": "goodtogo-linebot",
+    "version": "0.0.1",
+    "scripts": {
+        "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore *.json",
+        "test": "echo \"Debudding Mode\" & export DEBUG=\"goodtogo-linebot:*\" & nodemon bin/wwwhttp --ignore *.json ",
+        "start": "nodemon bin/www --ignore tmp/"
+    },
+    "dependencies": {
+        "@line/bot-sdk": "^3.0.0",
+        "basic-auth-connect": "^1.0.0",
+        "body-parser": "~1.17.1",
+        "compression": "^1.7.0",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.3",
+        "ejs": "~2.5.6",
+        "express": "~4.15.2",
+        "express-status-monitor": "^1.0.0",
+        "mongoose": "^4.11.12",
+        "morgan": "~1.8.1",
+        "nodemon": "^1.12.1",
+        "request": "^2.82.0",
+        "serve-favicon": "~2.4.2",
+        "socket.io": "^2.0.3"
+    }
 }

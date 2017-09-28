@@ -17,6 +17,11 @@ module.exports = {
     getInitIndex: function(next, callback) {
         Message.findOne({ 'event.message.type': 'image', 'img.checked': false }, 'img.id', { sort: { 'img.id': 1 } }, function(err, message) {
             if (err) next(err);
+            if (!message) {
+                Message.count({ 'event.message.type': 'image' }, function(err, amount) {
+                    return callback(amount - 1);
+                });
+            }
             callback(message.img.id);
         });
     },
@@ -45,18 +50,12 @@ module.exports = {
     getImageList: function(index, next, callback) {
         index = parseInt(index);
         if (index <= 0) callback([]);
-        Message.find({ 'event.message.type': 'image' }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
-            if (!messages || messages.length === 0) return callback([]);
-            messages.sort(function(a, b) { return a.img.id - b.img.id });
+            if (!messages) return callback([]);
             var list = [];
-            var listLength = 20;
-            if (index > messages.length) return callback([]);
-            else if (index > (messages.length - 20)) listLength = (messages.length - index);
-            for (var i = 0; i < listLength; i++, index++) {
-                if (index < messages.length) {
-                    list.push(getListObj(messages[index]));
-                }
+            for (var i = 0; i < messages.length; i++) {
+                list.push(getListObj(messages[i]));
             }
             callback(list);
         });
@@ -64,23 +63,12 @@ module.exports = {
     getImageListBackward: function(index, next, callback) {
         index = parseInt(index);
         if (index <= 0) callback([]);
-        Message.find({ 'event.message.type': 'image' }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': (index < 19) ? index : index - 19, '$lte': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
-            if (!messages || messages.length === 0) return callback([]);
-            messages.sort(function(a, b) { return a.img.id - b.img.id });
+            if (!messages) return callback([]);
             var list = [];
-            var listLength = 20;
-            if (index > messages.length) return callback([]);
-            else if ((index - 20) < 0) {
-                listLength = index + 1;
-                index = 0;
-            } else {
-                index = index - 20;
-            }
-            for (var i = 0; i < listLength; i++, index++) {
-                if (index < messages.length) {
-                    list.push(getListObj(messages[index]));
-                }
+            for (var i = 0; i < messages.length; i++) {
+                list.push(getListObj(messages[i]));
             }
             callback(list);
         });

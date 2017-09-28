@@ -8,7 +8,7 @@ var getImageList = require('../models/imgProcess.js').getImageList;
 var getImageListBackward = require('../models/imgProcess.js').getImageListBackward;
 var templateSendler = require('../models/messageProcess.js').templateSendler;
 var textSendler = require('../models/messageProcess.js').textSendler;
-var lottery = require('../models/lotteryProcess.1.js');
+var lottery = require('../models/lotteryProcess.1.js').getTicket;
 var Message = require('../models/DB/messageDB.js');
 var Coupon = require('../models/DB/couponDB.js');
 
@@ -46,9 +46,11 @@ router.get('/old/:id', function(req, res, next) {
     });
 });
 
-router.get('/accept/:amount/:id', function(req, res, next) {
+router.post('/accept/:amount/:id', function(req, res, next) {
     var picIndex = req.params.id;
     var amount = req.params.amount;
+    if (!(picIndex || amount)) return res.status(404).end();
+    if (amount <= 0) return res.status(402).end();
     Message.findOne({ "img.id": picIndex }, function(err, message) {
         funcList = [];
         for (var i = 0; i < amount; i++) {
@@ -58,12 +60,13 @@ router.get('/accept/:amount/:id', function(req, res, next) {
                         coupon = new Coupon();
                         coupon.userId = message.event.source.userId;
                         coupon.couponId = couponIndex++;
-                        coupon.priceType = rank;
-                        coupon.priceName = name;
+                        coupon.picIndex = picIndex;
+                        coupon.prizeType = rank;
+                        coupon.prizeName = name;
                         coupon.isWin = isWin;
                         coupon.save((err) => {
                             if (err) return reject(err);
-                            templateSendler(message.event.source.userId, resolve, isWin, message.img.id);
+                            templateSendler(message.event.source.userId, resolve, isWin, picIndex);
                         });
                     });
                 })
@@ -71,28 +74,35 @@ router.get('/accept/:amount/:id', function(req, res, next) {
         }
         Promise
             .all(funcList)
-            .then(() => {
+            .then((err) => {
+                for (var i = 0; i < err.length; i++) {
+                    if (err[i]) {
+                        debug('1: ' + JSON.stringify(err));
+                        return res.status(402).end();
+                    }
+                }
                 message.img.checked = true;
                 message.img.checkStatus.amount = amount;
                 message.save((err) => {
-                    res.status(200).json({});
+                    if (err) return debug('2: ' + JSON.stringify(err));
+                    res.status(200).end();
                 });
-            })
-            .catch((err) => {
-                debug(JSON.stringify(err));
-            })
+            });
     });
 });
 
 const decline = ["不在音樂節現場拍攝", "中的容器無法識別為好盒器"]
-router.get('/decline/:type/:id', function(req, res, next) {
+router.post('/decline/:type/:id', function(req, res, next) {
     var picIndex = req.params.id;
     var declineType = req.params.type;
+    if (!(picIndex || declineType)) return res.status(404).end();
+    if (declineType !== 0 || declineType !== 1) return res.status(402).end();
     Message.findOne({ "img.id": picIndex }, function(err, message) {
         textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 以完成審核/n但由於我們認為該照片" + decline[declineType] + "/n您無法獲得抽獎資格", function() {
             message.img.checked = true;
             message.img.checkStatus.typeCode = declineType;
             message.save((err) => {
+                if (err) return debug(JSON.stringify(err));
                 res.status(200).json({});
             });
         });

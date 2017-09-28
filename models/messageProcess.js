@@ -148,8 +148,8 @@ module.exports = {
         if (!couponType) {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
                 if (err) return debug(JSON.stringify(err));
-                altText = "傳給您抽獎券！";
-                thumbnailImageUrl = ""; // 抽檢券照片
+                altText = "好盒器傳給您抽獎券！";
+                thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // 抽檢券照片
                 title = "抽獎券";
                 text = "您的照片 #" + couponId + " 審核通過！\n目前您有" + amount + "次抽獎機會！";
                 actions.push({
@@ -161,6 +161,7 @@ module.exports = {
                     altText: altText,
                     thumbnailImageUrl: thumbnailImageUrl,
                     title: title,
+                    text: text,
                     actions: actions
                 }, sended);
             });
@@ -168,24 +169,24 @@ module.exports = {
             if (!isWin) {
                 return textSendlerCallback(lineUserId, '請再接再厲！', sended);
             }
-            altText = "傳給您一張兌換券！";
+            altText = "好盒器傳給您一張兌換券！";
             title = "兌換券";
             text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵\n若因此喪失兌換資格恕不負責！"
             switch (couponType) {
                 case 'A':
-                    thumbnailImageUrl = ""; // A獎品照片
+                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // A獎品照片
                     break;
                 case 'B':
-                    thumbnailImageUrl = ""; // B獎品照片
+                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // B獎品照片
                     break;
                 case 'C':
-                    thumbnailImageUrl = ""; // C獎品照片
+                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // C獎品照片
                     break;
                 case 'D':
-                    thumbnailImageUrl = ""; // D獎品照片
+                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // D獎品照片
                     break;
                 case 'E':
-                    thumbnailImageUrl = ""; // E獎品照片
+                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // E獎品照片
                     break;
             }
             actions.push({
@@ -197,6 +198,7 @@ module.exports = {
                 altText: altText,
                 thumbnailImageUrl: thumbnailImageUrl,
                 title: title,
+                text: text,
                 actions: actions
             }, sended);
         }
