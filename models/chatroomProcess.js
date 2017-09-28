@@ -45,12 +45,18 @@ module.exports = {
                     startNotify = messages[i].event.timestamp;
                 } else if (messages[i].notify === false) {
                     startNotify = 0;
+                    userMessages.unshift({
+                        type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
+                        text: messages[i].event.message.text,
+                        time: messages[i].event.timestamp
+                    });
                     if (userMessages.length !== 0)
                         userMessages.unshift({
                             type: 'system',
                             text: '-- 以上為上一對話階段 --'
                         });
-                } else if (messages[i].event.timestamp < getDate(startNotify, 3)) {
+                }
+                if (messages[i].event.timestamp < getDate(startNotify, 3)) {
                     userMessages.unshift({
                         type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
                         text: messages[i].event.message.text,

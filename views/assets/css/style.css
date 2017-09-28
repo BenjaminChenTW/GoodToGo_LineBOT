@@ -705,5 +705,6 @@ ul {
 }
 
 body {
-    font-family: 'cwTeXHei', 'cwTeXYen', 'cwTeXMing', 'Noto Sans TC', sans-serif;
+    font-family: 'cwTeXHei', sans-serif;
+    /* font-family: 'cwTeXHei', 'cwTeXYen', 'cwTeXMing', 'Noto Sans TC', sans-serif; */
 }
