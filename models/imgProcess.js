@@ -21,17 +21,18 @@ module.exports = {
                 Message.count({ 'event.message.type': 'image' }, function(err, amount) {
                     return callback(amount - 1);
                 });
+            } else {
+                callback(message.img.id);
             }
-            callback(message.img.id);
         });
     },
     getInitList: function(index, next, callback) {
         index = parseInt(index);
         var returnList = [];
-        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.checked': false, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (messages.length < 20) {
-                Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index - (20 - messages.length), '$lt': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messagesFront) {
+                Message.find({ 'event.message.type': 'image', 'img.checked': false, 'img.id': { '$gte': index - (20 - messages.length), '$lt': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messagesFront) {
                     if (err) next(err);
                     messages = messagesFront.concat(messages);
                     for (var i = 0; i < messages.length; i++) {
@@ -50,7 +51,7 @@ module.exports = {
     getImageList: function(index, next, callback) {
         index = parseInt(index);
         if (index <= 0) callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.checked': false, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);
             var list = [];
