@@ -223,6 +223,7 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
     if (checked) {
         src = '/assets/icon/checked.png';
     }
+    
     img.setAttribute('src', src);
     pic_a.appendChild(img);        
 
