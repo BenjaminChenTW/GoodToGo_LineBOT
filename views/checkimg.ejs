@@ -79,7 +79,7 @@
                             console.log('error');                            
                         },
                         complete: function(){
-                            should_update = true;
+                            setTimeout(function(){should_update = true;}, 3);
 
                             if (new_pic.length === 0) {
                                 return;
@@ -89,7 +89,7 @@
 
                             for( var i=0; i<new_pic.length; i++){  
                                 var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
-                                create_pic('back', imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
+                                create_pic('back', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
                             }
                             let gallery = document.getElementById('picture_view');
 
@@ -127,7 +127,7 @@
 
                             for( var i=new_pic.length-1; i>=0; i--){
                                 var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
-                                create_pic('front', imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
+                                create_pic('front', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
                             }
                         }    
                     });

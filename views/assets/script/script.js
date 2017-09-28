@@ -216,14 +216,14 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
 
     pic_a.appendChild(imgtag);
 
+    var img = document.createElement('img');
+    img.setAttribute('class', 'icon');
+
     if (checked) {
-        var img = document.createElement('img');
-        img.setAttribute('class', 'icon');
-        img.setAttribute('src', '/assets/icon/checked.png');
-        pic_a.appendChild(img);    
-        
+        img.setAttribute('src', '/assets/icon/checked.png');        
     }
 
+    pic_a.appendChild(img);        
 
     var name_p = document.createElement('p');
     name_p.appendChild(document.createTextNode(userName));
