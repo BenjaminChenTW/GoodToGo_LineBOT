@@ -217,12 +217,13 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
     pic_a.appendChild(imgtag);
 
     var img = document.createElement('img');
+    var src = '/assets/icon/unchecked.png'
     img.setAttribute('class', 'icon');
 
     if (checked) {
-        img.setAttribute('src', '/assets/icon/checked.png');        
+        src = '/assets/icon/checked.png';
     }
-
+    img.setAttribute('src', src);
     pic_a.appendChild(img);        
 
     var name_p = document.createElement('p');
