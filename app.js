@@ -26,7 +26,7 @@ var config = require('./config/config.js');
  */
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
-    if (err) next(err);
+    if (err) throw (err);
     debug('mongoDB connect succeed');
 });
 
