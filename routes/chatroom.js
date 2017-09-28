@@ -33,6 +33,7 @@ router.get('/:id', function(req, res, next) {
 router.post('/:id', function(req, res, next) {
     var id = req.params.id;
     var msg = req.body['message'];
+    console.log(msg);
     if (typeof id === 'undefined' || typeof msg === 'undefined') return res.status(404).end();
     sendMessage(id, msg, next, function() {
         res.status(200).end();

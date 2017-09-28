@@ -158,10 +158,21 @@ function send_message() {
     var msg = document.getElementById('message_text').value;
     create_message('me', msg);
     document.getElementById('message_text').value = '';
+
+    let id = selected_customer
+
+    $.ajax({
+        type:'POST',
+        url: "/chatroom/" + selected_customer.getAttribute('customerId'),
+        data: {'message': msg},
+        dataType: JSON
+    })
 }
 
 function showDialog(customer, customerId) {
     clear_message_field();
+    
+    customer.setAttribute('customerId', customerId);
 
     if (selected_customer != undefined) {
         selected_customer.style.backgroundColor = 'white';
