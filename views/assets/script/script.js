@@ -63,7 +63,7 @@ function submit() {
         type = 'decline';
     } 
 
-    request_url += type + '/' + para + '/' + id;
+    request_url += type + '/' + id + '/' + para + '/' + para + '/' + para;
     
     $.ajax({
         url: request_url,
@@ -81,6 +81,7 @@ function submit() {
         },
         complete: function(xhr, statusText) {
             console.log(xhr.status);
+
         }
     })
 }
@@ -223,7 +224,7 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
     if (checked) {
         src = '/assets/icon/checked.png';
     }
-    
+
     img.setAttribute('src', src);
     pic_a.appendChild(img);        
 
@@ -242,9 +243,9 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
 
 }
 
-function load_pic_data() {
+function load_pic_data(last_index) {
     $.ajax({
-        url: "/img/first/1",
+        url: "/img/new/"+last_index,
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -254,9 +255,10 @@ function load_pic_data() {
 
         },
         complete: function() {            
-            end_index = pic_data[pic_data.length-1].indexId;
-            start_index = pic_data[0].indexId;
-
+            if (pic_data.length >= 1) {
+                end_index = pic_data[pic_data.length-1].indexId;
+            }
+            
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
