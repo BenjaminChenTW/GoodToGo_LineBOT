@@ -626,12 +626,11 @@ Start of checked history tab
 */
 
 
-
-
 /*
 
 End of checked history tab
 */
+
 
 /*
  * cwTeXHei (Chinese-traditional) http://www.google.com/fonts/earlyaccess
@@ -645,6 +644,7 @@ End of checked history tab
     src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
 }
 
-body {
+body,
+input {
     font-family: 'cwTeXHei', sans-serif;
 }
