@@ -52,45 +52,49 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     if (!(picIndex || amount)) return res.status(404).end();
     if (amount <= 0) return res.status(402).end();
     Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
-        funcList = [];
-        for (var i = 0; i < amount; i++) {
-            funcList.push(
-                new Promise((resolve, reject) => {
-                    lottery(function(isWin, rank, name) {
-                        coupon = new Coupon();
-                        coupon.userId = message.event.source.userId;
-                        coupon.couponId = couponIndex++;
-                        coupon.picIndex = picIndex;
-                        coupon.prizeType = rank;
-                        coupon.prizeName = name;
-                        coupon.isWin = isWin;
-                        coupon.save((err) => {
-                            if (err) return reject(err);
-                            resolve();
+        if (!message) {
+            funcList = [];
+            for (var i = 0; i < amount; i++) {
+                funcList.push(
+                    new Promise((resolve, reject) => {
+                        lottery(function(isWin, rank, name) {
+                            coupon = new Coupon();
+                            coupon.userId = message.event.source.userId;
+                            coupon.couponId = couponIndex++;
+                            coupon.picIndex = picIndex;
+                            coupon.prizeType = rank;
+                            coupon.prizeName = name;
+                            coupon.isWin = isWin;
+                            coupon.save((err) => {
+                                if (err) return reject(err);
+                                resolve();
+                            });
                         });
-                    });
-                })
-            );
-        }
-        Promise
-            .all(funcList)
-            .then((err) => {
-                for (var i = 0; i < err.length; i++) {
-                    if (err[i]) {
-                        debug('1: ' + JSON.stringify(err));
-                        return res.status(402).end();
+                    })
+                );
+            }
+            Promise
+                .all(funcList)
+                .then((err) => {
+                    for (var i = 0; i < err.length; i++) {
+                        if (err[i]) {
+                            debug('1: ' + JSON.stringify(err));
+                            return res.status(402).end();
+                        }
                     }
-                }
-                templateSendler(message.event.source.userId, function() {
-                    message.img.checked = true;
-                    message.img.checkStatus.amount = amount;
-                    message.img.checkStatus.checkTime = Date.now();
-                    message.save((err) => {
-                        if (err) return debug('2: ' + JSON.stringify(err));
-                        res.status(200).end();
-                    });
-                }, isWin, picIndex);
-            });
+                    templateSendler(message.event.source.userId, function() {
+                        message.img.checked = true;
+                        message.img.checkStatus.amount = amount;
+                        message.img.checkStatus.checkTime = Date.now();
+                        message.save((err) => {
+                            if (err) return debug('2: ' + JSON.stringify(err));
+                            res.status(200).end();
+                        });
+                    }, isWin, picIndex);
+                });
+        } else {
+            res.status(402).end();
+        }
     });
 });
 
@@ -105,7 +109,7 @@ router.post('/decline/:type/:id', function(req, res, next) {
     declineType = parseInt(declineType);
 
     Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
-        if (!message)
+        if (!message) {
             textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 已完成審核，但由於我們認為該照片" + decline[declineType] + "，您無法獲得抽獎資格QQ", function() {
                 message.img.checked = true;
                 message.img.checkStatus.typeCode = declineType;
@@ -115,6 +119,9 @@ router.post('/decline/:type/:id', function(req, res, next) {
                     res.status(200).json({});
                 });
             });
+        } else {
+            res.status(402).json({});
+        }
     });
 });
 
