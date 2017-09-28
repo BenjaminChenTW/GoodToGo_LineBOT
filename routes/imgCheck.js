@@ -25,13 +25,6 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/first/:id', function(req, res, next) {
-    var id = req.params.id;
-    getInitList(id, next, function(list) {
-        res.json({ 'list': list });
-    });
-});
-
 router.get('/new/:id', function(req, res, next) {
     var id = req.params.id;
     getImageList(id, next, function(list) {
