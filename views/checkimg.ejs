@@ -5,6 +5,8 @@
                 <ul>
                     <li class='active'><a>照片審核</a>
                     </li>
+                    <li><a href='/checkedList'>審核紀錄</a>
+                    </li>
                     <li><a href='/chatroom'>對話管理</a>
                     </li>
                 </ul>
@@ -37,7 +39,9 @@
                     </a>
                 </div>
                 <div class="detail">
-                    <p>可兌換抽獎次數: <input id='check_availible_num' type="number" min='0' value='0'/></p>
+                    <p>抽獎次數(提袋): <input id='check_availible_num_bag' type="number" min='0' value='0'/></p>
+                    <p>抽獎次數(容器): <input id='check_availible_num_container' type="number" min='0' value='0'/></p>
+                    <p>抽獎次數(餐具): <input id='check_availible_num_tableware' type="number" min='0' value='0'/></p>
                     <p id='reasons_tag'>資格不承認原因:
                         <select name="reasons" id='reasons'>
                             <option value="0">不在現場</option>
@@ -135,13 +139,31 @@
             }
         });
 
-        $('#check_availible_num').on('change', function(){
-            if (this.value === '0') {
+        $('#check_availible_num_bag').on('change', function(){
+            if (this.value === '0' && document.getElementById('check_availible_num_container').value === '0' && document.getElementById('check_availible_num_tableware').value === '0') {
                 document.getElementById('reasons_tag').style.display = 'block';
             } else {
                 document.getElementById('reasons_tag').style.display = 'none';
             }
         })
+
+        $('#check_availible_num_container').on('change', function(){
+            if (this.value === '0' && document.getElementById('check_availible_num_bag').value === '0' && document.getElementById('check_availible_num_tableware').value === '0') {
+                document.getElementById('reasons_tag').style.display = 'block';
+            } else {
+                document.getElementById('reasons_tag').style.display = 'none';
+            }
+        })
+
+        $('#check_availible_num_tableware').on('change', function(){
+            if (this.value === '0' && document.getElementById('check_availible_num_container').value === '0' && document.getElementById('check_availible_num_bag').value === '0') {
+                document.getElementById('reasons_tag').style.display = 'block';
+            } else {
+                document.getElementById('reasons_tag').style.display = 'none';
+            }
+        })
+
+
 
         $('#reasons').on('change', function() {
             if (this.value === '2'){

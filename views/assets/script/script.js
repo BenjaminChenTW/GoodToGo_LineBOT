@@ -7,7 +7,9 @@ var start_index = 0;
 var end_index = 0;
 
 function reset_button() {
-    document.getElementById('check_availible_num').value = '0';
+    document.getElementById('check_availible_num_bag').value = '0';
+    document.getElementById('check_availible_num_container').value = '0';
+    document.getElementById('check_availible_num_tableware').value = '0';
     document.getElementById('reasons').value = '0';
     document.getElementById('reasons_tag').style.display = 'block';
     document.getElementById('other_reasons').value = '';
@@ -55,16 +57,19 @@ function select_picture(pic) {
 function submit() {
     let id = selected_picture.getAttribute('indexId');
     var request_url = '/img/';
-    var para = document.getElementById('check_availible_num').value;
+    var para1 = document.getElementById('check_availible_num_bag').value;
+    var para2 = document.getElementById('check_availible_num_container').value;
+    var para3 = document.getElementById('check_availible_num_tableware').value;
     var type = 'accept';
 
-    if (para === '0') {
+    var para = para1 + '/' + para2 + '/' + para3;
+
+    if (para1 === '0' && para2 === '0' && para3 === '0') {
         para = document.getElementById('reasons').value;
         type = 'decline';
     } 
 
-    request_url += type + '/' + id + '/' + para + '/' + para + '/' + para;
-    
+    request_url += type + '/' + id + '/' + para;
     $.ajax({
         url: request_url,
         type: 'POST',
@@ -75,6 +80,16 @@ function submit() {
 
             selected_picture.setAttribute('checked', 'true');
             document.getElementById('status').setAttribute('type', 'checked');
+
+            var selected_container = selected_picture.parentNode.parentNode;
+            var next_container = selected_container.nextSibling;
+
+            document.getElementById('detail').style.display = 'none';
+
+            if (next_container) {
+                select_picture(next_container.getElementsByClassName('button')[0]);
+            }
+            document.getElementById('picture_view').removeChild(selected_container);
         },
         error: function(xhr, statusText, err){
             console.log('error:' + xhr.status);

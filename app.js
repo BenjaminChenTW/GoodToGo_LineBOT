@@ -17,6 +17,7 @@ var Server = require('http').Server;
 
 var bot = require('./routes/bot.js').handleEvent;
 var imgCheck = require('./routes/imgCheck');
+var checkedList = require('./routes/checkedList');
 var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var config = require('./config/config.js');
@@ -71,6 +72,7 @@ var io = require('socket.io')(server);
 app.use('/lottery', lottery);
 app.use(basicAuth(config.auth.user, config.auth.pwd));
 app.use('/img', imgCheck);
+app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom);
 app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 

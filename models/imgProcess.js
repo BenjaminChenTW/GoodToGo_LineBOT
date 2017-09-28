@@ -28,7 +28,7 @@ module.exports = {
     },
     getImageList: function(index, next, callback) {
         index = parseInt(index);
-        if (index <= 0) return callback([]);
+        if (index < 0) return callback([]);
         Message.find({ 'event.message.type': 'image', 'img.checked': false, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);
@@ -41,7 +41,7 @@ module.exports = {
     },
     getImageListBackward: function(index, next, callback) {
         index = parseInt(index);
-        if (index <= 0) return callback([]);
+        if (index < 0) return callback([]);
         Message.find({ 'event.message.type': 'image', 'img.checked': true, 'img.id': { '$gt': index, '$lte': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);

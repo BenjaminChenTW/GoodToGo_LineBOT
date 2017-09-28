@@ -45,7 +45,7 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     if (!(picIndex || amount)) return res.status(404).end();
     if (amount <= 0) return res.status(402).end();
     Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
-        if (!message) {
+        // if (message) {
             funcList = [];
             for (var i = 0; i < amount; i++) {
                 funcList.push(
@@ -83,16 +83,16 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
                             if (err) return debug('2: ' + JSON.stringify(err));
                             res.status(200).end();
                         });
-                    }, isWin, picIndex);
+                    }, false, picIndex);
                 });
-        } else {
-            res.status(402).end();
-        }
+        // } else {
+        //     res.status(402).end();
+        // }
     });
 });
 
 const decline = ["不在音樂節現場拍攝", "中的容器無法識別為好盒器"]
-router.post('/decline/:type/:id', function(req, res, next) {
+router.post('/decline/:id/:type', function(req, res, next) {
     var picIndex = req.params.id;
     var declineType = req.params.type;
     if (!(picIndex || amount)) return res.status(404).end();
@@ -102,7 +102,7 @@ router.post('/decline/:type/:id', function(req, res, next) {
     declineType = parseInt(declineType);
 
     Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
-        if (!message) {
+        if (message) {
             textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 已完成審核，但由於我們認為該照片" + decline[declineType] + "，您無法獲得抽獎資格QQ", function() {
                 message.img.checked = true;
                 message.img.checkStatus.typeCode = declineType;
