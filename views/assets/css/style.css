@@ -187,7 +187,7 @@ img.button {
 }
 
 img.icon {
-    border-width: 0px;
+    border: 0px;
     position: absolute;
     width: 2vh;
     height: 2vh;
