@@ -66,7 +66,7 @@
                     this.scrollLeft = this.scrollWidth;
 
                     var new_pic = [];
-
+                    
                     $.ajax({
                         url: "/img/new/" + (end_index+1),
                         type: "GET",
@@ -91,7 +91,8 @@
                                 var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
                                 create_pic('back', imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
                             }
-            
+                            let gallery = document.getElementById('picture_view');
+
                             gallery.scrollLeft = gallery.scrollWidth;
                         }    
                     });
@@ -104,7 +105,6 @@
                     this.scrollLeft = this.scrollWidth;
 
                     var new_pic = [];
-
                     $.ajax({
                         url: "/img/old/" + (start_index-1),
                         type: "GET",

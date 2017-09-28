@@ -67,17 +67,20 @@ function submit() {
     
     $.ajax({
         url: request_url,
-        type: 'GET',
-        success: function(data){
-            console.log(data.statusCode);
-            selected_picture.parent.getElementsByClassName('icon')[0].setAttribute('src', '/assets/icon/checked.png');
+        type: 'POST',
+        success: function(){
+            console.log('success');
+            selected_picture.parentNode.getElementsByClassName('icon')[0].setAttribute('src', '/assets/icon/checked.png');
             selected_picture.setAttribute('status', 'true');
 
             selected_picture.setAttribute('checked', 'true');
             document.getElementById('status').setAttribute('type', 'checked');
         },
-        error: function(){
-            console.log('error');
+        error: function(xhr, statusText, err){
+            console.log('error:' + xhr.status);
+        },
+        complete: function(xhr, statusText) {
+            console.log(xhr.status);
         }
     })
 }
