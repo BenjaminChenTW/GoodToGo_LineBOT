@@ -9,9 +9,11 @@ var debug = require('debug')('goodtogo-linebot:messageHandler');
 function textHandlerCallback(message, user, returnStr, callback) {
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
+    message['notify'] = user.isNotify;
     message.save(function(err) {
-        if (err) return callback(false);
-        return callback(true, message.event.replyToken, returnStr);
+        if (err) return callback(false, message.event.replyToken);
+        if (returnStr.length !== 0) return callback(true, message.event.replyToken, returnStr);
+        return;
     });
 }
 
@@ -25,12 +27,12 @@ function imgHandlerCallback(message, user, event, callback) {
         .on('response', function(response) {
             if (response.statusCode !== 200) {
                 debug('[IMG Error (1)] StatusCode : ' + response.statusCode);
-                return callback(false);
+                return callback(false, event.replyToken);
             } else message.img.contentType = response.headers['content-type'];
         })
         .on('error', function(err) {
             debug('[IMG Error (2)] Message : ' + err);
-            return callback(false);
+            return callback(false, event.replyToken);
         })
         .on('data', function(data) {
             imgBuffer.push(data);
@@ -40,7 +42,7 @@ function imgHandlerCallback(message, user, event, callback) {
             message.img.checked = false;
             message.img.id = idIndex;
             message.save(function(err) {
-                if (err) return callback(false);
+                if (err) return callback(false, event.replyToken);
                 return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為：' + idIndex++ + '\n請靜候審核。');
             });
         });
@@ -71,23 +73,14 @@ module.exports = {
         var returnStr = '';
         message = new Message();
         message.event = event;
-        if (event.message.text === "聯絡客服") {
-            message.notify = true;
-            returnStr += '已為您呼叫客服，煩請耐心等候。'
-        } else if (event.message.text === "沒問題了") {
-            message.notify = false;
-            returnStr += '掰掰~~'
-        } else if (event.message.text === "查看累積功德數") {
-            returnStr += '不告訴你'
-        } else {
-            returnStr += '請說人話'
-        }
-        Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
+            if (user.notify) global.aEvent.emit('getMsg', event.source.userId, event.message.text);
             if (user) {
                 textHandlerCallback(message, {
                     displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl
+                    pictureUrl: user.event.source.pictureUrl,
+                    isNotify: user.notify
                 }, returnStr, callback);
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
@@ -95,11 +88,73 @@ module.exports = {
                 }, function(error, response, body) {
                     if (error) {
                         debug('[PROFILE Error (2)] Message : ' + error);
-                        return callback(false);
+                        return callback(false, event.replyToken);
                     }
                     if (response.statusCode !== 200) {
                         debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
-                        return callback(false);
+                        return callback(false, event.replyToken);
+                    }
+                    var resData = JSON.parse(body);
+                    resData.isNotify = false;
+                    textHandlerCallback(message, resData, returnStr, callback);
+                });
+            }
+        });
+    },
+    contactHandler: function(event, callback) {
+        var returnStr = '';
+        message = new Message();
+        message.event = event;
+        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
+            global.aEvent.emit('getMsg', event.source.userId, event.message.text);
+            if (user) {
+                textHandlerCallback(message, {
+                    displayName: user.event.source.displayName,
+                    pictureUrl: user.event.source.pictureUrl,
+                    isNotify: true
+                }, returnStr, callback);
+            } else {
+                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
+                    'auth': { 'bearer': config.bot.channelAccessToken }
+                }, function(error, response, body) {
+                    if (error) {
+                        debug('[PROFILE Error (2)] Message : ' + error);
+                        return callback(false, event.replyToken);
+                    }
+                    if (response.statusCode !== 200) {
+                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
+                        return callback(false, event.replyToken);
+                    }
+                    var resData = JSON.parse(body);
+                    resData.isNotify = true;
+                    textHandlerCallback(message, resData, returnStr, callback);
+                });
+            }
+        });
+    },
+    rewardHandler: function(event, callback) {
+        var returnStr = '';
+        message = new Message();
+        message.event = event;
+        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
+            if (user) {
+                textHandlerCallback(message, {
+                    displayName: user.event.source.displayName,
+                    pictureUrl: user.event.source.pictureUrl,
+                }, returnStr, callback);
+            } else {
+                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
+                    'auth': { 'bearer': config.bot.channelAccessToken }
+                }, function(error, response, body) {
+                    if (error) {
+                        debug('[PROFILE Error (2)] Message : ' + error);
+                        return callback(false, event.replyToken);
+                    }
+                    if (response.statusCode !== 200) {
+                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
+                        return callback(false, event.replyToken);
                     }
                     var resData = JSON.parse(body);
                     textHandlerCallback(message, resData, returnStr, callback);
@@ -124,11 +179,11 @@ module.exports = {
                 }, function(error, response, body) {
                     if (error) {
                         debug('[PROFILE Error (2)] Message : ' + error);
-                        return callback(false);
+                        return callback(false, event.replyToken);
                     }
                     if (response.statusCode !== 200) {
                         debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
-                        return callback(false);
+                        return callback(false, event.replyToken);
                     }
                     var resData = JSON.parse(body);
                     imgHandlerCallback(message, resData, event, callback);

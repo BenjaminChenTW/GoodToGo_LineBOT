@@ -14,6 +14,7 @@ var basicAuth = require('basic-auth-connect');
 var compression = require('compression');
 var mongoose = require('mongoose');
 var Server = require('http').Server;
+const EventEmitter = require('events');
 
 var bot = require('./routes/bot.js').handleEvent;
 var imgCheck = require('./routes/imgCheck');
@@ -71,10 +72,20 @@ var io = require('socket.io')(server);
  */
 app.use('/lottery', lottery);
 app.use(basicAuth(config.auth.user, config.auth.pwd));
+app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
 app.use('/img', imgCheck);
 app.use('/checkedList', checkedList);
-app.use('/chatroom', chatroom);
-app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
+app.use('/chatroom', chatroom.router);
+
+global.aEvent = new EventEmitter();
+global.aEvent.on('getMsg', function(userId, msg) {
+    chatroom.getMsg(io, userId, msg);
+});
+io.on('connection', function(socket) {
+    socket.on('sendMsg', function(userId, msg) {
+        chatroom.sendMsg(socket, userId, msg)
+    });
+});
 
 /**
  * Error handle

@@ -17,7 +17,7 @@ function reset_button() {
 }
 
 function select_picture(pic) {
-    if(pic === selected_picture) {
+    if (pic === selected_picture) {
         return;
     }
 
@@ -38,14 +38,14 @@ function select_picture(pic) {
             main_pic.src = pic.src;
 
             detail.style.display = "block";
-            
+
             document.getElementById('user_id').textContent = pic.getAttribute('userName');
             let timeInterval = pic.getAttribute('uploadTime');
             let time = new Date(Number(timeInterval));
-            
+
             document.getElementById('upload_time').textContent = time.toLocaleString()
 
-            let status = pic.getAttribute('checked')==='true' ? 'checked' : 'unchecked';
+            let status = pic.getAttribute('checked') === 'true' ? 'checked' : 'unchecked';
 
             console.log(pic.getAttribute('checked'));
             console.log(status);
@@ -67,13 +67,13 @@ function submit() {
     if (para1 === '0' && para2 === '0' && para3 === '0') {
         para = document.getElementById('reasons').value;
         type = 'decline';
-    } 
+    }
 
     request_url += type + '/' + id + '/' + para;
     $.ajax({
         url: request_url,
         type: 'POST',
-        success: function(){
+        success: function() {
             console.log('success');
             selected_picture.parentNode.getElementsByClassName('icon')[0].setAttribute('src', '/assets/icon/checked.png');
             selected_picture.setAttribute('status', 'true');
@@ -91,7 +91,7 @@ function submit() {
             }
             document.getElementById('picture_view').removeChild(selected_container);
         },
-        error: function(xhr, statusText, err){
+        error: function(xhr, statusText, err) {
             console.log('error:' + xhr.status);
         },
         complete: function(xhr, statusText) {
@@ -139,7 +139,7 @@ function create_message(type, message, img) {
         new_span.setAttribute('class', 'helper customer');
         new_span.appendChild(img);
         new_msg.setAttribute('class', 'customer');
-    } else if (type === 'system'){
+    } else if (type === 'system') {
         new_span.setAttribute('class', 'helper');
         new_msg.setAttribute('class', 'system');
     } else {
@@ -165,16 +165,16 @@ function send_message() {
     let id = selected_customer
 
     $.ajax({
-        type:'POST',
+        type: 'POST',
         url: "/chatroom/" + selected_customer.getAttribute('customerId'),
-        data: {'message': msg},
+        data: { 'message': msg },
         dataType: JSON
     })
 }
 
 function showDialog(customer, customerId) {
     clear_message_field();
-    
+
     customer.setAttribute('customerId', customerId);
 
     if (selected_customer != undefined) {
@@ -224,7 +224,7 @@ function closeDialog() {
     document.getElementsByClassName('message')[0].style.display = 'none';
 }
 
-function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
+function create_pic(place, indexId, imgstr, userName, uploadTime, checked) {
     let gallery = document.getElementById('picture_view');
 
     var imgtag = document.createElement('img');
@@ -255,7 +255,7 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
     }
 
     img.setAttribute('src', src);
-    pic_a.appendChild(img);        
+    pic_a.appendChild(img);
 
     var name_p = document.createElement('p');
     name_p.appendChild(document.createTextNode(userName));
@@ -274,7 +274,7 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked){
 
 function load_pic_data(last_index) {
     $.ajax({
-        url: "/img/new/"+last_index,
+        url: "/img/" + last_index,
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -283,11 +283,11 @@ function load_pic_data(last_index) {
         error: function() {
 
         },
-        complete: function() {            
+        complete: function() {
             if (pic_data.length >= 1) {
-                end_index = pic_data[pic_data.length-1].indexId;
+                end_index = pic_data[pic_data.length - 1].indexId;
             }
-            
+
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)

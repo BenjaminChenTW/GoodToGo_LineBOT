@@ -72,7 +72,7 @@
                     var new_pic = [];
                     
                     $.ajax({
-                        url: "/img/new/" + (end_index+1),
+                        url: "/img/" + (end_index+1),
                         type: "GET",
                         dataType: "JSON",
                         success: function(data){
@@ -102,41 +102,41 @@
                     });
                 }
             }
-            if ((this.scrollLeft+this.clientWidth)<0 && start_index>0) {
-                if (should_update) {
-                    should_update = false;
+            // if ((this.scrollLeft+this.clientWidth)<0 && start_index>0) {
+            //     if (should_update) {
+            //         should_update = false;
 
-                    this.scrollLeft = this.scrollWidth;
+            //         this.scrollLeft = this.scrollWidth;
 
-                    var new_pic = [];
-                    $.ajax({
-                        url: "/img/old/" + (start_index-1),
-                        type: "GET",
-                        dataType: "JSON",
-                        success: function(data){
-                            new_pic = data.list;
-                            pic_data = new_pic.concat(pic_data);
-                        },
-                        error: function(){
-                            console.log('error');                            
-                        },
-                        complete: function(){
-                            should_update = true;
+            //         var new_pic = [];
+            //         $.ajax({
+            //             url: "/img/old/" + (start_index-1),
+            //             type: "GET",
+            //             dataType: "JSON",
+            //             success: function(data){
+            //                 new_pic = data.list;
+            //                 pic_data = new_pic.concat(pic_data);
+            //             },
+            //             error: function(){
+            //                 console.log('error');                            
+            //             },
+            //             complete: function(){
+            //                 should_update = true;
 
-                            if (new_pic.length === 0) {
-                                return;
-                            }
+            //                 if (new_pic.length === 0) {
+            //                     return;
+            //                 }
 
-                            start_index = new_pic[0].indexId;
+            //                 start_index = new_pic[0].indexId;
 
-                            for( var i=new_pic.length-1; i>=0; i--){
-                                var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
-                                create_pic('front', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
-                            }
-                        }    
-                    });
-                }
-            }
+            //                 for( var i=new_pic.length-1; i>=0; i--){
+            //                     var imgstr = "data:" + new_pic[i].imgType + ";base64," + new_pic[i].imgBinary;
+            //                     create_pic('front', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
+            //                 }
+            //             }    
+            //         });
+            //     }
+            // }
         });
 
         $('#check_availible_num_bag').on('change', function(){

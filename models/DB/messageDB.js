@@ -8,7 +8,7 @@ var schema = mongoose.Schema({
         id: Number,
         data: Buffer,
         contentType: String,
-        checked:  { type: Boolean, default: false },
+        checked: { type: Boolean, default: false },
         checkStatus: {
             typeCode: String,
             amount: Number,

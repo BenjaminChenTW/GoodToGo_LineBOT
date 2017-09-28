@@ -85,7 +85,7 @@ module.exports = {
             }
         };
         message.save((err) => {
-            if (err) next(err);
+            if (err) return next(err);
             textSendler(id, text, callback);
         });
     }

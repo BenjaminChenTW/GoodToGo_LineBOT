@@ -5,7 +5,6 @@ var debug = require('debug')('goodtogo-linebot:imgAPI');
 var getInitIndex = require('../models/imgProcess.js').getInitIndex;
 var getInitList = require('../models/imgProcess.js').getInitList;
 var getImageList = require('../models/imgProcess.js').getImageList;
-var getImageListBackward = require('../models/imgProcess.js').getImageListBackward;
 var templateSendler = require('../models/messageProcess.js').templateSendler;
 var textSendler = require('../models/messageProcess.js').textSendler;
 var lottery = require('../models/lotteryProcess.1.js').getTicket;
@@ -25,16 +24,9 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.get('/new/:id', function(req, res, next) {
-    var id = req.params.id;
-    getImageList(id, next, function(list) {
-        res.json({ 'list': list });
-    });
-});
-
-router.get('/old/:id', function(req, res, next) {
-    var id = req.params.id;
-    getImageListBackward(id, next, function(list) {
+router.get('/:index', function(req, res, next) {
+    var index = req.params.index;
+    getImageList(index, false, next, function(list) {
         res.json({ 'list': list });
     });
 });
@@ -46,45 +38,45 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     if (amount <= 0) return res.status(402).end();
     Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
         // if (message) {
-            funcList = [];
-            for (var i = 0; i < amount; i++) {
-                funcList.push(
-                    new Promise((resolve, reject) => {
-                        lottery(function(isWin, rank, name) {
-                            coupon = new Coupon();
-                            coupon.userId = message.event.source.userId;
-                            coupon.couponId = couponIndex++;
-                            coupon.picIndex = picIndex;
-                            coupon.prizeType = rank;
-                            coupon.prizeName = name;
-                            coupon.isWin = isWin;
-                            coupon.save((err) => {
-                                if (err) return reject(err);
-                                resolve();
-                            });
+        funcList = [];
+        for (var i = 0; i < amount; i++) {
+            funcList.push(
+                new Promise((resolve, reject) => {
+                    lottery(function(isWin, rank, name) {
+                        coupon = new Coupon();
+                        coupon.userId = message.event.source.userId;
+                        coupon.couponId = couponIndex++;
+                        coupon.picIndex = picIndex;
+                        coupon.prizeType = rank;
+                        coupon.prizeName = name;
+                        coupon.isWin = isWin;
+                        coupon.save((err) => {
+                            if (err) return reject(err);
+                            resolve();
                         });
-                    })
-                );
-            }
-            Promise
-                .all(funcList)
-                .then((err) => {
-                    for (var i = 0; i < err.length; i++) {
-                        if (err[i]) {
-                            debug('1: ' + JSON.stringify(err));
-                            return res.status(402).end();
-                        }
+                    });
+                })
+            );
+        }
+        Promise
+            .all(funcList)
+            .then((err) => {
+                for (var i = 0; i < err.length; i++) {
+                    if (err[i]) {
+                        debug('1: ' + JSON.stringify(err));
+                        return res.status(402).end();
                     }
-                    templateSendler(message.event.source.userId, function() {
-                        message.img.checked = true;
-                        message.img.checkStatus.amount = amount;
-                        message.img.checkStatus.checkTime = Date.now();
-                        message.save((err) => {
-                            if (err) return debug('2: ' + JSON.stringify(err));
-                            res.status(200).end();
-                        });
-                    }, false, picIndex);
-                });
+                }
+                templateSendler(message.event.source.userId, function() {
+                    message.img.checked = true;
+                    message.img.checkStatus.amount = amount;
+                    message.img.checkStatus.checkTime = Date.now();
+                    message.save((err) => {
+                        if (err) return debug('2: ' + JSON.stringify(err));
+                        res.status(200).end();
+                    });
+                }, false, picIndex);
+            });
         // } else {
         //     res.status(402).end();
         // }

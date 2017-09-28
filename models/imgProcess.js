@@ -26,23 +26,10 @@ module.exports = {
             }
         });
     },
-    getImageList: function(index, next, callback) {
+    getImageList: function(index, checked, next, callback) {
         index = parseInt(index);
         if (index < 0) return callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.checked': false, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
-            if (err) next(err);
-            if (!messages) return callback([]);
-            var list = [];
-            for (var i = 0; i < messages.length; i++) {
-                list.push(getListObj(messages[i]));
-            }
-            callback(list);
-        });
-    },
-    getImageListBackward: function(index, next, callback) {
-        index = parseInt(index);
-        if (index < 0) return callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.checked': true, 'img.id': { '$gt': index, '$lte': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);
             var list = [];

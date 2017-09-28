@@ -10,11 +10,18 @@ module.exports = {
     // event handler
     handleEvent: function(event) {
         if (event.type === 'message' && event.message.type === 'text') {
-            textHandler(event, textReply);
+            if (event.message.text === "聯絡客服")
+                contactHandler(event, textReply);
+            // contactHandler(event, buttonsReply);
+            else if (event.message.text === "查看累積功德數")
+                rewardHandler(event, textReply);
+            // rewardHandler(event, imgMapReply);
+            else
+                textHandler(event, textReply);
         } else if (event.type === 'message' && event.message.type === 'image') {
             imgHandler(event, textReply);
         } else {
-            // ignore non-text-message event
+            // ignore non-text-or-image-message event
             return Promise.resolve(null);
         }
     },
@@ -30,6 +37,8 @@ module.exports = {
 
 var textHandler = require('../models/messageProcess.js').textHandler;
 var imgHandler = require('../models/messageProcess.js').imgHandler;
+var contactHandler = require('../models/messageProcess.js').contactHandler;
+var rewardHandler = require('../models/messageProcess.js').rewardHandler;
 
 function textReply(success, replyToken, message) {
     if (!success) {

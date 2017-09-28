@@ -30,13 +30,27 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-router.post('/:id', function(req, res, next) {
-    var id = req.params.id;
-    var msg = req.body['message'];
-    if (typeof id === 'undefined' || typeof msg === 'undefined') return res.status(404).end();
-    sendMessage(id, msg, next, function() {
-        res.status(200).end();
-    });
-})
+// router.post('/:id', function(req, res, next) {
+//     var id = req.params.id;
+//     var msg = req.body['message'];
+//     if (typeof id === 'undefined' || typeof msg === 'undefined') return res.status(404).end();
+//     sendMessage(id, msg, next, function() {
+//         res.status(200).end();
+//     });
+// })
 
-module.exports = router;
+module.exports = {
+    router: router,
+    sendMsg: function(socket, userId, msg) {
+        if (!id || !msg) return socket.emit('server', { msg: "Content Lost" });
+        sendMessage(id, msg, function(err) {
+            socket.emit('server', { msg: "ServerDB Error" + JSON.stringify(err) });
+        }, function() {
+            socket.emit('server', { msg: "Sended" });
+            socket.broadcast.emit(userId, { type: 'manager', msg: msg });
+        });
+    },
+    getMsg: function(io, userId, msg) {
+        io.emit(userId, { type: 'customer', msg: msg });
+    }
+};
