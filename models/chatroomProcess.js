@@ -1,6 +1,8 @@
 var Message = require('./DB/messageDB.js');
 var debug = require('debug')('goodtogo-linebot:chatroomHandler');
 
+var textSendler = require('../models/messageProcess.js').textSendler;
+
 function getDate(time, int) {
     var date = new Date(time)
     date = date.setDate(date.getDate() + int);
@@ -84,7 +86,7 @@ module.exports = {
         };
         message.save((err) => {
             if (err) next(err);
-            callback();
+            textSendler(id, text, callback);
         });
     }
 };
