@@ -488,6 +488,10 @@ li.customer {
     text-align: left;
 }
 
+li.system {
+    text-align: center;
+}
+
 li p a.box {
     display: inline-block;
     height: auto;
@@ -499,6 +503,10 @@ li p a.box {
     margin-left: 15px;
 }
 
+li.system p a.box {
+    background-color: transparent;
+}
+
 #message_ul li p {
     display: inline-block;
     max-width: 35vw;
@@ -507,6 +515,12 @@ li p a.box {
     text-align: left;
     vertical-align: middle;
     color: #444;
+}
+
+#message_ul li.system p {
+    max-width: 70vw;
+    text-align: center;
+    color: #CCC;
 }
 
 #message_field nav {
