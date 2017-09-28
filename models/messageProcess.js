@@ -137,7 +137,7 @@ module.exports = {
         });
     },
     textSendler: function(lineUserId, message, sended) {
-        textSendlerCallback(id, message, sended);
+        textSendlerCallback(lineUserId, message, sended);
     },
     templateSendler: function(lineUserId, sended, isWin, couponId, couponType, couponContent) {
         var altText;

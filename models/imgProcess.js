@@ -63,7 +63,7 @@ module.exports = {
     getImageListBackward: function(index, next, callback) {
         index = parseInt(index);
         if (index <= 0) callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.id': { '$gte': (index < 19) ? index : index - 19, '$lte': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.id': { '$gt': index - 20, '$lte': index } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);
             var list = [];
