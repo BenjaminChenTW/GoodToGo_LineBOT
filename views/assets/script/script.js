@@ -139,6 +139,9 @@ function create_message(type, message, img) {
         new_span.setAttribute('class', 'helper customer');
         new_span.appendChild(img);
         new_msg.setAttribute('class', 'customer');
+    } else if (type === 'system'){
+        new_span.setAttribute('class', 'helper');
+        new_msg.setAttribute('class', 'system');
     } else {
         new_span.setAttribute('class', 'helper');
         new_msg.setAttribute('class', 'me');
