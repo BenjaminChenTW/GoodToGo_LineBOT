@@ -77,7 +77,10 @@ module.exports = {
                 text: text,
                 type: 'text'
             },
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            source: {
+                userId: id
+            }
         };
         message.save((err) => {
             if (err) next(err);
