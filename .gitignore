@@ -49,3 +49,6 @@ ngrok
 
 # Private file
 *.pem
+
+# Old Server
+bin

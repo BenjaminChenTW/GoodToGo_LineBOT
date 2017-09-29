@@ -38,7 +38,7 @@ io
             chatroom.sendMsg(socket, obj.userId, obj.msg)
         });
     });
-// app.use(require('express-status-monitor')({ websocket: io, title: "GoodToGo LineBot Monitor" }));
+app.get('/status', require('express-status-monitor')({ title: "GoodToGo LineBot Monitor", websocket: io, path: '' }).pageRoute);
 
 /**
  * Listen on provided port, on all network interfaces.

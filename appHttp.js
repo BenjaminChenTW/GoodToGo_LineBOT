@@ -8,13 +8,7 @@ var debug = require('debug')('goodtogo-linebot:app');
 debug.log = console.log.bind(console);
 
 var debugServer = require('debug')('goodtogo-linebot:server');
-var redLog = require('debug')('goodtogo-linebot:serverRedirect');
-redLog.log = console.log.bind(console);
 var http = require('http');
-var url = require("url");
-var https = require('https');
-var fs = require('fs');
-
 const line = require('@line/bot-sdk');
 const JSONParseError = require('@line/bot-sdk/exceptions').JSONParseError;
 const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureValidationFailed;
@@ -29,15 +23,6 @@ var checkedList = require('./routes/checkedList');
 var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var config = require('./config/config.js');
-
-function httpRequest(req, res) {
-    var pathname = url.parse(req.url).pathname;
-    // redLog("HTTP request from" + req.connection.remoteAddress + " for " + pathname + " received.");
-    res.writeHead(301, { Location: 'https://bot.goodtogo.tw' + pathname });
-    res.end();
-}
-http.createServer(httpRequest).listen(80);
-debugServer('HTTP redirect server on.');
 
 /**
  * DB init
@@ -62,13 +47,9 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTPS server.
+ * Create HTTP server.
  */
-var options = {
-    key: fs.readFileSync(config.ssl_privkey),
-    cert: fs.readFileSync(config.ssl_fullchain)
-};
-var server = https.createServer(options, app);
+var server = http.createServer(app);
 
 /**
  * Chatroom Event init
@@ -127,7 +108,7 @@ app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
  * WEB router
  */
 app.use('/lottery', lottery);
-app.use(basicAuth(config.auth.user, config.auth.pwd));
+app.use(authMiddleWare);
 app.use('/img', imgCheck);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
