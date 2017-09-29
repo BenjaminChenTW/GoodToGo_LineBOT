@@ -40,7 +40,7 @@
             success: function(data){
                 var data_list = data.list;
                 for(var i = 0 ; i < data_list.length ; i++) {
-                    var imgstr = "data:" + data_list[i].imgType + ";base64," + data_list[i].imgBinary;
+                    var imgstr = "/getImg/" + data_list[i].indexId;
 
                     var new_tr = document.createElement('tr');
                     var new_th = document.createElement('th');

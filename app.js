@@ -28,6 +28,7 @@ var imgCheck = require('./routes/imgCheck');
 var checkedList = require('./routes/checkedList');
 var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
+var getImg = require('./routes/getImg');
 var config = require('./config/config.js');
 
 function httpRequest(req, res) {
@@ -127,8 +128,9 @@ app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
  * WEB router
  */
 app.use('/lottery', lottery);
-app.use(basicAuth(config.auth.user, config.auth.pwd));
+app.use(authMiddleWare);
 app.use('/img', imgCheck);
+app.use('/getImg', getImg);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 

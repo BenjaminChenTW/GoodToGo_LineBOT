@@ -6,8 +6,6 @@ function getListObj(ori) {
         userId: ori.event.source.userId,
         userName: ori.event.source.displayName,
         uploadTime: ori.event.timestamp,
-        imgType: ori.img.contentType,
-        imgBinary: ori.img.data.toString('base64'),
         checked: ori.img.checked,
         checkedStatus: ori.img.checkStatus
     };
@@ -29,7 +27,7 @@ module.exports = {
     getImageList: function(index, checked, next, callback) {
         index = parseInt(index);
         if (index < 0) return callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } }, {}, { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } }, 'img.checkStatus img.checked img.id event', { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) next(err);
             if (!messages) return callback([]);
             var list = [];
