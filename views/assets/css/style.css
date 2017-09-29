@@ -639,22 +639,41 @@ Start of checked history tab
 
 */
 
-table#checked_list {
-    position: relative;
-    width: 100vw;
-    padding: 10px 10px 10px 10px;
+div.page {
+    display: block;
+    position: absolute;
+    left: 0;
     top: 10vh;
+
+    width: 100vw;
+    height: 90vh;
+
+    overflow: auto;
 }
 
-table#checked_list tr {
+table#checked_list {
+    position: relative;
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+}
+
+table#checked_list thead tr {
     background-color:#FFF;
     height: 40px;
 }
 
-table#checked_list tr th {
+table#checked_list thead tr th {
     font-weight: 400;
     letter-spacing: 2px;
     color: #444;
+}
+
+table#checked_list th img {
+    height: auto;
+    width: auto;
+
+    max-height: 10vh;
+    max-width: 10vw;
 }
 
 /*

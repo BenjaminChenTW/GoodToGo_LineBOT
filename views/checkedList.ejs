@@ -14,12 +14,13 @@
             <b id="goodtogo">LINE BOT 後台</b>
         </nav>
     </header>
-    
+    <div class='page'>
     <table id='checked_list'>
         <thead>
             <tr>
                 <th>審核照片</th>
                 <th>照片編號</th>
+                <th>上傳用戶</th>
                 <th>上傳時間</th>
                 <th>審核時間</th>
                 <th>抽獎券發放數量</th>
@@ -27,16 +28,58 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th><img src='/assets/icon/pic4.png'/></th>
-                <td>#123</td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-            </tr>
+
         </tbody>
         
     </table>
+    </div>
+    <script>
+        $.ajax({
+            url: '/checkedList/0',
+            dataType: 'JSON',
+            success: function(data){
+                var data_list = data.list;
+                for(var i = 0 ; i < data_list.length ; i++) {
+                    var imgstr = "data:" + data_list[i].imgType + ";base64," + data_list[i].imgBinary;
+
+                    var new_tr = document.createElement('tr');
+                    var new_th = document.createElement('th');
+                    var new_td_id = document.createElement('td');
+                    var new_td_user = document.createElement('td');
+                    var new_td_upload_time = document.createElement('td');
+                    var new_td_checked_time = document.createElement('td');
+                    var new_td_amount = document.createElement('td');
+                    var new_td_reason = document.createElement('td');
+
+                    var pic = document.createElement('img');
+                    pic.setAttribute('src', imgstr)
+                    new_th.appendChild(pic);
+
+                    new_td_id.innerHTML = data_list[i].indexId;
+                    new_td_user.innerHTML = data_list[i].userName;
+                    new_td_upload_time.innerHTML = Date(data_list[i].uploadTime).toLocaleString().slice(0, Date(data_list[i].uploadTime).toLocaleString().length - 14);
+                    new_td_checked_time.innerHTML = Date(data_list[i].checkedStatus.checkTime).toLocaleString().slice(0, Date(data_list[i].checkedStatus.checkTime).toLocaleString().length - 14);
+                    new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
+
+                    if (data_list[i].checkedStatus.typeCode !== undefined) {
+                        new_td_reason.innerHTML = data_list[i].checkedStatus.typeCode;
+                    } else {
+                        new_td_reason.innerHTML = 'N/A';
+                    }
+
+                    new_tr.appendChild(new_th);
+                    new_tr.appendChild(new_td_id);
+                    new_tr.appendChild(new_td_user);
+                    new_tr.appendChild(new_td_upload_time);
+                    new_tr.appendChild(new_td_checked_time);
+                    new_tr.appendChild(new_td_amount);
+                    new_tr.appendChild(new_td_reason);
+
+                    document.getElementById('checked_list').appendChild(new_tr);
+                }
+            }
+        });
+
+    </script>
     
 <%- include ./footer.ejs %>
