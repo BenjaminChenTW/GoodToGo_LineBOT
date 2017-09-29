@@ -233,6 +233,11 @@ img.icon {
         margin-left: 10vw;
         display: block;
     }
+
+    nav#main_nav b {
+        top: 0.5em;
+    }
+    
 }
 
 div#main_pic_section {
