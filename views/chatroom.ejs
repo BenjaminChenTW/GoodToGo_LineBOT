@@ -60,6 +60,7 @@
             return;
         }
         socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
+        document.getElementById('message_text').value = '';
     })
 
     </script>

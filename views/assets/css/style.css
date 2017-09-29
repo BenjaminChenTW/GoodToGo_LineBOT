@@ -639,17 +639,22 @@ Start of checked history tab
 
 */
 
-ul#checked_list {
+table#checked_list {
     position: relative;
+    width: 100vw;
+    padding: 10px 10px 10px 10px;
     top: 10vh;
 }
 
-ul#checked_list li  {
-    list-style: none;
+table#checked_list tr {
+    background-color:#FFF;
+    height: 40px;
 }
 
-ul#checked_list li a {
-    background-color: red;
+table#checked_list tr th {
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #444;
 }
 
 /*

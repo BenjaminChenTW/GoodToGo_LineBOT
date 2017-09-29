@@ -164,7 +164,6 @@ function send_message() {
     }
 
     create_message('me', msg);
-    //document.getElementById('message_text').value = '';
 
     /*$.ajax({
         type: 'POST',
