@@ -10,9 +10,9 @@ var schema = mongoose.Schema({
         contentType: String,
         checked: { type: Boolean, default: false },
         checkStatus: {
-            typeCode: String,
+            typeCode: Number,
             amount: Number,
-            checkTime: Date
+            checkTime: Number
         }
     },
     read: { type: Boolean, default: false },

@@ -11,6 +11,8 @@ debug.log = console.log.bind(console);
 redLog.log = console.log.bind(console);
 var https = require('https');
 var fs = require('fs');
+var chatroom = require('../routes/chatroom');
+const EventEmitter = require('events');
 
 /**
  * HTTP redirector server.
@@ -41,6 +43,21 @@ var options = {
     cert: fs.readFileSync(config.ssl_fullchain)
 };
 var server = https.createServer(options, app);
+
+/**
+ * CHAT ROOM init
+ */
+var io = require('socket.io')(server);
+global.aEvent = new EventEmitter();
+global.aEvent.on('getMsg', function(userId, msg) {
+    chatroom.getMsg(io, userId, msg);
+});
+io.on('connection', function(socket) {
+    socket.emit('server', { msg: "Login Success" });
+    socket.on('sendMsg', function(obj) {
+        chatroom.sendMsg(socket, obj.userId, obj.msg)
+    });
+});
 
 /**
  * Listen on provided port, on all network interfaces.

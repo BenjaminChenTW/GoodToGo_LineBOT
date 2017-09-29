@@ -13,8 +13,8 @@ const SignatureValidationFailed = require('@line/bot-sdk/exceptions').SignatureV
 var basicAuth = require('basic-auth-connect');
 var compression = require('compression');
 var mongoose = require('mongoose');
-var Server = require('http').Server;
-const EventEmitter = require('events');
+// var Server = require('http').Server;
+// const EventEmitter = require('events');
 
 var bot = require('./routes/bot.js').handleEvent;
 var imgCheck = require('./routes/imgCheck');
@@ -64,35 +64,26 @@ app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
 /**
  * CHAT ROOM init
  */
-var server = Server(app);
-var io = require('socket.io')(server);
-server.listen(8000);
+// var server = Server(app);
+// server.listen(8000);
 
 /**
  * WEB router
  */
 app.use('/lottery', lottery);
 app.use(basicAuth(config.auth.user, config.auth.pwd));
-app.use(require('express-status-monitor')({ title: "GoodToGo LineBot Monitor" }));
+
 app.use('/img', imgCheck);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 
-global.aEvent = new EventEmitter();
-global.aEvent.on('getMsg', function(userId, msg) {
-    chatroom.getMsg(io, userId, msg);
-});
-io.on('connection', function(socket) {
-    socket.on('sendMsg', function(obj) {
-        chatroom.sendMsg(socket, obj.userId, obj.msg)
-    });
-});
 
 /**
  * Error handle
  */
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+    if (req.url.indexOf('/status') >= 0) { return next(); }
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
