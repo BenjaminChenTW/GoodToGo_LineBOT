@@ -662,18 +662,33 @@ table#checked_list thead tr {
     height: 40px;
 }
 
+table#checked_list tbody tr {
+    border-bottom: 1px solid #000;
+    display: block;
+    min-height: 100px;
+}
+
+table#checked_list th.img {
+    height: 100px;
+    min-width: 100px;
+}
+
 table#checked_list thead tr th {
     font-weight: 400;
     letter-spacing: 2px;
     color: #444;
+    height: initial;
 }
 
 table#checked_list th img {
     height: auto;
     width: auto;
 
-    max-height: 10vh;
-    max-width: 10vw;
+    max-height: 100px;
+    max-width: 100%;
+
+    
+    margin-top: 5px;
 }
 
 /*

@@ -3,11 +3,11 @@
         <nav id="main_nav">
             <div id='cssmenu'>
                 <ul>
-                    <li><a href='/img'>照片審核</a>
+                    <li><a href='/img'> 照片審核 </a>
                     </li>
-                    <li class='active'><a>審核紀錄</a>
+                    <li class='active'><a> 審核紀錄 </a>
                     </li>
-                    <li><a href='/chatroom'>對話管理</a>
+                    <li><a href='/chatroom'> 對話管理 </a>
                     </li>
                 </ul>
             </div>
@@ -52,13 +52,15 @@
                     var new_td_reason = document.createElement('td');
 
                     var pic = document.createElement('img');
-                    pic.setAttribute('src', imgstr)
+                    pic.setAttribute('src', imgstr);
+                    pic.setAttribute('onclick', 'zoomIn(this)')
                     new_th.appendChild(pic);
+                    new_th.setAttribute('class', 'img');
 
                     new_td_id.innerHTML = data_list[i].indexId;
                     new_td_user.innerHTML = data_list[i].userName;
-                    new_td_upload_time.innerHTML = Date(data_list[i].uploadTime).toLocaleString().slice(0, Date(data_list[i].uploadTime).toLocaleString().length - 14);
-                    new_td_checked_time.innerHTML = Date(data_list[i].checkedStatus.checkTime).toLocaleString().slice(0, Date(data_list[i].checkedStatus.checkTime).toLocaleString().length - 14);
+                    new_td_upload_time.innerHTML = custom_date(new Date(data_list[i].uploadTime));
+                    new_td_checked_time.innerHTML = custom_date(new Date(data_list[i].checkedStatus.checkTime));
                     new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
 
                     if (data_list[i].checkedStatus.typeCode !== undefined) {

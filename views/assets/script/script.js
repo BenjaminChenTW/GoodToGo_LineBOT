@@ -16,6 +16,21 @@ function reset_button() {
     document.getElementById('other_reasons').style.display = 'none';
 }
 
+function zoomIn(pic){
+    console.log('pressed');
+}
+
+function custom_date(date) {
+    var year = date.getFullYear();
+    var month = date.getMonth();
+    var d = date.getDate();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+
+    return (year + '/' + (month+1) + '/' + d + ' ' + hour + ':' + minute + ':' + second);
+}
+
 function select_picture(pic) {
     if (pic === selected_picture) {
         return;
