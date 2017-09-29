@@ -82,8 +82,8 @@ global.aEvent.on('getMsg', function(userId, msg) {
     chatroom.getMsg(io, userId, msg);
 });
 io.on('connection', function(socket) {
-    socket.on('sendMsg', function(userId, msg) {
-        chatroom.sendMsg(socket, userId, msg)
+    socket.on('sendMsg', function(obj) {
+        chatroom.sendMsg(socket, obj.userId, obj.msg)
     });
 });
 
