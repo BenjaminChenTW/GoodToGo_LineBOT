@@ -3,7 +3,6 @@
 <% const imgTagFooter = '"/>'; %>
 <% const aTagHeader = '<a class="list_button" onclick="showDialog(this, \''; %>
 <% const aTagFooter = '\')">'; %>
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <header>
         <nav id="main_nav">
                 <div id='cssmenu'>
@@ -49,8 +48,10 @@
             </div>
         </div>
     </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-    var socket = io.connect('http://localHost');
+    var socket = io.connect('http://localhost');
 
     $('#sendMsg').on('click', function(){
          var msg = document.getElementById('message_text').value;

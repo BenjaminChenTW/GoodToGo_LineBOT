@@ -73,20 +73,25 @@ module.exports = {
         });
     },
     sendMessage: function(id, text, next, callback) {
-        message = new Message();
-        message.event = {
-            message: {
-                text: text,
-                type: 'text'
-            },
-            timestamp: Date.now(),
-            source: {
-                userId: id
-            }
-        };
-        message.save((err) => {
-            if (err) return next(err);
-            textSendler(id, text, callback);
+        Message.findOne({ 'event.source.userId': id }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            message = new Message();
+            message.event = {
+                message: {
+                    text: text,
+                    type: 'text'
+                },
+                timestamp: Date.now(),
+                source: {
+                    userId: id
+                }
+            };
+            message.notify = true;
+            message.event.source['displayName'] = user.event.source.displayName;
+            message.event.source['pictureUrl'] = user.event.source.pictureUrl;
+            message.save((err) => {
+                if (err) return next(err);
+                textSendler(id, text, callback);
+            });
         });
     }
 };

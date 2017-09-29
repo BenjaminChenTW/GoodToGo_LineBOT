@@ -76,6 +76,7 @@ module.exports = {
         Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user.notify) global.aEvent.emit('getMsg', event.source.userId, event.message.text);
+            else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (user) {
                 textHandlerCallback(message, {
                     displayName: user.event.source.displayName,

@@ -8,7 +8,7 @@ var sendMessage = require('../models/chatroomProcess.js').sendMessage;
 router.get('/', function(req, res, next) {
     getFirst(next, function(isEmpty, roomList) {
         if (isEmpty) {
-            var err = new Error('Not Found');
+            var err = new Error('No Msg');
             err.status = 404;
             next(err);
         } else {
@@ -42,8 +42,8 @@ router.get('/:id', function(req, res, next) {
 module.exports = {
     router: router,
     sendMsg: function(socket, userId, msg) {
-        if (!id || !msg) return socket.emit('server', { msg: "Content Lost" });
-        sendMessage(id, msg, function(err) {
+        if (!userId || !msg) return socket.emit('server', { msg: "Content Lost" });
+        sendMessage(userId, msg, function(err) {
             socket.emit('server', { msg: "ServerDB Error" + JSON.stringify(err) });
         }, function() {
             socket.emit('server', { msg: "Sended" });
