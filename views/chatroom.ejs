@@ -51,7 +51,8 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    var socket = io.connect('http://localhost');
+    var socket = io.connect('http://' + window.location.hostname + ':8000');
+    console.log(window.location.hostname)
 
     $('#sendMsg').on('click', function(){
          var msg = document.getElementById('message_text').value;

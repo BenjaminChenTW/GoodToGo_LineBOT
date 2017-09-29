@@ -66,7 +66,7 @@ app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
  */
 var server = Server(app);
 var io = require('socket.io')(server);
-server.listen(80);
+server.listen(8000);
 
 /**
  * WEB router
