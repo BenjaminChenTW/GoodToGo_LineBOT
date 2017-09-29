@@ -1,8 +1,9 @@
 <%- include ./header.ejs %>
 <% const imgTagHeader = '<img src=\"'; %>
 <% const imgTagFooter = '"/>'; %>
-<% const aTagHeader = '<a onclick="showDialog(this, \''; %>
+<% const aTagHeader = '<a class="list_button" onclick="showDialog(this, \''; %>
 <% const aTagFooter = '\')">'; %>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <header>
         <nav id="main_nav">
                 <div id='cssmenu'>
@@ -44,8 +45,20 @@
             <div id="text_field">
                 <span class="helper"></span>
                 <input id="message_text" type='text' placeholder=" 輸入訊息..." autocomplete="off"/>
-                <input type='submit' onclick='send_message()'/>
+                <input id='sendMsg' type='submit' onclick='send_message()'/>
             </div>
         </div>
     </div>
+    <script>
+    var socket = io.connect('http://localHost');
+
+    $('#sendMsg').on('click', function(){
+         var msg = document.getElementById('message_text').value;
+        if (msg === '') {
+            return;
+        }
+        socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
+    })
+
+    </script>
 <%- include ./footer.ejs %>

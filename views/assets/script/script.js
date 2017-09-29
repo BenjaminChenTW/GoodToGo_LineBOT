@@ -159,20 +159,37 @@ function create_message(type, message, img) {
 
 function send_message() {
     var msg = document.getElementById('message_text').value;
+    if (msg === '') {
+        return;
+    }
+
     create_message('me', msg);
-    document.getElementById('message_text').value = '';
+    //document.getElementById('message_text').value = '';
 
-    let id = selected_customer
-
-    $.ajax({
+    /*$.ajax({
         type: 'POST',
         url: "/chatroom/" + selected_customer.getAttribute('customerId'),
         data: { 'message': msg },
         dataType: JSON
-    })
+    })*/
 }
 
 function showDialog(customer, customerId) {
+    if (selected_customer === customer) {
+        return;
+    }
+
+    
+
+    socket.on(customerId, function(data){
+        var img = customer.getElementsByTagName('img')[0].cloneNode(true);
+
+        var type = data.type;
+        var msg = data.msg;
+
+        create_message(type, msg, img);
+    })
+
     clear_message_field();
 
     customer.setAttribute('customerId', customerId);
@@ -189,8 +206,8 @@ function showDialog(customer, customerId) {
         type: "GET",
         dataType: "JSON",
         success: function(data) {
+            var img = customer.getElementsByTagName('img')[0].cloneNode(true);
             for (var i = data.userMessage.length - 1; i >= 0; i--) {
-                var img = customer.getElementsByTagName('img')[0].cloneNode(true);
                 let record = data.userMessage[i];
                 create_message(record.type, record.text, img);
             }

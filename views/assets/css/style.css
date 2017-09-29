@@ -639,6 +639,18 @@ Start of checked history tab
 
 */
 
+ul#checked_list {
+    position: relative;
+    top: 10vh;
+}
+
+ul#checked_list li  {
+    list-style: none;
+}
+
+ul#checked_list li a {
+    background-color: red;
+}
 
 /*
 
