@@ -206,8 +206,8 @@ function showDialog(customer, customerId) {
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            var img = customer.getElementsByTagName('img')[0].cloneNode(true);
             for (var i = data.userMessage.length - 1; i >= 0; i--) {
+                var img = customer.getElementsByTagName('img')[0].cloneNode(true);
                 let record = data.userMessage[i];
                 create_message(record.type, record.text, img);
             }
