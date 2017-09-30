@@ -34,8 +34,8 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/img/:id', function(req, res, next) {
     var index = req.params.id;
-    if (id === 'undefined') return res.status(404).end();
-    getImg(id, next, function(obj) {
+    if (index === 'undefined') return res.status(404).end();
+    getImg(index, next, function(obj) {
         res.json(obj);
     });
 });
