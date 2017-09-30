@@ -43,8 +43,11 @@
             </div>
             <div id="text_field">
                 <span class="helper"></span>
+                <input id='search_img_btn' type='button'/>
+                <input id='search_img_text' placeholder='照片編號...' type='text'/>
+                <input id='search_img_send' type='button' />
                 <input id="message_text" type='text' placeholder=" 輸入訊息..." autocomplete="off"/>
-                <input id='sendMsg' type='submit' onclick='send_message()'/>
+                <input id='sendMsg' type='submit' />
             </div>
         </div>
     </div>
@@ -58,7 +61,9 @@
     <% var tmpStr = '[' + arrStr + ']'; %>
     var extraRoomList = <%- tmpStr %>;
     var socket = io.connect(window.location.origin);
-    // console.log(window.location.origin)
+
+    var isSearchImgButtonSelected = false;
+
     socket.on('server', function(obj){
         console.log('msg: ' + obj.msg)
     })
@@ -68,9 +73,34 @@
         if (msg === '') {
             return;
         }
+
+        create_message('me', msg);
+
         socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
         document.getElementById('message_text').value = '';
     })
+
+    $('#message_text').keydown(function(event){
+        if ( event.which == 13 ){
+            $('#sendMsg').click();
+        }
+    });
+
+    $('#search_img_btn').on('click', function(){
+        if (!isSearchImgButtonSelected) {
+            this.style.marginRight = '0px';
+            document.getElementById('message_text').style.width = ('calc(90% - 40px - 120px)');
+            document.getElementById('search_img_text').style.display = 'inline-block';
+            document.getElementById('search_img_send').style.display = 'inline-block';
+        } else {
+            this.style.marginRight = '10px';
+            document.getElementById('message_text').style.width = ('calc(90% - 40px)');
+            document.getElementById('search_img_text').style.display = 'none';
+            document.getElementById('search_img_send').style.display = 'none';
+        }
+
+        isSearchImgButtonSelected = !isSearchImgButtonSelected;
+    });
 
     </script>
 <%- include ./footer.ejs %>

@@ -624,10 +624,26 @@ div#text_field {
     background-color: lightblue;
 }
 
+div#text_field input[type='button']{
+    vertical-align: middle;
+    border-style: none;
+    background-color: transparent;
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background-image: url('/assets/icon/search.png');
+}
+div#text_field input[type='button']:hover{
+    background-image: url('/assets/icon/search_selected.png');
+}
+
+
 div#text_field input[type="text"] {
     position: relative;
     display: inline-block;
-    width: 90%;
+    width: calc(90% - 40px);
     height: 40px;
     padding-right: 50px;
     border-radius: 5px;
@@ -646,6 +662,19 @@ div#text_field input[type="submit"] {
     border-style: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+div#text_field input#search_img_text {
+    width: 100px;
+    display: none;
+}
+
+div#text_field input#search_img_send{
+    background-image: url('/assets/icon/go.png');
+    background-color: white;
+    margin-left: -40px;
+    margin-right: 10px;
+    display: none;
 }
 
 input:focus {

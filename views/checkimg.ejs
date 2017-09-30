@@ -59,8 +59,9 @@
             </div>
         </div>
     <script>
-        var last_index = <%- JSON.stringify(lastIndex) %>;
-        load_pic_data(last_index);
+        var lastIndex = <%- JSON.stringify(lastIndex) %>;
+
+        load_pic_data(lastIndex);
 
         var should_update = true;
 

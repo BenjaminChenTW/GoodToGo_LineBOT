@@ -3,7 +3,6 @@ var pic_data = [];
 
 var selected_picture;
 
-var start_index = 0;
 var end_index = 0;
 
 function reset_button() {
@@ -184,15 +183,6 @@ function create_message(type, message, img) {
     msg_ul.scrollTop = msg_ul.scrollHeight;
 }
 
-function send_message() {
-    var msg = document.getElementById('message_text').value;
-    if (msg === '') {
-        return;
-    }
-
-    create_message('me', msg);
-}
-
 function showDialog(customer, customerId) {
     if (selected_customer === customer) {
         return;
@@ -323,6 +313,8 @@ function load_pic_data(last_index) {
                 var imgstr = "/getImg/" + pic_data[i].indexId;
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
             }
+
+            
 
             document.getElementById('picture_view').scrollLeft = 0;
         },
