@@ -515,6 +515,22 @@ li.system {
     text-align: center;
 }
 
+li.system div {
+    width: 100%;
+    display:  block;
+    text-align: center;
+}
+
+li.system div img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 50vh;
+
+    display: inline-block;
+    text-align: center;
+}
+
 li p a.box {
     display: inline-block;
     height: auto;

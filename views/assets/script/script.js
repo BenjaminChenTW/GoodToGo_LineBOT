@@ -5,6 +5,8 @@ var selected_picture;
 
 var end_index = 0;
 
+var reasons = ["不在現場", "非好盒器"];
+
 function reset_button() {
     document.getElementById('check_availible_num_bag').value = '0';
     document.getElementById('check_availible_num_container').value = '0';
@@ -167,6 +169,11 @@ function create_message(type, message, img) {
         new_msg.setAttribute('class', 'customer');
     } else if (type === 'system') {
         new_span.setAttribute('class', 'helper');
+        if (img !== undefined) {
+            var new_div = document.createElement('div');
+            new_div.appendChild(img);
+            new_p.appendChild(new_div); 
+        }
         new_msg.setAttribute('class', 'system');
     } else {
         new_span.setAttribute('class', 'helper');

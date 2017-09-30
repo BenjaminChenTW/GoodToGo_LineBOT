@@ -102,5 +102,44 @@
         isSearchImgButtonSelected = !isSearchImgButtonSelected;
     });
 
+    $('#search_img_text').keydown(function(event){
+        if ( event.which == 13 ){
+            $('#search_img_btn').click();
+        }
+    });
+
+    $('#search_img_send').on('click', function(){
+        let search_id = document.getElementById('search_img_text').value;
+
+        document.getElementById('search_img_btn').click();
+        document.getElementById('search_img_text').value = '';
+
+        $.ajax({
+            url: 'chatroom/img/' + search_id,
+            dataType: 'JSON',
+            success: function(data){
+                if (data.src === undefined) {
+                    create_message('system','查無此照片');
+                    return;
+                } else if (!data.checked) {
+                    create_message('system','此照片尚未審核');
+                    return;
+                }
+                var new_img = document.createElement('img');
+                new_img.setAttribute('src', 'http://bot.goodtogo.tw'+data.src);
+                var upload_time = custom_date(new Date(data.uploadTime));
+                var checked_time = custom_date( new Date(data.checkStatus.checkedTime));
+                var amount = data.checkStatus.amount;
+                if (amount === undefined) {
+                    amount = '0 (' + reasons[data.checkStatus.typeCode] + ')';
+                }
+                var img_index = data.imgIndex;
+
+                var msg = '照片編號: ' + img_index + '\n上傳時間: ' + upload_time + '\n審核時間: ' + checked_time + '\n審核結果: ' + amount; 
+                create_message('system', msg, new_img);
+            }
+        })
+    })
+
     </script>
 <%- include ./footer.ejs %>
