@@ -197,14 +197,10 @@ function showDialog(customer, customerId) {
     if (selected_customer === customer) {
         return;
     }
-<<<<<<< HEAD
-    socket.on(customerId, function(data){
-=======
 
 
 
     socket.on(customerId, function(data) {
->>>>>>> b6dfc5eff9eb3c0d2a191281cd824248d48366b4
         var img = customer.getElementsByTagName('img')[0].cloneNode(true);
 
         var type = data.type;
