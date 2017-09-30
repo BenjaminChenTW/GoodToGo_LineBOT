@@ -18,6 +18,7 @@
                 <b id="goodtogo">LINE BOT 後台</b>
         </nav>
     </header>
+    <div id='zoom_in' style='display: none'><input type='button' id='close_btn' onclick='close_zoom_in()'/></div>
     <div id="messenger_view">
         <div class="manager">
             <form class="form-wrapper">
@@ -104,7 +105,7 @@
 
     $('#search_img_text').keydown(function(event){
         if ( event.which == 13 ){
-            $('#search_img_btn').click();
+            $('#search_img_send').click();
         }
     });
 
@@ -119,18 +120,19 @@
             dataType: 'JSON',
             success: function(data){
                 if (data.src === undefined) {
-                    create_message('system','查無此照片');
+                    create_message('system','查無此照片(編號: '+ search_id + ')');
                     return;
                 } else if (!data.checked) {
-                    create_message('system','此照片尚未審核');
+                    create_message('system','此照片尚未審核(編號: '+ search_id + ')');
                     return;
                 }
                 var new_img = document.createElement('img');
-                new_img.setAttribute('src', 'http://bot.goodtogo.tw'+data.src);
+                new_img.setAttribute('onclick', 'zoomIn(this)');
+                new_img.setAttribute('src', data.src);
                 var upload_time = custom_date(new Date(data.uploadTime));
-                var checked_time = custom_date( new Date(data.checkStatus.checkedTime));
-                var amount = data.checkStatus.amount;
-                if (amount === undefined) {
+                var checked_time = custom_date(new Date(Number(data.checkStatus.checkTime)));
+                var amount = data.checkStatus.amount + ' 次抽獎機會';
+                if (data.checkStatus.amount === undefined) {
                     amount = '0 (' + reasons[data.checkStatus.typeCode] + ')';
                 }
                 var img_index = data.imgIndex;

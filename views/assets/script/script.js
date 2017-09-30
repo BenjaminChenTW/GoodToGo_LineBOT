@@ -18,7 +18,14 @@ function reset_button() {
 }
 
 function zoomIn(pic) {
-    console.log('pressed');
+    document.getElementById('zoom_in').style.display = 'flex';
+    document.getElementById('zoom_in').appendChild(pic.cloneNode(true));
+    document.getElementById('zoom_in').getElementsByTagName('img')[0].removeAttribute('onclick');
+}
+
+function close_zoom_in() {
+    document.getElementById('zoom_in').style.display = 'none';
+    document.getElementById('zoom_in').removeChild(document.getElementById('zoom_in').getElementsByTagName('img')[0]);
 }
 
 function intReLength(data, length) {
@@ -73,8 +80,6 @@ function select_picture(pic) {
 
             let status = pic.getAttribute('checked') === 'true' ? 'checked' : 'unchecked';
 
-            console.log(pic.getAttribute('checked'));
-            console.log(status);
             document.getElementById('status').setAttribute('type', status);
         }
     }
@@ -194,8 +199,6 @@ function showDialog(customer, customerId) {
     if (selected_customer === customer) {
         return;
     }
-
-
 
     socket.on(customerId, function(data) {
         var img = customer.getElementsByTagName('img')[0].cloneNode(true);

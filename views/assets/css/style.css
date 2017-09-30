@@ -525,7 +525,7 @@ li.system div img {
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 50vh;
+    max-height: 40vh;
 
     display: inline-block;
     text-align: center;
@@ -756,8 +756,54 @@ table#checked_list th img {
     max-height: 100px;
     max-width: 100%;
 
-    
     margin-top: 5px;
+}
+
+#zoom_in {
+    z-index: 100;
+    position: fixed;
+    display: flex;
+    left: 0;
+    top: 10vh;
+    width: 100vw;
+    height: 90vh;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0,0,0,0.8);
+}
+
+#zoom_in input {
+    background-image: url('/assets/icon/close.png');
+    width: 30px;
+    height: 30px;
+    
+    border-style: none;
+    background-color: transparent;
+
+    position: absolute;
+
+    left:calc(100vw - 50px);
+    top: 20px;
+    
+}
+
+#zoom_in img {
+    height: auto;
+    width: auto;
+
+    max-height: 90%;
+    max-width: 90%;
+}
+
+@media screen and (max-width: 460pt) {
+
+    #zoom_in {
+        top: 0;
+        height: 100vh;
+    }
+
 }
 
 /*

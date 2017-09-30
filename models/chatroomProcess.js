@@ -69,7 +69,7 @@ module.exports = {
     },
     sendMessage: function(id, text, next, callback) {
         Message.findOne({ 'event.source.userId': id }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
-            if (notify === true) {
+            if (user.notify === true) {
                 message = new Message();
                 message.event = {
                     message: {

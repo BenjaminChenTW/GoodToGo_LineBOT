@@ -16,6 +16,7 @@
     </header>
     <div class="loader"></div>
     <div class='page'>
+    <div id='zoom_in' style='display: none'><input type='button' id='close_btn' onclick='close_zoom_in()'/></div>
     <table id='checked_list'>
         <thead class='sticky-header'>
             <tr>
@@ -93,7 +94,6 @@
                 $('.loader')[0].style.display = 'none';
             }
         });
-
     </script>
     
 <%- include ./footer.ejs %>
