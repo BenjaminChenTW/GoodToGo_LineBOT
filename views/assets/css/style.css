@@ -383,7 +383,7 @@ input {
     }
 }
 
-.manager form {
+.manager div#form {
     position: absolute;
     z-index: 1;
     background-color: lightblue;
@@ -732,14 +732,11 @@ table#checked_list thead tr {
 }
 
 table#checked_list tbody tr {
-    border-bottom: 1px solid #000;
     display: block;
-    min-height: 100px;
 }
 
 table#checked_list th.img {
     height: 100px;
-    min-width: 100px;
 }
 
 table#checked_list thead tr th {

@@ -257,7 +257,9 @@ function clear_message_field() {
 }
 
 function closeDialog() {
+    selected_customer.style.backgroundColor = 'white';
     document.getElementsByClassName('message')[0].style.display = 'none';
+
 }
 
 function create_pic(place, indexId, imgstr, userName, uploadTime, checked) {

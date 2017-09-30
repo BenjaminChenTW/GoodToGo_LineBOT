@@ -21,9 +21,9 @@
     <div id='zoom_in' style='display: none'><input type='button' id='close_btn' onclick='close_zoom_in()'/></div>
     <div id="messenger_view">
         <div class="manager">
-            <form class="form-wrapper">
-                <input type="text" id="search" placeholder=" 輸入id搜尋..." required>
-            </form>
+            <div id='form'>
+                <input id='search_bar' type="text" placeholder=" 輸入id搜尋..." />
+            </div>
             <ul id="customers_list">
                 <% var imgTag = ''; %>
                 <% var aTag = ''; %>
@@ -55,10 +55,9 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    <% var tmpArr = []; %>
-    <% if(roomList.length > 20) tmpArr = roomList.slice(20, roomList.length); %>
+    <% var tmpArr = roomList %>
     <% var arrStr = ''; %>
-    <% for(var i = 0; i < tmpArr.length; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
+    <% for(var i = 0; i < 20; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
     <% var tmpStr = '[' + arrStr + ']'; %>
     var extraRoomList = <%- tmpStr %>;
     var socket = io.connect(window.location.origin);
@@ -140,8 +139,47 @@
                 var msg = '照片編號: ' + img_index + '\n上傳時間: ' + upload_time + '\n審核時間: ' + checked_time + '\n審核結果: ' + amount; 
                 create_message('system', msg, new_img);
             }
-        })
-    })
+        });
+    });
+
+    $("#search_bar").on("input paste", function(){
+        var keyword = this.value;
+
+        while(document.getElementById('customers_list').firstChild){
+            document.getElementById('customers_list').removeChild(document.getElementById('customers_list').firstChild);
+        }
+
+        var result = [];
+
+        for (var i = 0 ; i < extraRoomList.length ; i++) {
+            if (extraRoomList[i].userName.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+                var name = extraRoomList[i].userName;
+                var src = extraRoomList[i].userImg;
+                var userId = extraRoomList[i].userId;
+
+                var new_li = document.createElement('li');
+                var new_a = document.createElement('a');
+                var new_span = document.createElement('span');
+                var new_img = document.createElement('img');
+                var new_p = document.createElement('p');
+
+                new_a.setAttribute('class', 'list_button');
+                new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'")');
+                new_img.setAttribute('src', src);
+                new_span.setAttribute('class', 'helper');
+                new_p.innerHTML = name;    
+
+                new_a.appendChild(new_img);
+                new_a.appendChild(new_span);
+                new_a.appendChild(new_p);
+                new_li.appendChild(new_a);
+
+                document.getElementById('customers_list').appendChild(new_li);
+                continue;
+            }
+        }
+    });
+
 
     </script>
 <%- include ./footer.ejs %>
