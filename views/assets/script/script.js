@@ -80,6 +80,8 @@ function select_picture(pic) {
 }
 
 function submit() {
+    $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
+
     let id = selected_picture.getAttribute('indexId');
     var request_url = '/img/';
     var para1 = document.getElementById('check_availible_num_bag').value;
@@ -189,23 +191,20 @@ function send_message() {
     }
 
     create_message('me', msg);
-
-    /*$.ajax({
-        type: 'POST',
-        url: "/chatroom/" + selected_customer.getAttribute('customerId'),
-        data: { 'message': msg },
-        dataType: JSON
-    })*/
 }
 
 function showDialog(customer, customerId) {
     if (selected_customer === customer) {
         return;
     }
+<<<<<<< HEAD
+    socket.on(customerId, function(data){
+=======
 
 
 
     socket.on(customerId, function(data) {
+>>>>>>> b6dfc5eff9eb3c0d2a191281cd824248d48366b4
         var img = customer.getElementsByTagName('img')[0].cloneNode(true);
 
         var type = data.type;
@@ -320,11 +319,6 @@ function load_pic_data(last_index) {
         dataType: "JSON",
         success: function(data) {
             pic_data = data.list;
-        },
-        error: function() {
-
-        },
-        complete: function() {
             if (pic_data.length >= 1) {
                 end_index = pic_data[pic_data.length - 1].indexId;
             }
@@ -335,6 +329,18 @@ function load_pic_data(last_index) {
             }
 
             document.getElementById('picture_view').scrollLeft = 0;
+        },
+        error: function() {
+
+        },
+        complete: function() {
+            document.getElementsByClassName('loader')[0].style.display = 'none';
+
+            if (pic_data.length == 0) {
+                $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
+            }else{
+                $('.default_text')[0].innerHTML = '請點選照片以審核'
+            }
         }
     });
 }

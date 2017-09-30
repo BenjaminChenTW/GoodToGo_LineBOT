@@ -14,9 +14,10 @@
             <b id="goodtogo">LINE BOT 後台</b>
         </nav>
     </header>
+    <div class="loader"></div>
     <div class='page'>
     <table id='checked_list'>
-        <thead>
+        <thead class='sticky-header'>
             <tr>
                 <th>審核照片</th>
                 <th>照片編號</th>
@@ -28,12 +29,15 @@
             </tr>
         </thead>
         <tbody>
-
         </tbody>
         
     </table>
     </div>
     <script>
+        var reasons = ["不在現場", "非好盒器"];
+
+        $('.loader')[0].style.display = 'inline-block';
+
         $.ajax({
             url: '/checkedList/0',
             dataType: 'JSON',
@@ -61,10 +65,16 @@
                     new_td_user.innerHTML = data_list[i].userName;
                     new_td_upload_time.innerHTML = custom_date(new Date(data_list[i].uploadTime));
                     new_td_checked_time.innerHTML = custom_date(new Date(data_list[i].checkedStatus.checkTime));
-                    new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
+                    
+                    if (data.list[i].checkedStatus.amount !== undefined) {
+                        new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
+                    } else {
+                        new_td_amount.innerHTML = '0';
+                    }
+
 
                     if (data_list[i].checkedStatus.typeCode !== undefined) {
-                        new_td_reason.innerHTML = data_list[i].checkedStatus.typeCode;
+                        new_td_reason.innerHTML = reasons[parseInt(data_list[i].checkedStatus.typeCode)];
                     } else {
                         new_td_reason.innerHTML = 'N/A';
                     }
@@ -79,6 +89,9 @@
 
                     document.getElementById('checked_list').appendChild(new_tr);
                 }
+            },
+            complete: function() {
+                $('.loader')[0].style.display = 'none';
             }
         });
 

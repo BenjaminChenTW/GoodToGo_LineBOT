@@ -4,6 +4,18 @@ html {
     height: 100vh;
 }
 
+/*
+ * cwTeXHei (Chinese-traditional) http://www.google.com/fonts/earlyaccess
+ */
+
+ @font-face {
+    font-family: 'cwTeXHei';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(240, 240, 240);
@@ -13,6 +25,11 @@ body {
     margin: 0 auto;
     width: 100vw;
     height: 100vh;
+}
+
+body,
+input {
+    font-family: 'cwTeXHei', sans-serif;
 }
 
 nav#main_nav {
@@ -207,6 +224,7 @@ img.icon {
     margin-bottom: 10vh;
     width: 100vw;
     display: none;
+    background-color: rgb(240, 240, 240);
 }
 
 #detail>div#detail_pic {
@@ -551,7 +569,8 @@ li.system p a.box {
     width: 60px;
     left: 0;
     top: 0;
-    position: absolute
+    position: absolute;
+    font-family: 'Arial';
 }
 
 #message_field nav a:hover {
@@ -702,19 +721,32 @@ End of checked history tab
 */
 
 
-/*
- * cwTeXHei (Chinese-traditional) http://www.google.com/fonts/earlyaccess
- */
-
-@font-face {
-    font-family: 'cwTeXHei';
-    font-style: normal;
-    font-weight: 500;
-    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot);
-    src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'), url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
+.loader {
+    border: 8px solid #DDD; 
+    border-top: 8px solid rgba(64, 185, 216, 1);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    position: absolute;
+    top: calc(50vh - 25px);
+    margin-left: -25px;
+    left: calc(50vw - 25px);
 }
 
-body,
-input {
-    font-family: 'cwTeXHei', sans-serif;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.default_text {
+    width: 100vw;
+    display: inline-block;
+    position: absolute;
+    top: calc(50vh - 25px);
+    margin-left: -50vw;    
+    color: #888;
+    text-align: center;
+    font-size: 22px;
 }
