@@ -38,7 +38,7 @@ function intReLength(data, length) {
     return str;
 }
 
-function custom_date(date) {
+function custom_date(date, shouldBreak) {
     var year = date.getFullYear();
     var month = date.getMonth();
     var d = intReLength(date.getDate(), 2);
@@ -46,7 +46,15 @@ function custom_date(date) {
     var minute = intReLength(date.getMinutes(), 2);
     var second = intReLength(date.getSeconds(), 2);
 
-    return (year + '/' + (month + 1) + '/' + d + ' ' + hour + ':' + minute + ':' + second);
+    var b = (shouldBreak) ? '\n' : ' ';
+
+    var result = (year + '/' + (month + 1) + '/' + d + b + hour + ':' + minute);
+
+    if (!shouldBreak) {
+        result += ':' + second;
+    }
+
+    return result;
 }
 
 function select_picture(pic) {
@@ -239,7 +247,7 @@ function showDialog(customer, customerId) {
 
             message_field.style.display = 'block';
             var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-            nav_text.textContent = customer.getElementsByTagName('p')[0].textContent;
+            nav_text.textContent = document.getElementById('name').childNodes[0].nodeValue;
 
 
             var msg_ul = document.getElementById('message_ul');

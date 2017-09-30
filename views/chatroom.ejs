@@ -22,16 +22,9 @@
     <div id="messenger_view">
         <div class="manager">
             <div id='form'>
-                <input id='search_bar' type="text" placeholder=" 輸入id搜尋..." />
+                <input id='search_bar' type="text" placeholder=" 輸入id搜尋..." /><input id='clear' type='button'/>
             </div>
             <ul id="customers_list">
-                <% var imgTag = ''; %>
-                <% var aTag = ''; %>
-                <% for(var i = 0; i < ((roomList.length > 20)? 20:roomList.length); i++){ %>
-                <% imgTag = imgTagHeader + roomList[i].userImg + imgTagFooter; %>
-                <% aTag = aTagHeader + roomList[i].userId + aTagFooter; %>
-                <li><%- aTag %><%- imgTag %><span class="helper"></span><p><%- roomList[i].userName %></p></a></li>
-                <% } %>
             </ul>
         </div>
         <div class="message" id='message'>
@@ -57,7 +50,7 @@
     <script>
     <% var tmpArr = roomList %>
     <% var arrStr = ''; %>
-    <% for(var i = 0; i < 20; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
+    <% for(var i = 0; i < tmpArr.length; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
     <% var tmpStr = '[' + arrStr + ']'; %>
     var extraRoomList = <%- tmpStr %>;
     var socket = io.connect(window.location.origin);
@@ -108,6 +101,60 @@
         }
     });
 
+    function create_customer_list(name, src, userId, text, time, status) {
+        var new_li = document.createElement('li');
+        var new_a = document.createElement('a');
+        var new_span = document.createElement('span');
+        var new_img = document.createElement('img');
+        var new_div = document.createElement('div');
+        var new_p_time = document.createElement('p');
+        var new_p_text = document.createElement('p');
+
+        new_a.setAttribute('class', 'list_button');
+        new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'")');
+        new_img.setAttribute('src', src);
+        new_span.setAttribute('class', 'helper');
+        new_div.setAttribute('id', 'name');
+        new_div.setAttribute('status', status);
+        new_div.innerHTML = name;    
+        new_p_text.setAttribute('id', 'text');
+        new_p_text.innerHTML = text;
+        new_p_time.setAttribute('id', 'time');
+        new_p_time.innerHTML = time;
+
+        new_div.appendChild(new_p_text);
+        new_a.appendChild(new_img);
+        new_a.appendChild(new_span);
+        new_a.appendChild(new_div);
+        new_a.appendChild(new_p_time);
+        new_li.appendChild(new_a);
+
+        document.getElementById('customers_list').appendChild(new_li);
+
+        if (selected_customer != undefined) {
+            if (selected_customer.getAttribute('customerId') == userId) {
+                selected_customer = new_a;
+                new_a.style.backgroundColor = 'rgb(240,240,240)';
+            }
+        }
+    }
+
+    function load_all() {
+        for (var i = 0 ; i < extraRoomList.length ; i++) {
+            var name = extraRoomList[i].userName;
+            var src = extraRoomList[i].userImg;
+            var userId = extraRoomList[i].userId;
+            var text = extraRoomList[i].text;
+            var time = custom_date(new Date(Number(extraRoomList[i].time)),true);
+            var status = extraRoomList[i].hasRead ? 'read' : 'unread';
+
+    
+            create_customer_list(name,src,userId,text,time,status);
+
+            continue;
+        }
+    }
+
     $('#search_img_send').on('click', function(){
         let search_id = document.getElementById('search_img_text').value;
 
@@ -142,44 +189,40 @@
         });
     });
 
-    $("#search_bar").on("input paste", function(){
+    $("#search_bar").on("change input paste", function(){
         var keyword = this.value;
 
         while(document.getElementById('customers_list').firstChild){
             document.getElementById('customers_list').removeChild(document.getElementById('customers_list').firstChild);
         }
 
-        var result = [];
-
         for (var i = 0 ; i < extraRoomList.length ; i++) {
             if (extraRoomList[i].userName.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
                 var name = extraRoomList[i].userName;
                 var src = extraRoomList[i].userImg;
                 var userId = extraRoomList[i].userId;
+                var text = extraRoomList[i].text;
+                var time = custom_date(new Date(Number(extraRoomList[i].time)),true);
+                var status = extraRoomList[i].hasRead ? 'read' : 'unread';
 
-                var new_li = document.createElement('li');
-                var new_a = document.createElement('a');
-                var new_span = document.createElement('span');
-                var new_img = document.createElement('img');
-                var new_p = document.createElement('p');
-
-                new_a.setAttribute('class', 'list_button');
-                new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'")');
-                new_img.setAttribute('src', src);
-                new_span.setAttribute('class', 'helper');
-                new_p.innerHTML = name;    
-
-                new_a.appendChild(new_img);
-                new_a.appendChild(new_span);
-                new_a.appendChild(new_p);
-                new_li.appendChild(new_a);
-
-                document.getElementById('customers_list').appendChild(new_li);
+                create_customer_list(name,src,userId,text,time,status);
+    
                 continue;
             }
         }
     });
 
+    $('#clear').on('click', function(){
+        while(document.getElementById('customers_list').firstChild){
+            document.getElementById('customers_list').removeChild(document.getElementById('customers_list').firstChild);
+        }
+
+        document.getElementById('search_bar').value = '';
+
+        load_all();
+    });
+
+    load_all();
 
     </script>
 <%- include ./footer.ejs %>

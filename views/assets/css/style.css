@@ -394,7 +394,7 @@ input {
     justify-content: center;
 }
 
-.manager input {
+.manager input#search_bar {
     display: inline-block;
     width: 85%;
     height: 50%;
@@ -402,6 +402,18 @@ input {
     border-radius: 10px;
     padding: 0 10px 0 10px;
     font-size: 14px;
+}
+
+.manager input#clear {
+    margin-left: -30px;
+    border-style: none;
+    background-color: transparent;
+    border-radius: 10px;
+
+    background-image: url('/assets/icon/clear.png');
+
+    width: 20px;
+    height: 20px;
 }
 
 ul#customers_list {
@@ -445,12 +457,50 @@ ul#customers_list li a img {
     margin-left: 12.5px;
 }
 
-ul#customers_list li a p {
+ul#customers_list li a p#time {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+    color: rgb(50, 50, 50);
+    text-align: right;
+    margin-top: calc(43px / 2);
+    right: 10px;
+
+    white-space: pre-wrap;
+
+    color: #AAA;
+}
+
+ul#customers_list li #name {
     position: relative;
     display: inline-block;
+    vertical-align: middle;
     left: 75px;
+    top: 4px;
     font-size: 17px;
     color: rgb(50, 50, 50);
+    font-weight: normal;
+    
+}
+
+ul#customers_list li #name[status='unread']{
+    font-weight: 900;
+    color: black;
+}
+
+ul#customers_list li a p#text{
+    position: relative;
+    display: block;
+    line-height: 2px;
+    font-size: 13px;
+    text-align: left;
+    font-weight: normal;
+
+    color: #AAA;
+}
+ul#customers_list li a #name[status='unread'] p#text {
+    color: black;
+    font-weight: 900;
 }
 
 .message {
