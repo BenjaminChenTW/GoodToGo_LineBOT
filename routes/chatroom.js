@@ -5,6 +5,7 @@ var getFirst = require('../models/chatroomProcess.js').getFirst;
 var getMessage = require('../models/chatroomProcess.js').getMessage;
 var sendMessage = require('../models/chatroomProcess.js').sendMessage;
 var getImg = require('../models/chatroomProcess.js').getImg;
+var stopSession = require('../models/chatroomProcess.js').stopSession;
 
 router.get('/', function(req, res, next) {
     getFirst(next, function(isEmpty, roomList) {
@@ -39,13 +40,25 @@ router.get('/img/:id', function(req, res, next) {
     });
 });
 
+router.post('/terminateSession/:id', function(req, res, next) {
+    var id = req.params.id;
+    if (id === 'undefined') return res.status(404).end();
+    stopSession(id, next, function() {
+        res.json({
+            type: 'system',
+            text: '對話已結束',
+        });
+    });
+});
+
 module.exports = {
     router: router,
     sendMsg: function(socket, userId, msg) {
         if (!userId || !msg) return socket.emit('server', { msg: "Content Lost" });
         sendMessage(userId, msg, function(err) {
             socket.emit('server', { msg: "ServerDB Error" + JSON.stringify(err) });
-        }, function() {
+        }, function(reject) {
+            if (reject) return socket.emit('server', { msg: reject.text });
             socket.emit('server', { msg: "Sended" });
             socket.broadcast.emit(userId, { type: 'manager', msg: msg });
         });

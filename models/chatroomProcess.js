@@ -47,12 +47,7 @@ module.exports = {
                     startNotify = messages[i].event.timestamp;
                 } else if (messages[i].notify === false) {
                     startNotify = 0;
-                    userMessages.unshift({
-                        type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
-                        text: messages[i].event.message.text,
-                        time: messages[i].event.timestamp
-                    });
-                    if (userMessages.length !== 0)
+                    if (userMessages.length !== 0 && messages[i - 1].notify === true)
                         userMessages.unshift({
                             type: 'system',
                             text: '-- 以上為上一對話階段 --'
@@ -73,25 +68,29 @@ module.exports = {
         });
     },
     sendMessage: function(id, text, next, callback) {
-        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
-            message = new Message();
-            message.event = {
-                message: {
-                    text: text,
-                    type: 'text'
-                },
-                timestamp: Date.now(),
-                source: {
-                    userId: id
-                }
-            };
-            message.notify = true;
-            message.event.source['displayName'] = user.event.source.displayName;
-            message.event.source['pictureUrl'] = user.event.source.pictureUrl;
-            message.save((err) => {
-                if (err) return next(err);
-                textSendler(id, text, callback);
-            });
+        Message.findOne({ 'event.source.userId': id }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            if (notify === true) {
+                message = new Message();
+                message.event = {
+                    message: {
+                        text: text,
+                        type: 'text'
+                    },
+                    timestamp: Date.now(),
+                    source: {
+                        userId: id
+                    }
+                };
+                message.notify = true;
+                message.event.source['displayName'] = user.event.source.displayName;
+                message.event.source['pictureUrl'] = user.event.source.pictureUrl;
+                message.save((err) => {
+                    if (err) return next(err);
+                    textSendler(id, text, callback);
+                });
+            } else {
+                callback({ text: '對話階段尚未開啟。' });
+            }
         });
     },
     getImg: function(id, next, callback) {
@@ -103,6 +102,29 @@ module.exports = {
                 uploadTime: img.logTime,
                 checked: img.img.checked,
                 checkStatus: img.img.checkStatus
+            });
+        });
+    },
+    stopSession: function(id, next, callback) {
+        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            terminateText = '感謝您使用客服，希望您對我們的服務還滿意！';
+            message = new Message();
+            message.event = {
+                message: {
+                    text: terminateText,
+                    type: 'text'
+                },
+                timestamp: Date.now(),
+                source: {
+                    userId: id
+                }
+            };
+            message.notify = false;
+            message.event.source['displayName'] = user.event.source.displayName;
+            message.event.source['pictureUrl'] = user.event.source.pictureUrl;
+            message.save((err) => {
+                if (err) return next(err);
+                textSendler(id, terminateText, callback);
             });
         });
     }
