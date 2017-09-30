@@ -16,19 +16,29 @@ function reset_button() {
     document.getElementById('other_reasons').style.display = 'none';
 }
 
-function zoomIn(pic){
+function zoomIn(pic) {
     console.log('pressed');
+}
+
+function intReLength(data, length) {
+    var str = data.toString();
+    if (length - str.length) {
+        for (j = 0; j <= length - str.length; j++) {
+            str = "0" + str;
+        }
+    }
+    return str;
 }
 
 function custom_date(date) {
     var year = date.getFullYear();
     var month = date.getMonth();
-    var d = date.getDate();
-    var hour = date.getHours();
-    var minute = date.getMinutes();
-    var second = date.getSeconds();
+    var d = intReLength(date.getDate(), 2);
+    var hour = intReLength(date.getHours(), 2);
+    var minute = intReLength(date.getMinutes(), 2);
+    var second = intReLength(date.getSeconds(), 2);
 
-    return (year + '/' + (month+1) + '/' + d + ' ' + hour + ':' + minute + ':' + second);
+    return (year + '/' + (month + 1) + '/' + d + ' ' + hour + ':' + minute + ':' + second);
 }
 
 function select_picture(pic) {
@@ -187,7 +197,14 @@ function showDialog(customer, customerId) {
     if (selected_customer === customer) {
         return;
     }
+<<<<<<< HEAD
     socket.on(customerId, function(data){
+=======
+
+
+
+    socket.on(customerId, function(data) {
+>>>>>>> b6dfc5eff9eb3c0d2a191281cd824248d48366b4
         var img = customer.getElementsByTagName('img')[0].cloneNode(true);
 
         var type = data.type;
@@ -307,7 +324,7 @@ function load_pic_data(last_index) {
             }
 
             for (var i = 0; i < pic_data.length; i++) {
-                var imgstr = "data:" + pic_data[i].imgType + ";base64," + pic_data[i].imgBinary;
+                var imgstr = "/getImg/" + pic_data[i].indexId;
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
             }
 

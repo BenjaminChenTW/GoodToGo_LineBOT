@@ -73,7 +73,7 @@ module.exports = {
         var returnStr = '';
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user.notify) global.aEvent.emit('getMsg', event.source.userId, event.message.text);
             else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
@@ -106,7 +106,7 @@ module.exports = {
         var returnStr = '';
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             global.aEvent.emit('getMsg', event.source.userId, event.message.text);
             if (user) {
@@ -138,7 +138,7 @@ module.exports = {
         var returnStr = '';
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 textHandlerCallback(message, {
@@ -167,7 +167,7 @@ module.exports = {
         imgBuffer = [];
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 imgHandlerCallback(message, {

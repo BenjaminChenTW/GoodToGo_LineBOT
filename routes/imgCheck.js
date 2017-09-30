@@ -36,7 +36,7 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     var amount = req.params.container;
     if (!(picIndex || amount)) return res.status(404).end();
     if (amount <= 0) return res.status(402).end();
-    Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
+    Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
         // if (message) {
         funcList = [];
         for (var i = 0; i < amount; i++) {
@@ -93,7 +93,7 @@ router.post('/decline/:id/:type', function(req, res, next) {
     picIndex = parseInt(picIndex);
     declineType = parseInt(declineType);
 
-    Message.findOne({ "img.id": picIndex, "img.checked": false }, function(err, message) {
+    Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
         if (message) {
             textSendler(message.event.source.userId, "您的照片 #" + picIndex + " 已完成審核，但由於我們認為該照片" + decline[declineType] + "，您無法獲得抽獎資格QQ", function() {
                 message.img.checked = true;

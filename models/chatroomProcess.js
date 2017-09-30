@@ -73,7 +73,7 @@ module.exports = {
         });
     },
     sendMessage: function(id, text, next, callback) {
-        Message.findOne({ 'event.source.userId': id }, {}, { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             message = new Message();
             message.event = {
                 message: {
@@ -91,6 +91,18 @@ module.exports = {
             message.save((err) => {
                 if (err) return next(err);
                 textSendler(id, text, callback);
+            });
+        });
+    },
+    getImg: function(id, next, callback) {
+        Message.findOne({ 'img.id': id }, 'img.checked img.checkStatus logTime', function(err, img) {
+            if (!img) return callback({});
+            callback({
+                src: '/getImg/' + id,
+                imgIndex: id,
+                uploadTime: img.logTime,
+                checked: img.img.checked,
+                checkStatus: img.img.checkStatus
             });
         });
     }
