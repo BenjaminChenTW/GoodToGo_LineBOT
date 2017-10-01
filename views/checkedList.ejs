@@ -21,12 +21,12 @@
         <thead class='sticky-header'>
             <tr>
                 <th>審核照片</th>
-                <th>照片編號</th>
+                <th>編號</th>
                 <th>上傳用戶</th>
                 <th>上傳時間</th>
                 <th>審核時間</th>
                 <th>審核數量</th>
-                <th>拒絕原因</th>
+                <th>原因</th>
             </tr>
         </thead>
         <tbody>
@@ -68,10 +68,16 @@
                     new_td_upload_time.innerHTML = custom_date(new Date(data_list[i].uploadTime));
                     new_td_checked_time.innerHTML = custom_date(new Date(data_list[i].checkedStatus.checkTime));
                     
-                    if (data.list[i].checkedStatus.amount !== undefined) {
-                        new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
+                    if (data.list[i].checkedStatus.typeCode == undefined) {
+                        var bag = data_list[i].checkedStatus.amount.bag;
+                        var container = data_list[i].checkedStatus.amount.container;
+                        var tableware = data_list[i].checkedStatus.amount.tableware;
+
+                        new_td_amount.innerHTML = bag + ', ' + container + ', ' + tableware;
+                                               
+                        //new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
                     } else {
-                        new_td_amount.innerHTML = '0';
+                        new_td_amount.innerHTML = '0, 0 ,0';
                     }
 
 

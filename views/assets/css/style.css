@@ -512,6 +512,7 @@ ul#customers_list li a p#text{
 
   color: #AAA;
 }
+
 ul#customers_list li a #name[status='unread'], #time[status='unread'], #name[status='unread'] p#text{
   color: black;
   font-weight: 900;
