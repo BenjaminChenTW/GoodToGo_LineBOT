@@ -208,6 +208,10 @@ function showDialog(customer, customerId, customerName) {
         return;
     }
 
+    document.getElementById('name').removeAttribute('status');
+    document.getElementById('time').removeAttribute('status');
+    document.getElementById('text').removeAttribute('status');
+
     document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
 
     socket.on(customerId, function(data) {
@@ -229,6 +233,27 @@ function showDialog(customer, customerId, customerName) {
     selected_customer = customer;
 
     customer.style.backgroundColor = 'rgb(240, 240, 240)';
+    
+    // Show the message field
+    var message_field = document.getElementById('message_field');
+    var text_field =    document.getElementById('text_field');
+    message_field.style.display = 'block';
+    text_field.style.display = 'block';
+
+    var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
+    nav_text.textContent = customerName;
+
+    document.getElementById('default_words').style.display = 'none';
+
+    var msg_ul = document.getElementById('message_ul');
+    msg_ul.scrollTop = msg_ul.scrollHeight;
+
+
+    //Set the loader animation
+    var loader = document.createElement('div');
+    loader.setAttribute('class', 'loader');
+
+    document.getElementById('message_ul_container').appendChild(loader);
 
     $.ajax({
         url: "/chatroom/" + customerId,
@@ -245,18 +270,7 @@ function showDialog(customer, customerId, customerName) {
             alert('error')
         },
         complete: function() {
-            var message_field = document.getElementById('message_field');
-            var text_field =    document.getElementById('text_field');
-            message_field.style.display = 'block';
-            text_field.style.display = 'block';
-
-            var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-            nav_text.textContent = customerName;
-
-            document.getElementById('default_words').style.display = 'none';
-
-            var msg_ul = document.getElementById('message_ul');
-            msg_ul.scrollTop = msg_ul.scrollHeight;
+            document.getElementById('message_ul_container').removeChild(loader);            
         }
 
     });
