@@ -62,7 +62,11 @@
 
     socket.on('server', function(obj){
         console.log('msg: ' + obj.msg)
-    })
+    });
+    socket.on('otherUser', function(obj){
+        console.log('user: ' + obj.user)
+        console.log('msg: ' + obj.msg)
+    });
 
     $('#sendMsg').on('click', function(){
          var msg = document.getElementById('message_text').value;

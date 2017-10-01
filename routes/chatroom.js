@@ -64,6 +64,7 @@ module.exports = {
         });
     },
     getMsg: function(io, userId, msg) {
+        io.emit('otherUser', { user: userId, msg: msg });
         io.emit(userId, { type: 'customer', msg: msg });
     }
 };
