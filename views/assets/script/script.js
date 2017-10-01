@@ -221,6 +221,10 @@ function showDialog(customer, customerId, customerName) {
         var msg = data.msg;
 
         create_message(type, msg, img);
+
+        document.getElementById('name').setAttribute('status', 'unread');
+        document.getElementById('time').setAttribute('status', 'unread');
+        document.getElementById('text').setAttribute('status', 'unread');
     })
 
     clear_message_field();
