@@ -22,7 +22,6 @@ body {
   overflow: hidden;
   display: inline-block;
   text-align: center;
-  margin: 0 auto;
   width: 100vw;
   height: 100vh;
 }
@@ -421,6 +420,7 @@ Start of chatroom page
   border-radius: 10px;
 
   background-image: url('/assets/icon/clear.png');
+  background-repeat: no-repeat;
 
   width: 20px;
   height: 20px;
@@ -496,11 +496,6 @@ ul#customers_list li #name {
   text-overflow: ellipsis;
 }
 
-ul#customers_list li #name[status='unread']{
-  font-weight: 900;
-  color: black;
-}
-
 ul#customers_list li a p#text{
   margin-top: 5px;
   position: relative;
@@ -517,7 +512,7 @@ ul#customers_list li a p#text{
 
   color: #AAA;
 }
-ul#customers_list li a #name[status='unread'] p#text {
+ul#customers_list li a #name[status='unread'], #time[status='unread'], #name[status='unread'] p#text{
   color: black;
   font-weight: 900;
 }
@@ -913,10 +908,9 @@ End of checked history tab
   height: 50px;
   animation: spin 2s linear infinite;
   display: inline-block;
-  position: absolute;
-  top: calc(50vh - 25px);
-  margin-left: -25px;
-  left: calc(50vw - 25px);
+  position: relative;
+
+  top: calc(50% - 25px);
 }
 
 @keyframes spin {
