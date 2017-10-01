@@ -38,6 +38,8 @@
 
         $('.loader')[0].style.display = 'inline-block';
 
+        
+
         $.ajax({
             url: '/checkedList/0',
             dataType: 'JSON',
@@ -87,7 +89,7 @@
                     new_tr.appendChild(new_td_amount);
                     new_tr.appendChild(new_td_reason);
 
-                    document.getElementById('checked_list').appendChild(new_tr);
+                    document.getElementById('checked_list').getElementsByTagName('tbody')[0].appendChild(new_tr);
                 }
             },
             complete: function() {

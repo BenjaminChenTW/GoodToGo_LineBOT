@@ -203,10 +203,12 @@ function create_message(type, message, img) {
     msg_ul.scrollTop = msg_ul.scrollHeight;
 }
 
-function showDialog(customer, customerId) {
+function showDialog(customer, customerId, customerName) {
     if (selected_customer === customer) {
         return;
     }
+
+    document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
 
     socket.on(customerId, function(data) {
         var img = customer.getElementsByTagName('img')[0].cloneNode(true);
@@ -243,12 +245,15 @@ function showDialog(customer, customerId) {
             alert('error')
         },
         complete: function() {
-            var message_field = document.getElementsByClassName('message')[0];
-
+            var message_field = document.getElementById('message_field');
+            var text_field =    document.getElementById('text_field');
             message_field.style.display = 'block';
-            var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-            nav_text.textContent = document.getElementById('name').childNodes[0].nodeValue;
+            text_field.style.display = 'block';
 
+            var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
+            nav_text.textContent = customerName;
+
+            document.getElementById('default_words').style.display = 'none';
 
             var msg_ul = document.getElementById('message_ul');
             msg_ul.scrollTop = msg_ul.scrollHeight;
@@ -265,8 +270,12 @@ function clear_message_field() {
 }
 
 function closeDialog() {
-    selected_customer.style.backgroundColor = 'white';
-    document.getElementsByClassName('message')[0].style.display = 'none';
+    selected_customer.style.backgroundColor = '';
+    selected_customer = undefined;
+    document.getElementById('default_words').style.display = 'flex';    
+    document.getElementById('message_field').style.display = 'none';
+    document.getElementById('text_field').style.display = 'none';
+    document.getElementsByClassName('manager')[0].removeAttribute('status');
 
 }
 

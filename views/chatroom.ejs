@@ -28,12 +28,15 @@
             </ul>
         </div>
         <div class="message" id='message'>
+            <p id='default_words'>請點選使用者以回覆</p>
             <div id="message_field">
                 <nav id="customer_id"><a class="back_button" onclick="closeDialog()">ㄑ</a><p></p></nav>
+                <div id="message_ul_container">
                 <ul id="message_ul">
                     <li class='me'><span class="helper"></span><p><a class='box'>asdsasa</a></p></li>
                     <li class='customer'><span class="helper customer"><img /></span><p><a class='box'>asdsds33333333333</a></p></li>
                 </ul>
+                </div>
             </div>
             <div id="text_field">
                 <span class="helper"></span>
@@ -41,7 +44,7 @@
                 <input id='search_img_text' placeholder='照片編號...' type='text'/>
                 <input id='search_img_send' type='button' />
                 <input id="message_text" type='text' placeholder=" 輸入訊息..." autocomplete="off"/>
-                <input id='sendMsg' type='submit' />
+                <input id='sendMsg' type='button' value='傳送' />
             </div>
         </div>
     </div>
@@ -111,7 +114,7 @@
         var new_p_text = document.createElement('p');
 
         new_a.setAttribute('class', 'list_button');
-        new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'")');
+        new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'",'+'"'+name+'")');
         new_img.setAttribute('src', src);
         new_span.setAttribute('class', 'helper');
         new_div.setAttribute('id', 'name');
