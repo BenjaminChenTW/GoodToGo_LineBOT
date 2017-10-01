@@ -11,7 +11,11 @@ var schema = mongoose.Schema({
         checked: Boolean,
         checkStatus: {
             typeCode: Number,
-            amount: Number,
+            amount: {
+                container: Number,
+                bag: Number,
+                tableware: Number
+            },
             checkTime: Number
         }
     },
