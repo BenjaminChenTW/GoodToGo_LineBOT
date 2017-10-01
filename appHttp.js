@@ -69,13 +69,6 @@ io
     });
 
 /**
- * Status Monitir init
- */
-var esm = require('express-status-monitor')({ title: "GoodToGo LineBot Monitor", path: '', websocket: io });
-app.use(esm.middleware);
-app.get('/status', authMiddleWare, esm.pageRoute);
-
-/**
  * Listen on provided port, on all network interfaces.
  */
 server.listen(port);
@@ -94,7 +87,6 @@ app.post('/webhook', line.middleware(config.bot), (req, res) => {
 /**
  * WEB init
  */
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(favicon(path.join(__dirname, 'views/assets', 'favicon.ico')));
@@ -103,6 +95,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression());
 app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
+
+/**
+ * Status Monitir init
+ */
+var esm = require('express-status-monitor')({ title: "GoodToGo LineBot Monitor", path: '', websocket: io });
+app.use(esm.middleware);
+app.get('/status', authMiddleWare, esm.pageRoute);
 
 /**
  * WEB router
