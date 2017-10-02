@@ -7,8 +7,7 @@ var Coupon = require('../models/DB/couponDB.js');
 var config = require('../config/config.js');
 var multicast = require('../routes/bot.js').multicast;
 
-
-function textHandlerCallback(message, user, returnStr, callback) {
+function regularHandlerCallback(message, user, returnStr, callback) {
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
     message['notify'] = user.isNotify;
@@ -59,9 +58,9 @@ function imgHandlerCallback(message, user, event, callback) {
         });
 }
 
-function textSendlerCallback(id, message, sended, imgUrl) {
+function textSendlerCallback(id, message, sended, name, imgUrl) {
     var echo = { type: 'text', text: message };
-    multicast(id, echo, sended, imgUrl);
+    multicast(id, echo, sended, name, imgUrl);
 }
 
 function templateSendlerCallback(id, messageContent, sended) {
@@ -86,10 +85,78 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (user.notify) global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
             else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (user) {
-                textHandlerCallback(message, {
+                var displayName = user.event.source.displayName;
+                var pictureUrl = user.event.source.pictureUrl;
+                if (user.notify) global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
+                regularHandlerCallback(message, {
+                    displayName: displayName,
+                    pictureUrl: pictureUrl,
+                    isNotify: user.notify
+                }, returnStr, callback);
+            } else {
+                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
+                    'auth': { 'bearer': config.bot.channelAccessToken }
+                }, function(error, response, body) {
+                    if (error) {
+                        debug('[PROFILE Error (2)] Message : ' + error);
+                        return callback(false, event.replyToken);
+                    }
+                    if (response.statusCode !== 200) {
+                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
+                        return callback(false, event.replyToken);
+                    }
+                    var resData = JSON.parse(body);
+                    resData.isNotify = false;
+                    regularHandlerCallback(message, resData, returnStr, callback);
+                });
+            }
+        });
+    },
+    contactHandler: function(event, callback) {
+        var returnStr = 'contact';
+        message = new Message();
+        message.event = event;
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
+            if (user) {
+                var displayName = user.event.source.displayName;
+                var pictureUrl = user.event.source.pictureUrl;
+                global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
+                regularHandlerCallback(message, {
+                    displayName: displayName,
+                    pictureUrl: pictureUrl,
+                    isNotify: true
+                }, returnStr, callback);
+            } else {
+                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
+                    'auth': { 'bearer': config.bot.channelAccessToken }
+                }, function(error, response, body) {
+                    if (error) {
+                        debug('[PROFILE Error (2)] Message : ' + error);
+                        return callback(false, event.replyToken);
+                    }
+                    if (response.statusCode !== 200) {
+                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
+                        return callback(false, event.replyToken);
+                    }
+                    var resData = JSON.parse(body);
+                    global.aEvent.emit('getMsg', event.source.userId, resData.displayName, resData.pictureUrl, event.message.text);
+                    resData.isNotify = true;
+                    regularHandlerCallback(message, resData, returnStr, callback);
+                });
+            }
+        });
+    },
+    rewardHandler: function(isGlobal, event, callback) {
+        var returnStr = (isGlobal) ? 'global' : event.source.userId;
+        message = new Message();
+        message.event = event;
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+            if (err) return debug(JSON.stringify(err));
+            if (user) {
+                regularHandlerCallback(message, {
                     displayName: user.event.source.displayName,
                     pictureUrl: user.event.source.pictureUrl,
                     isNotify: user.notify
@@ -108,69 +175,7 @@ module.exports = {
                     }
                     var resData = JSON.parse(body);
                     resData.isNotify = false;
-                    textHandlerCallback(message, resData, returnStr, callback);
-                });
-            }
-        });
-    },
-    contactHandler: function(event, callback) {
-        var returnStr = 'contact';
-        message = new Message();
-        message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
-            if (err) return debug(JSON.stringify(err));
-            if (user) {
-                global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
-                textHandlerCallback(message, {
-                    displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl,
-                    isNotify: true
-                }, returnStr, callback);
-            } else {
-                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
-                    'auth': { 'bearer': config.bot.channelAccessToken }
-                }, function(error, response, body) {
-                    if (error) {
-                        debug('[PROFILE Error (2)] Message : ' + error);
-                        return callback(false, event.replyToken);
-                    }
-                    if (response.statusCode !== 200) {
-                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
-                        return callback(false, event.replyToken);
-                    }
-                    var resData = JSON.parse(body);
-                    global.aEvent.emit('getMsg', event.source.userId, resData.pictureUrl, event.message.text);
-                    resData.isNotify = true;
-                    textHandlerCallback(message, resData, returnStr, callback);
-                });
-            }
-        });
-    },
-    rewardHandler: function(event, callback) {
-        var returnStr = '';
-        message = new Message();
-        message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
-            if (err) return debug(JSON.stringify(err));
-            if (user) {
-                textHandlerCallback(message, {
-                    displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl,
-                }, returnStr, callback);
-            } else {
-                request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
-                    'auth': { 'bearer': config.bot.channelAccessToken }
-                }, function(error, response, body) {
-                    if (error) {
-                        debug('[PROFILE Error (2)] Message : ' + error);
-                        return callback(false, event.replyToken);
-                    }
-                    if (response.statusCode !== 200) {
-                        debug('[PROFILE Error (1)] StatusCode : ' + response.statusCode);
-                        return callback(false, event.replyToken);
-                    }
-                    var resData = JSON.parse(body);
-                    textHandlerCallback(message, resData, returnStr, callback);
+                    regularHandlerCallback(message, resData, returnStr, callback);
                 });
             }
         });
@@ -203,8 +208,8 @@ module.exports = {
             }
         });
     },
-    textSendler: function(lineUserId, message, sended, imgUrl) {
-        textSendlerCallback(lineUserId, message, sended, imgUrl);
+    textSendler: function(lineUserId, message, sended, name, imgUrl) {
+        textSendlerCallback(lineUserId, message, sended, name, imgUrl);
     },
     templateSendler: function(lineUserId, sended, isWin, couponId, couponType, couponContent) {
         var altText;
@@ -216,7 +221,7 @@ module.exports = {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
                 if (err) return debug(JSON.stringify(err));
                 altText = "好盒器傳給您抽獎券！";
-                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId; // 抽檢券照片
+                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId;
                 title = "抽獎券";
                 text = "您的照片 #" + couponId + " 審核通過！\n審核結果：" + couponType + "\n目前您總共有" + amount + "次抽獎機會！";
                 actions.push({

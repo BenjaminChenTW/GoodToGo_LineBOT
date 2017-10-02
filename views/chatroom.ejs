@@ -79,6 +79,7 @@
         console.log('msg: ' + obj.msg);
     });
     socket.on('user', function(obj){
+<<<<<<< HEAD
         let time = custom_date(new Date(), true);
 
         var img = document.createElement('img');
@@ -123,6 +124,13 @@
             }
         }
 
+=======
+        console.log('user: ' + obj.user)
+        console.log('name: ' + obj.name)
+        console.log('imgUrl: ' + obj.imgUrl)
+        console.log('type: ' + obj.type)
+        console.log('msg: ' + obj.msg)
+>>>>>>> b9287f22b56bf64fe1abc6d089c0c4e0a9a580c2
     });
 
     $('#sendMsg').on('click', function(){

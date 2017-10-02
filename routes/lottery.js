@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var templateSendler = require('../models/messageProcess.js').templateSendler;
-
+// check undefined
 router.get('/draw/:id', function(req, res, next) {
     var id = req.params.id;
     // 抽獎券DB
