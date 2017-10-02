@@ -109,7 +109,7 @@ module.exports = {
         });
     },
     stopSession: function(id, next, callback) {
-        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
+        Message.find({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
             terminateText = '感謝您使用客服，希望您對我們的服務還滿意！';
             message = new Message();
             message.event = {
