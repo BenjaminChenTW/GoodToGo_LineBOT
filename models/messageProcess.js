@@ -7,8 +7,7 @@ var Coupon = require('../models/DB/couponDB.js');
 var config = require('../config/config.js');
 var multicast = require('../routes/bot.js').multicast;
 
-
-function textHandlerCallback(message, user, returnStr, callback) {
+function regularHandlerCallback(message, user, returnStr, callback) {
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
     message['notify'] = user.isNotify;
@@ -89,7 +88,7 @@ module.exports = {
             if (user.notify) global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
             else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (user) {
-                textHandlerCallback(message, {
+                regularHandlerCallback(message, {
                     displayName: user.event.source.displayName,
                     pictureUrl: user.event.source.pictureUrl,
                     isNotify: user.notify
@@ -108,12 +107,12 @@ module.exports = {
                     }
                     var resData = JSON.parse(body);
                     resData.isNotify = false;
-                    textHandlerCallback(message, resData, returnStr, callback);
+                    regularHandlerCallback(message, resData, returnStr, callback);
                 });
             }
         });
     },
-    contactHandler: function(event, callback) {
+    conditionHandler: function(event, callback) {
         var returnStr = 'contact';
         message = new Message();
         message.event = event;
@@ -121,7 +120,7 @@ module.exports = {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
-                textHandlerCallback(message, {
+                regularHandlerCallback(message, {
                     displayName: user.event.source.displayName,
                     pictureUrl: user.event.source.pictureUrl,
                     isNotify: true
@@ -141,21 +140,22 @@ module.exports = {
                     var resData = JSON.parse(body);
                     global.aEvent.emit('getMsg', event.source.userId, resData.pictureUrl, event.message.text);
                     resData.isNotify = true;
-                    textHandlerCallback(message, resData, returnStr, callback);
+                    regularHandlerCallback(message, resData, returnStr, callback);
                 });
             }
         });
     },
-    rewardHandler: function(event, callback) {
-        var returnStr = '';
+    rewardHandler: function(isGlobal, event, callback) {
+        var returnStr = (isGlobal) ? 'global' : event.source.userId;
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
-                textHandlerCallback(message, {
+                regularHandlerCallback(message, {
                     displayName: user.event.source.displayName,
                     pictureUrl: user.event.source.pictureUrl,
+                    isNotify: user.notify
                 }, returnStr, callback);
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
@@ -170,7 +170,8 @@ module.exports = {
                         return callback(false, event.replyToken);
                     }
                     var resData = JSON.parse(body);
-                    textHandlerCallback(message, resData, returnStr, callback);
+                    resData.isNotify = false;
+                    regularHandlerCallback(message, resData, returnStr, callback);
                 });
             }
         });
@@ -216,7 +217,7 @@ module.exports = {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
                 if (err) return debug(JSON.stringify(err));
                 altText = "好盒器傳給您抽獎券！";
-                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId; // 抽檢券照片
+                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId;
                 title = "抽獎券";
                 text = "您的照片 #" + couponId + " 審核通過！\n審核結果：" + couponType + "\n目前您總共有" + amount + "次抽獎機會！";
                 actions.push({

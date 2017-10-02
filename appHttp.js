@@ -23,6 +23,7 @@ var checkedList = require('./routes/checkedList');
 var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
+var usage = require('./routes/usage');
 var config = require('./config/config.js');
 
 /**
@@ -107,6 +108,7 @@ app.get('/status', authMiddleWare, esm.pageRoute);
  */
 app.use('/lottery', lottery);
 app.use('/getImg', getImg);
+app.use('/usage', usage);
 app.use(authMiddleWare);
 app.use('/img', imgCheck);
 app.use('/checkedList', checkedList);
