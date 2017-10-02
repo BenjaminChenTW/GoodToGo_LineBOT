@@ -42,6 +42,7 @@ config
 
 # Developping trash file
 tmp
+*tmp.js
 
 # Local Test APP
 .ngrok2
