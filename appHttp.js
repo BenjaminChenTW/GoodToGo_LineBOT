@@ -33,7 +33,6 @@ mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
     if (err) throw (err);
     debug('mongoDB connect succeed');
 });
-
 /**
  * EXPRESS init
  */
@@ -89,11 +88,11 @@ app.post('/webhook', line.middleware(config.bot), (req, res) => {
  */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(compression());
 app.use(favicon(path.join(__dirname, 'views/assets', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(compression());
 app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
 
 /**

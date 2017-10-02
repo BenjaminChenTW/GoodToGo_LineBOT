@@ -94,7 +94,7 @@ const decline = ["不在音樂節現場拍攝", "中的容器無法識別為好�
 router.post('/decline/:id/:type', function(req, res, next) {
     var picIndex = req.params.id;
     var declineType = req.params.type;
-    if (!(picIndex && amount)) return res.status(404).end();
+    if (!(picIndex && declineType)) return res.status(404).end();
     if (!(declineType == 0 || declineType == 1)) return res.status(402).end();
 
     picIndex = parseInt(picIndex);

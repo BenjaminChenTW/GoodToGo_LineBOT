@@ -59,8 +59,6 @@ module.exports = {
                         text: messages[i].event.message.text,
                         time: messages[i].event.timestamp
                     });
-                    messages[i].read = true;
-                    messages[i].save((err) => { if (err) debug(err) });
                 }
             }
             if (userMessages.length === 0) { return callback(true, userMessages); }
@@ -68,8 +66,8 @@ module.exports = {
         });
     },
     sendMessage: function(id, text, next, callback) {
-        Message.findOne({ 'event.source.userId': id }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
-            if (user.notify === true) {
+        Message.find({ 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
+            if (messages[0].notify === true) {
                 message = new Message();
                 message.event = {
                     message: {
@@ -82,12 +80,16 @@ module.exports = {
                     }
                 };
                 message.notify = true;
-                message.event.source['displayName'] = user.event.source.displayName;
-                message.event.source['pictureUrl'] = user.event.source.pictureUrl;
+                message.event.source['displayName'] = messages[0].event.source.displayName;
+                message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
                 message.save((err) => {
                     if (err) return next(err);
                     textSendler(id, text, callback);
                 });
+                for (var i = 1; i < messages.length; i++) {
+                    messages[i].read = true;
+                    messages[i].save((err) => { if (err) debug(err) });
+                }
             } else {
                 callback({ text: '對話階段尚未開啟。' });
             }
@@ -106,7 +108,7 @@ module.exports = {
         });
     },
     stopSession: function(id, next, callback) {
-        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
             terminateText = '感謝您使用客服，希望您對我們的服務還滿意！';
             message = new Message();
             message.event = {
@@ -120,12 +122,16 @@ module.exports = {
                 }
             };
             message.notify = false;
-            message.event.source['displayName'] = user.event.source.displayName;
-            message.event.source['pictureUrl'] = user.event.source.pictureUrl;
+            message.event.source['displayName'] = messages[0].event.source.displayName;
+            message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
             message.save((err) => {
                 if (err) return next(err);
                 textSendler(id, terminateText, callback);
             });
+            for (var i = 1; i < messages.length; i++) {
+                messages[i].read = true;
+                messages[i].save((err) => { if (err) debug(err) });
+            }
         });
     }
 };
