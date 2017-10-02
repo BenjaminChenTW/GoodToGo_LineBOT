@@ -258,8 +258,12 @@ function showDialog(customer, customerId, customerName) {
         dataType: "JSON",
         success: function(data) {
             for (var i = data.userMessage.length - 1; i >= 0; i--) {
-                var img = customer.getElementsByTagName('img')[0].cloneNode(true);
+                var img = undefined;
                 let record = data.userMessage[i];
+
+                if (record.type === 'customer') {
+                    img = customer.getElementsByTagName('img')[0].cloneNode(true);
+                }
                 create_message(record.type, record.text, img);
             }
         },
