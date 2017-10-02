@@ -26,7 +26,7 @@
         <div class="message" id='message'>
             <p id='default_words'>請點選使用者以回覆</p>
             <div id="message_field">
-                <nav id="customer_id"><a class="back_button" onclick="closeDialog()">ㄑ</a><p></p></nav>
+                <nav id="customer_id"><a class="back_button" onclick="closeDialog()" style='cursor: pointer;'>ㄑ</a><p></p><a class="end_session" onclick="end_session()" style='cursor: pointer;'>END</a></nav>
                 <div id="message_ul_container">
                 <ul id="message_ul">
                     <li class='me'><span class="helper"></span><p><a class='box'>asdsasa</a></p></li>
@@ -55,6 +55,8 @@
     var socket = io.connect(window.location.origin);
 
     var isSearchImgButtonSelected = false;
+
+    var current_last_index = 0;
 
     socket.on('server', function(obj){
         if (typeof obj.statusCode !== 'undefined') {
@@ -259,15 +261,31 @@
         }
     }
 
-    function load_all() {
-        for (var i = 0 ; i < extraRoomList.length ; i++) {
+    $('#customers_list').on('scroll', function(){
+        if (this.scrollHeight - this.scrollTop !== this.clientHeight) {
+            return;
+        }
+
+        load_customers();
+
+    })
+
+    function load_customers() {
+        var index = current_last_index;
+
+        for (var i = index ; i < index+20 ; i++) {
+            if (!extraRoomList[i]) {
+                break;
+            }
+
+            current_last_index += 1;
+
             var name = extraRoomList[i].userName;
             var src = extraRoomList[i].userImg;
             var userId = extraRoomList[i].userId;
             var text = extraRoomList[i].text;
             var time = custom_date(new Date(Number(extraRoomList[i].time)),true);
             var status = extraRoomList[i].hasRead ? 'read' : 'unread';
-
     
             create_customer_list(name,src,userId,text,time,status);
 
@@ -299,7 +317,7 @@
                 var checked_time = custom_date(new Date(Number(data.checkStatus.checkTime)));
                 var total = parseInt(data.checkStatus.amount.bag) + parseInt(data.checkStatus.amount.container) + parseInt(data.checkStatus.amount.tableware);
                 var amount = '提袋(' + data.checkStatus.amount.bag + ') 容器(' + data.checkStatus.amount.container + ') 餐具(' + data.checkStatus.amount.tableware + ') 共 ' + total + ' 次抽獎機會';
-                if (data.checkStatus.amount === undefined) {
+                if (data.checkStatus.typeCode !== undefined) {
                     amount = '0 (' + reasons[data.checkStatus.typeCode] + ')';
                 }
                 var img_index = data.imgIndex;
@@ -340,10 +358,10 @@
 
         document.getElementById('search_bar').value = '';
 
-        load_all();
+        load_customers();
     });
 
-    load_all();
+    load_customers();
 
     </script>
 <%- include ./footer.ejs %>
