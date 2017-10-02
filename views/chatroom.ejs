@@ -87,8 +87,11 @@
         var type = obj.type;
         var msg = obj.msg;
 
+        var isUpdated = false;
+
         if (selected_customer) {
             if (selected_customer.getAttribute('customerId') == obj.user) {
+                isUpdated = true;
                 create_message(type, msg, img);
             }
         }
@@ -98,6 +101,8 @@
                 continue;
             }
             if (document.getElementById('customers_list').childNodes[i].getAttribute('customerId') == obj.user) {
+                isUpdated = true;
+
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = obj.msg;
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
 
@@ -113,6 +118,7 @@
 
         for (var i = 0 ; i < extraRoomList.length ; i++) {
             if (extraRoomList[i].userId == obj.user) {
+                isUpdated = true;
                 extraRoomList[i].text = msg;
                 extraRoomList[i].hasRead = false;
                 extraRoomList[i].time = (new Date()).getTime();
@@ -123,6 +129,10 @@
 
                 break;
             }
+        }
+
+        if (!isUpdated) {
+            create_customer_list(obj.name, obj.imgUrl, obj.user, obj.msg, custom_date(new Date(), true), 'unread');
         }
 
         console.log('user: ' + obj.user)
@@ -205,7 +215,7 @@
         }
     });
 
-    function create_customer_list(name, src, userId, text, time, status) {
+    function create_customer_list(name, src, userId, text, time, status, pos) {
         var new_li = document.createElement('li');
         var new_a = document.createElement('a');
         var new_span = document.createElement('span');
@@ -235,7 +245,11 @@
         new_a.appendChild(new_p_time);
         new_li.appendChild(new_a);
 
-        document.getElementById('customers_list').appendChild(new_li);
+        if (pos == 'front'){
+            document.getElementById('customers_list').insertBefore(new_li,0);
+        }else{
+            document.getElementById('customers_list').appendChild(new_li);
+        }
 
         if (selected_customer != undefined) {
             if (selected_customer.getAttribute('customerId') == userId) {
@@ -283,7 +297,8 @@
                 new_img.setAttribute('src', data.src);
                 var upload_time = custom_date(new Date(data.uploadTime));
                 var checked_time = custom_date(new Date(Number(data.checkStatus.checkTime)));
-                var amount = data.checkStatus.amount + ' 次抽獎機會';
+                var total = parseInt(data.checkStatus.amount.bag) + parseInt(data.checkStatus.amount.container) + parseInt(data.checkStatus.amount.tableware);
+                var amount = '提袋(' + data.checkStatus.amount.bag + ') 容器(' + data.checkStatus.amount.container + ') 餐具(' + data.checkStatus.amount.tableware + ') 共 ' + total + ' 次抽獎機會';
                 if (data.checkStatus.amount === undefined) {
                     amount = '0 (' + reasons[data.checkStatus.typeCode] + ')';
                 }

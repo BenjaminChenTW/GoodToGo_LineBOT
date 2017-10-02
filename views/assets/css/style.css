@@ -337,14 +337,6 @@ div.data {
   display: inline-block;
 }
 
-p#status[type='unchecked'] {
-  color: red;
-}
-
-p#status[type='checked'] {
-  display: none;
-}
-
 p#status button {
   display: inline-block;
   color: black;
