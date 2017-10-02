@@ -60,11 +60,10 @@ module.exports = {
         }, function(reject) {
             if (reject) return socket.emit('server', { statusCode: 3, msg: reject.text });
             socket.emit('server', { statusCode: 0, msg: "Sended" });
-            socket.broadcast.emit(userId, { type: 'manager', msg: msg });
+            socket.broadcast.emit('user', { user: userId, imgUrl: 'https://api.line.me/v2/bot/profile/' + userId, type: 'manager', msg: msg });
         });
     },
     getMsg: function(io, userId, msg) {
-        io.emit('otherUser', { user: userId, msg: msg });
-        io.emit(userId, { type: 'customer', msg: msg });
+        io.emit('user', { user: userId, imgUrl: 'https://api.line.me/v2/bot/profile/' + userId, type: 'customer', msg: msg });
     }
 };

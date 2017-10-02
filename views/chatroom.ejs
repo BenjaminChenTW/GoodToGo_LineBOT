@@ -61,7 +61,7 @@
     var isSearchImgButtonSelected = false;
 
     socket.on('server', function(obj){
-        if (typeof obj.statusCode !== undefined) {
+        if (typeof obj.statusCode !== 'undefined') {
             switch (obj.statusCode) {
                 case 0 :
                     console.log('IN0: ' + obj.statusCode);
@@ -82,8 +82,10 @@
         }
         console.log('msg: ' + obj.msg);
     });
-    socket.on('otherUser', function(obj){
+    socket.on('user', function(obj){
         console.log('user: ' + obj.user)
+        console.log('imgUrl: ' + obj.imgUrl)
+        console.log('type: ' + obj.type)
         console.log('msg: ' + obj.msg)
     });
 

@@ -185,7 +185,7 @@ function create_message(type, message, img) {
         if (img !== undefined) {
             var new_div = document.createElement('div');
             new_div.appendChild(img);
-            new_p.appendChild(new_div); 
+            new_p.appendChild(new_div);
         }
         new_msg.setAttribute('class', 'system');
     } else {
@@ -207,21 +207,21 @@ function showDialog(customer, customerId, customerName) {
     if (selected_customer === customer) {
         return;
     }
-    
+
     document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
 
-    socket.on(customerId, function(data) {
-        var img = customer.getElementsByTagName('img')[0].cloneNode(true);
+    // socket.on(customerId, function(data) {
+    //     var img = customer.getElementsByTagName('img')[0].cloneNode(true);
 
-        var type = data.type;
-        var msg = data.msg;
+    //     var type = data.type;
+    //     var msg = data.msg;
 
-        create_message(type, msg, img);
+    //     create_message(type, msg, img);
 
-        document.getElementById('name').setAttribute('status', 'unread');
-        document.getElementById('time').setAttribute('status', 'unread');
-        document.getElementById('text').setAttribute('status', 'unread');
-    })
+    //     document.getElementById('name').setAttribute('status', 'unread');
+    //     document.getElementById('time').setAttribute('status', 'unread');
+    //     document.getElementById('text').setAttribute('status', 'unread');
+    // })
 
     clear_message_field();
 
@@ -233,10 +233,10 @@ function showDialog(customer, customerId, customerName) {
     selected_customer = customer;
 
     customer.style.backgroundColor = 'rgb(240, 240, 240)';
-    
+
     // Show the message field
     var message_field = document.getElementById('message_field');
-    var text_field =    document.getElementById('text_field');
+    var text_field = document.getElementById('text_field');
     message_field.style.display = 'block';
     text_field.style.display = 'block';
 
@@ -270,7 +270,7 @@ function showDialog(customer, customerId, customerName) {
             alert('error')
         },
         complete: function() {
-            document.getElementById('message_ul_container').removeChild(loader);            
+            document.getElementById('message_ul_container').removeChild(loader);
         }
 
     });
@@ -286,7 +286,7 @@ function clear_message_field() {
 function closeDialog() {
     selected_customer.style.backgroundColor = '';
     selected_customer = undefined;
-    document.getElementById('default_words').style.display = 'flex';    
+    document.getElementById('default_words').style.display = 'flex';
     document.getElementById('message_field').style.display = 'none';
     document.getElementById('text_field').style.display = 'none';
     document.getElementsByClassName('manager')[0].removeAttribute('status');
@@ -357,7 +357,7 @@ function load_pic_data(last_index) {
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
             }
 
-            
+
 
             document.getElementById('picture_view').scrollLeft = 0;
         },
@@ -369,7 +369,7 @@ function load_pic_data(last_index) {
 
             if (pic_data.length == 0) {
                 $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
-            }else{
+            } else {
                 $('.default_text')[0].innerHTML = '請點選照片以審核'
             }
         }
