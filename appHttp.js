@@ -56,8 +56,8 @@ var server = http.createServer(app);
  */
 var io = require('socket.io')(server);
 global.aEvent = new EventEmitter();
-global.aEvent.on('getMsg', function(userId, msg) {
-    chatroom.getMsg(io, userId, msg);
+global.aEvent.on('getMsg', function(userId, imgUrl, msg) {
+    chatroom.getMsg(io, userId, imgUrl, msg);
 });
 io
     .on('connection', function(socket) {

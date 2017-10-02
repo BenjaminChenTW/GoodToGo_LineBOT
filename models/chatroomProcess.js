@@ -85,14 +85,14 @@ module.exports = {
                 message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
                 message.save((err) => {
                     if (err) return next(err);
-                    textSendler(id, text, callback);
+                    textSendler(id, text, callback, messages[0].event.source.pictureUrl);
                 });
                 for (var i = 1; i < messages.length; i++) {
                     messages[i].read = true;
                     messages[i].save((err) => { if (err) debug(err) });
                 }
             } else {
-                callback({ text: '對話階段尚未開啟。' });
+                callback({}, { text: '對話階段尚未開啟。' });
             }
         });
     },

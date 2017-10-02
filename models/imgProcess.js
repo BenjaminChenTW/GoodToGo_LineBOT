@@ -14,7 +14,7 @@ function getListObj(ori) {
 module.exports = {
     getInitIndex: function(next, callback) {
         Message.findOne({ 'event.message.type': 'image', 'img.checked': false }, 'img.id', { sort: { 'img.id': 1 } }, function(err, message) {
-            if (err) next(err);
+            if (err) return next(err);
             if (!message) {
                 Message.count({ 'event.message.type': 'image' }, function(err, amount) {
                     return callback(amount - 1);
