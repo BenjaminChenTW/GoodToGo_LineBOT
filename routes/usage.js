@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var webshot = require('webshot');
-var path = require('path');
 var debug = require('debug')('goodtogo-linebot:usage');
 
 var count = require('../models/usageProcess.js')
