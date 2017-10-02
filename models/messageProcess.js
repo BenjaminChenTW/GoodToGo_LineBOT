@@ -85,7 +85,7 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
+            if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (user) {
                 var displayName = user.event.source.displayName;
                 var pictureUrl = user.event.source.pictureUrl;
