@@ -4,7 +4,7 @@
   "scripts": {
     "oldTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon bin/wwwhttp --ignore *.json",
     "localTest": "echo \"Debudding Mode\" & set DEBUG=goodtogo-linebot:* & nodemon appHttp.js --ignore *.json",
-    "test": "echo \"Debudding Mode\" && DEBUG=goodtogo-linebot:* && nodemon appHttp.js --ignore .json ",
+    "test": "echo \"Debudding Mode\" && export DEBUG=goodtogo-linebot:* && nodemon appHttp.js --ignore .json ",
     "start": "nodemon app.js --ignore *.json"
   },
   "dependencies": {
