@@ -184,6 +184,13 @@
             var num = parseInt(document.getElementById('current_page').value)-1;
             document.getElementById('current_page').value = num;
         });
+
+        $('#current_page').keydown(function(event){
+            if ( event.which == 13 ){
+                load_next_10(10*(document.getElementById('current_page').value-1));
+            }
+        });
+
     </script>
     
 <%- include ./footer.ejs %>
