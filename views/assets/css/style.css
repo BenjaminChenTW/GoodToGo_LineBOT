@@ -429,9 +429,13 @@ Start of chatroom page
 
 ul#customers_list {
   position: relative;
+  overflow-y: scroll;
   list-style: none;
   margin-top: 0px;
   width: 100%;
+  display: block;
+  max-height: calc(90vh - 60px);
+  height: calc(90vh - 60px);
   left: -40px;
 }
 

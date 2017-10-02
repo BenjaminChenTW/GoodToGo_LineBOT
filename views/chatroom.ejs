@@ -1,8 +1,4 @@
 <%- include ./header.ejs %>
-<% const imgTagHeader = '<img src=\"'; %>
-<% const imgTagFooter = '"/>'; %>
-<% const aTagHeader = '<a class="list_button" onclick="showDialog(this, \''; %>
-<% const aTagFooter = '\')">'; %>
     <header>
         <nav id="main_nav">
                 <div id='cssmenu'>
@@ -83,10 +79,50 @@
         console.log('msg: ' + obj.msg);
     });
     socket.on('user', function(obj){
-        console.log('user: ' + obj.user)
-        console.log('imgUrl: ' + obj.imgUrl)
-        console.log('type: ' + obj.type)
-        console.log('msg: ' + obj.msg)
+        let time = custom_date(new Date(), true);
+
+        var img = document.createElement('img');
+        img.src = obj.imgUrl;
+
+        var type = obj.type;
+        var msg = obj.msg;
+
+        if (selected_customer) {
+            if (selected_customer.getAttribute('customerId') == obj.user) {
+                create_message(type, msg, img);
+            }
+        }
+        
+        for (var i = 0 ; i < document.getElementById('customers_list').childNodes.length ; i++) {
+            if (document.getElementById('customers_list').childNodes[i].nodeType === 3) {
+                continue;
+            }
+            if (document.getElementById('customers_list').childNodes[i].getAttribute('customerId') == obj.user) {
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = obj.msg;
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
+
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].setAttribute('status', 'unread');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].setAttribute('status', 'unread');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].setAttribute('status', 'unread');
+
+                document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
+
+                break;
+            }
+        }
+
+        for (var i = 0 ; i < extraRoomList.length ; i++) {
+            if (extraRoomList[i].userId == obj.user) {
+                extraRoomList[i].text = msg;
+                extraRoomList[i].hasRead = false;
+                extraRoomList[i].time = (new Date()).getTime();
+
+                extraRoomList.splice(0, 0, extraRoomList[i]);
+
+                break;
+            }
+        }
+
     });
 
     $('#sendMsg').on('click', function(){
@@ -95,15 +131,41 @@
             return;
         }
 
-        document.getElementById('name').removeAttribute('status');
-        document.getElementById('time').removeAttribute('status');
-        document.getElementById('text').removeAttribute('status');
-
+        let time = custom_date(new Date(), true);
 
         create_message('me', msg);
 
         socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
         document.getElementById('message_text').value = '';
+        
+        for (var i = 0 ; i < document.getElementById('customers_list').childNodes.length ; i++) {
+            if (document.getElementById('customers_list').childNodes[i].nodeType === 3) {
+                continue;
+            }
+            if (document.getElementById('customers_list').childNodes[i].getAttribute('customerId') == selected_customer.getAttribute('customerId')) {
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = msg;
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
+                
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].removeAttribute('status');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].removeAttribute('status');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].removeAttribute('status');
+
+                document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
+                break;
+            }
+        }
+
+        for (var i = 0 ; i < extraRoomList.length ; i++) {
+            if (extraRoomList[i].userId == selected_customer.getAttribute('customerId')) {
+                extraRoomList[i].text = msg;
+                extraRoomList[i].hasRead = true;
+                extraRoomList[i].time = (new Date()).getTime();
+
+                extraRoomList.splice(0, 0, extraRoomList[i]);
+
+                break;
+            }
+        }
     })
 
     $('#message_text').keydown(function(event){
@@ -145,6 +207,7 @@
 
         new_a.setAttribute('class', 'list_button');
         new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'",'+'"'+name+'")');
+        new_li.setAttribute('customerId', userId);
         new_img.setAttribute('src', src);
         new_span.setAttribute('class', 'helper');
         new_div.setAttribute('id', 'name');
