@@ -58,9 +58,9 @@ function imgHandlerCallback(message, user, event, callback) {
         });
 }
 
-function textSendlerCallback(id, message, sended, imgUrl) {
+function textSendlerCallback(id, message, sended, name, imgUrl) {
     var echo = { type: 'text', text: message };
-    multicast(id, echo, sended, imgUrl);
+    multicast(id, echo, sended, name, imgUrl);
 }
 
 function templateSendlerCallback(id, messageContent, sended) {
@@ -85,12 +85,14 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (user.notify) global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
             else returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (user) {
+                var displayName = user.event.source.displayName;
+                var pictureUrl = user.event.source.pictureUrl;
+                if (user.notify) global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
                 regularHandlerCallback(message, {
-                    displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl,
+                    displayName: displayName,
+                    pictureUrl: pictureUrl,
                     isNotify: user.notify
                 }, returnStr, callback);
             } else {
@@ -112,17 +114,19 @@ module.exports = {
             }
         });
     },
-    conditionHandler: function(event, callback) {
+    contactHandler: function(event, callback) {
         var returnStr = 'contact';
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
-                global.aEvent.emit('getMsg', event.source.userId, user.event.source.pictureUrl, event.message.text);
+                var displayName = user.event.source.displayName;
+                var pictureUrl = user.event.source.pictureUrl;
+                global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
                 regularHandlerCallback(message, {
-                    displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl,
+                    displayName: displayName,
+                    pictureUrl: pictureUrl,
                     isNotify: true
                 }, returnStr, callback);
             } else {
@@ -138,7 +142,7 @@ module.exports = {
                         return callback(false, event.replyToken);
                     }
                     var resData = JSON.parse(body);
-                    global.aEvent.emit('getMsg', event.source.userId, resData.pictureUrl, event.message.text);
+                    global.aEvent.emit('getMsg', event.source.userId, resData.displayName, resData.pictureUrl, event.message.text);
                     resData.isNotify = true;
                     regularHandlerCallback(message, resData, returnStr, callback);
                 });
@@ -204,8 +208,8 @@ module.exports = {
             }
         });
     },
-    textSendler: function(lineUserId, message, sended, imgUrl) {
-        textSendlerCallback(lineUserId, message, sended, imgUrl);
+    textSendler: function(lineUserId, message, sended, name, imgUrl) {
+        textSendlerCallback(lineUserId, message, sended, name, imgUrl);
     },
     templateSendler: function(lineUserId, sended, isWin, couponId, couponType, couponContent) {
         var altText;

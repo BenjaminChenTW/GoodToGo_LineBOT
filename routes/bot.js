@@ -27,9 +27,9 @@ module.exports = {
             return Promise.resolve(null);
         }
     },
-    multicast: function(id, message, sended, imgUrl) {
+    multicast: function(id, message, sended, name, imgUrl) {
         client.pushMessage(id, message)
-            .then((res) => sended(imgUrl))
+            .then((res) => sended(name, imgUrl))
             .catch((err) => {
                 debug(JSON.stringify(err.originalError.response.config.data));
                 debug(JSON.stringify(err.originalError.response.data));

@@ -77,8 +77,8 @@ var server = https.createServer(options, app);
  */
 var io = require('socket.io')(server);
 global.aEvent = new EventEmitter();
-global.aEvent.on('getMsg', function(userId, msg) {
-    chatroom.getMsg(io, userId, msg);
+global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
+    chatroom.getMsg(io, userId, userName, imgUrl, msg);
 });
 io
     .on('connection', function(socket) {

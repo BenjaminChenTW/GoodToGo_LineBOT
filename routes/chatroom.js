@@ -57,13 +57,13 @@ module.exports = {
         if (!userId || !msg) return socket.emit('server', { statusCode: 1, msg: "Content Lost" });
         sendMessage(userId, msg, function(err) {
             socket.emit('server', { statusCode: 2, msg: "ServerDB Error" + JSON.stringify(err) });
-        }, function(imgUrl, reject) {
+        }, function(userName, imgUrl, reject) {
             if (reject) return socket.emit('server', { statusCode: 3, msg: reject.text });
             socket.emit('server', { statusCode: 0, msg: "Sended" });
-            socket.broadcast.emit('user', { user: userId, imgUrl: imgUrl, type: 'manager', msg: msg });
+            socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg });
         });
     },
-    getMsg: function(io, userId, imgUrl, msg) {
-        io.emit('user', { user: userId, imgUrl: imgUrl, type: 'customer', msg: msg });
+    getMsg: function(io, userId, userName, imgUrl, msg) {
+        io.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'customer', msg: msg });
     }
 };
