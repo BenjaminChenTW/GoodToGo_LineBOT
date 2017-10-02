@@ -66,7 +66,7 @@ module.exports = {
         });
     },
     sendMessage: function(id, text, next, callback) {
-        Message.find({ 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'text', 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
             if (messages[0].notify === true) {
                 message = new Message();
                 message.event = {
@@ -80,6 +80,7 @@ module.exports = {
                     }
                 };
                 message.notify = true;
+                message.read = true;
                 message.event.source['displayName'] = messages[0].event.source.displayName;
                 message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
                 message.save((err) => {

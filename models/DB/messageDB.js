@@ -6,6 +6,7 @@ var schema = mongoose.Schema({
     notify: Boolean,
     img: {
         id: Number,
+        hash: String,
         data: Buffer,
         contentType: String,
         checked: Boolean,

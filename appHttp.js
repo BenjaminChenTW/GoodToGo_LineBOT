@@ -32,6 +32,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
     if (err) throw (err);
     debug('mongoDB connect succeed');
+    require('./tmp')
 });
 /**
  * EXPRESS init

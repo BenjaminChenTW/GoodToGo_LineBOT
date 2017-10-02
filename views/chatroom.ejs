@@ -61,6 +61,7 @@
     var isSearchImgButtonSelected = false;
 
     socket.on('server', function(obj){
+        if (obj.statusCode) console.log('msg: ' + obj.statusCode)
         console.log('msg: ' + obj.msg)
     });
     socket.on('otherUser', function(obj){

@@ -1,10 +1,12 @@
 var request = require('request');
+var crypto = require('crypto');
+var debug = require('debug')('goodtogo-linebot:messageHandler');
+
 var Message = require('./DB/messageDB.js');
 var Coupon = require('../models/DB/couponDB.js');
 var config = require('../config/config.js');
 var multicast = require('../routes/bot.js').multicast;
 
-var debug = require('debug')('goodtogo-linebot:messageHandler');
 
 function textHandlerCallback(message, user, returnStr, callback) {
     message.event.source['displayName'] = user.displayName;
@@ -18,6 +20,7 @@ function textHandlerCallback(message, user, returnStr, callback) {
 }
 
 function imgHandlerCallback(message, user, event, callback) {
+    var imgBufferList = [];
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
     request
@@ -35,15 +38,24 @@ function imgHandlerCallback(message, user, event, callback) {
             return callback(false, event.replyToken);
         })
         .on('data', function(data) {
-            imgBuffer.push(data);
+            imgBufferList.push(data);
         })
         .on('end', function() {
-            message.img.data = Buffer.concat(imgBuffer);
-            message.img.checked = false;
-            message.img.id = idIndex;
-            message.save(function(err) {
-                if (err) return callback(false, event.replyToken);
-                return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + '\n請靜候審核。');
+            var imgBuffer = Buffer.concat(imgBufferList);
+            var hash = crypto.createHash('md5').update(imgBuffer).digest("hex");
+            Message.findOne({ 'img.hash': hash }, 'img.id', function(err, img) {
+                if (img) {
+                    callback(true, event.replyToken, '收到您的照片！\n但您的照片似乎重複上傳，\n若有疑問請聯絡客服。\n錯誤代碼：' + idIndex++);
+                } else {
+                    message.img.data = imgBuffer;
+                    message.img.hash = hash;
+                    message.img.checked = false;
+                    message.img.id = idIndex;
+                    message.save(function(err) {
+                        if (err) return callback(false, event.replyToken);
+                        return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + ' ，\n請靜候審核。');
+                    });
+                }
             });
         });
 }
@@ -164,7 +176,6 @@ module.exports = {
         });
     },
     imgHandler: function(event, callback) {
-        imgBuffer = [];
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
@@ -210,7 +221,7 @@ module.exports = {
                 text = "您的照片 #" + couponId + " 審核通過！\n審核結果：" + couponType + "\n目前您總共有" + amount + "次抽獎機會！";
                 actions.push({
                     "type": "uri",
-                    "label": "全部抽出",
+                    "label": "開始抽獎！",
                     "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
                 });
                 templateSendlerCallback(lineUserId, {
