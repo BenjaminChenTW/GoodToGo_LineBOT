@@ -74,6 +74,11 @@
             return;
         }
 
+        document.getElementById('name').removeAttribute('status');
+        document.getElementById('time').removeAttribute('status');
+        document.getElementById('text').removeAttribute('status');
+
+
         create_message('me', msg);
 
         socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
