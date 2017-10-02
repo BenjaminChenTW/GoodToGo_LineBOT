@@ -117,7 +117,9 @@
                 extraRoomList[i].hasRead = false;
                 extraRoomList[i].time = (new Date()).getTime();
 
-                extraRoomList.splice(0, 0, extraRoomList[i]);
+                var node = extraRoomList[i];
+                extraRoomList.splice(i,1);
+                extraRoomList.splice(0, 0, node);
 
                 break;
             }
@@ -166,7 +168,9 @@
                 extraRoomList[i].hasRead = true;
                 extraRoomList[i].time = (new Date()).getTime();
 
-                extraRoomList.splice(0, 0, extraRoomList[i]);
+                var node = extraRoomList[i];
+                extraRoomList.splice(i,1);
+                extraRoomList.splice(0, 0, node);
 
                 break;
             }
