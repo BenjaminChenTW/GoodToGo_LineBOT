@@ -25,26 +25,33 @@
                 <th>上傳用戶</th>
                 <th>上傳時間</th>
                 <th>審核時間</th>
-                <th>審核數量</th>
-                <th>原因</th>
+                <th>審核結果</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
-        
     </table>
+    <div id='change_page'>
+        <intput type='button' id='change_page_pre'>&#60&#60</intput>
+        <input type='number' style='width: 30px;'/><p style='position:relative;width:auto;display: inline-block;white-space:pre-wrap;'> / </p><p id='total_num' style='position:relative;width:auto;display: inline-block;'></p>
+        <intput type='button' id='change_page_pre'>&#62&#62</intput>       
+    </div>
     </div>
     <script>
 
         $('.loader')[0].style.display = 'inline-block';
-
         
-
         $.ajax({
             url: '/checkedList/imgList',
             dataType: 'JSON',
             success: function(data){
                 var data_list = data.list;
+                var total_num = parseInt(data_list.length/20);
+
+                total_num += (data_list.length%20 == 0) ? 0 : 1;
+
+                document.getElementById('total_num').innerHTML = total_num;
+
                 for(var i = 0 ; i < data_list.length ; i++) {
                     var imgstr = "/getImg/" + data_list[i].indexId;
 
@@ -55,7 +62,6 @@
                     var new_td_upload_time = document.createElement('td');
                     var new_td_checked_time = document.createElement('td');
                     var new_td_amount = document.createElement('td');
-                    var new_td_reason = document.createElement('td');
 
                     var pic = document.createElement('img');
                     pic.setAttribute('src', imgstr);
@@ -75,16 +81,8 @@
 
                         new_td_amount.innerHTML = bag + ', ' + container + ', ' + tableware;
                                                
-                        //new_td_amount.innerHTML = data_list[i].checkedStatus.amount;
                     } else {
-                        new_td_amount.innerHTML = '0, 0 ,0';
-                    }
-
-
-                    if (data_list[i].checkedStatus.typeCode !== undefined) {
-                        new_td_reason.innerHTML = reasons[parseInt(data_list[i].checkedStatus.typeCode)];
-                    } else {
-                        new_td_reason.innerHTML = 'N/A';
+                        new_td_amount.innerHTML = '(' + reasons[parseInt(data_list[i].checkedStatus.typeCode)] + ')';
                     }
 
                     new_tr.appendChild(new_th);
@@ -93,7 +91,6 @@
                     new_tr.appendChild(new_td_upload_time);
                     new_tr.appendChild(new_td_checked_time);
                     new_tr.appendChild(new_td_amount);
-                    new_tr.appendChild(new_td_reason);
 
                     document.getElementById('checked_list').getElementsByTagName('tbody')[0].appendChild(new_tr);
                 }

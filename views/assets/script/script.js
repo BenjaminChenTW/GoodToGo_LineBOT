@@ -198,7 +198,7 @@ function create_message(type, message, img) {
     new_p.appendChild(new_a);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
-    msg_ul.append(new_msg);
+    msg_ul.appendChild(new_msg);
 
     msg_ul.scrollTop = msg_ul.scrollHeight;
 }
