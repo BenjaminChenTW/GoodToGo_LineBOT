@@ -14,10 +14,8 @@ module.exports = {
                 contactHandler(event, buttonsReply);
             } else if (event.message.text === "查看個人累積功德數") {
                 rewardHandler(false, event, textReply);
-                // rewardHandler(event, imgMapReply);
-            } else if (event.message.text === "查看總體累積功德數") {
-                rewardHandler(true, event, textReply);
-                // rewardHandler(event, imgMapReply);
+                // } else if (event.message.text === "查看總體累積功德數") {
+                // rewardHandler(true, event, imgMapReply);
             } else {
                 textHandler(event, textReply);
             }
@@ -80,38 +78,6 @@ function buttonsReply(success, replyToken, message) {
                     }
                 ]
             }
-        };
-    }
-    return client.replyMessage(replyToken, echo).catch((err) => {
-        debug(JSON.stringify(err.originalError.response.config.data));
-        debug(JSON.stringify(err.originalError.response.data));
-    });
-};
-
-function imgMapReply(success, replyToken, userId) {
-    var echo = {};
-    userId = ((userId === 'global') ? '' : ('/' + userId));
-    if (!success) {
-        echo = { type: 'text', text: '伺服器維修中...請聯繫客服或再嘗試一次！' };
-    } else {
-        echo = {
-            "type": "imagemap",
-            "baseUrl": "https://bot.goodtogo.tw/usage" + userId,
-            "altText": "您的使用紀錄",
-            "baseSize": {
-                "height": 1040,
-                "width": 585
-            },
-            "actions": [{
-                "type": "uri",
-                "linkUri": "https://bot.goodtogo.tw/usage" + userId,
-                "area": {
-                    "x": 0,
-                    "y": 0,
-                    "width": 585,
-                    "height": 1040
-                }
-            }]
         };
     }
     return client.replyMessage(replyToken, echo).catch((err) => {
