@@ -469,7 +469,8 @@ ul#customers_list li a p#time {
   display: inline-block;
   color: rgb(50, 50, 50);
   text-align: right;
-  margin-top: calc(45px / 2);
+  margin-top: calc(32px / 2);
+  line-height: 23px;
   right: 10px;
   font-size: 14px;
 
@@ -483,7 +484,7 @@ ul#customers_list li #name {
   display: inline-block;
   vertical-align: middle;
   left: 75px;
-  top: 4px;
+  top: 7px;
   font-size: 17px;
   color: rgb(50, 50, 50);
   font-weight: normal;
