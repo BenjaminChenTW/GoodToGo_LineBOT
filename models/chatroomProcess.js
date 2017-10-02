@@ -87,9 +87,11 @@ module.exports = {
                     if (err) return next(err);
                     textSendler(id, text, callback, messages[0].event.source.displayName, messages[0].event.source.pictureUrl);
                 });
-                for (var i = 1; i < messages.length; i++) {
-                    messages[i].read = true;
-                    messages[i].save((err) => { if (err) debug(err) });
+                for (var i = 0; i < messages.length; i++) {
+                    if (!messages[i].read) {
+                        messages[i].read = true;
+                        messages[i].save((err) => { if (err) debug(err) });
+                    }
                 }
             } else {
                 callback({}, {}, { text: '對話階段尚未開啟。' });
@@ -109,29 +111,36 @@ module.exports = {
         });
     },
     stopSession: function(id, next, callback) {
-        Message.find({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
-            terminateText = '感謝您使用客服，\n希望您對我們的服務還滿意！\n如還有需要與專人聯繫，\n請再次點選聯絡客服。';
-            message = new Message();
-            message.event = {
-                message: {
-                    text: terminateText,
-                    type: 'text'
-                },
-                timestamp: Date.now(),
-                source: {
-                    userId: id
+        Message.find({ 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
+            if (messages[0].notify === true) {
+                terminateText = '感謝您使用客服，\n希望您對我們的服務還滿意！\n如還有需要與專人聯繫，\n請再次點選聯絡客服。';
+                message = new Message();
+                message.event = {
+                    message: {
+                        text: terminateText,
+                        type: 'text'
+                    },
+                    timestamp: Date.now(),
+                    source: {
+                        userId: id
+                    }
+                };
+                message.notify = false;
+                message.read = true;
+                message.event.source['displayName'] = messages[0].event.source.displayName;
+                message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
+                message.save((err) => {
+                    if (err) return next(err);
+                    textSendler(id, terminateText, callback, true);
+                });
+                for (var i = 0; i < messages.length; i++) {
+                    if (!messages[i].read) {
+                        messages[i].read = true;
+                        messages[i].save((err) => { if (err) debug(err) });
+                    }
                 }
-            };
-            message.notify = false;
-            message.event.source['displayName'] = messages[0].event.source.displayName;
-            message.event.source['pictureUrl'] = messages[0].event.source.pictureUrl;
-            message.save((err) => {
-                if (err) return next(err);
-                textSendler(id, terminateText, callback);
-            });
-            for (var i = 1; i < messages.length; i++) {
-                messages[i].read = true;
-                messages[i].save((err) => { if (err) debug(err) });
+            } else {
+                callback(false);
             }
         });
     }

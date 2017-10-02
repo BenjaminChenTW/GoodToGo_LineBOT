@@ -43,11 +43,18 @@ router.get('/img/:id', function(req, res, next) {
 router.post('/terminateSession/:id', function(req, res, next) {
     var id = req.params.id;
     if (id === 'undefined') return res.status(404).end();
-    stopSession(id, next, function() {
-        res.json({
-            type: 'system',
-            text: '對話已結束',
-        });
+    stopSession(id, next, function(isSuccess) {
+        if (isSuccess) {
+            res.json({
+                type: 'system',
+                text: '結束此對話',
+            });
+        } else {
+            res.json({
+                type: 'system',
+                text: '對話階段尚未開啟',
+            });
+        }
     });
 });
 
