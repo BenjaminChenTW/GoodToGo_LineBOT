@@ -421,7 +421,7 @@ Start of chatroom page
 
 ul#customers_list {
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
   list-style: none;
   margin-top: 0px;
   width: 100%;
