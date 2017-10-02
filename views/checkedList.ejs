@@ -33,7 +33,7 @@
     </table>
     <div id='change_page'>
         <intput type='button' id='change_page_pre'>&#60&#60</intput>
-        <input type='number' style='width: 30px;'/><p style='position:relative;width:auto;display: inline-block;white-space:pre-wrap;'> / </p><p id='total_num' style='position:relative;width:auto;display: inline-block;'></p>
+        <input type='number' style='width: 30px;'id='current_page'/><p style='position:relative;width:auto;display: inline-block;white-space:pre-wrap;'> / </p><p id='total_num' style='position:relative;width:auto;display: inline-block;'></p>
         <intput type='button' id='change_page_next'>&#62&#62</intput>       
     </div>
     </div>
@@ -136,7 +136,7 @@
                     new_td_upload_time.innerHTML = custom_date(new Date(data_list[i].uploadTime));
                     new_td_checked_time.innerHTML = custom_date(new Date(data_list[i].checkedStatus.checkTime));
                     
-                    if (data.list[i].checkedStatus.typeCode == undefined) {
+                    if (data_list[i].checkedStatus.typeCode == undefined) {
                         var bag = data_list[i].checkedStatus.amount.bag;
                         var container = data_list[i].checkedStatus.amount.container;
                         var tableware = data_list[i].checkedStatus.amount.tableware;
@@ -161,19 +161,21 @@
         }
 
         $('#change_page_next').on('click', function(){
-            if (document.getElementById('total_num').innerHTML == total_num) {
+            console.log('123');
+            if (document.getElementById('current_page').value == total_num) {
                 return;
             }
+            console.log('123231');
 
-            load_next_20(20*document.getElementById('total_num').innerHTML);
+            load_next_20(20*document.getElementById('current_page').value);
         });
 
         $('#change_page_prev').on('click', function(){
-            if (document.getElementById('total_num').innerHTML == total_num) {
+            if (document.getElementById('current_page').value == total_num) {
                 return;
             }
             
-            load_next_20(20*(document.getElementById('total_num').innerHTML-2));
+            load_next_20(20*(document.getElementById('current_page').value-2));
         });
     </script>
     
