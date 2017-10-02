@@ -43,7 +43,7 @@ function imgHandlerCallback(message, user, event, callback) {
             message.img.id = idIndex;
             message.save(function(err) {
                 if (err) return callback(false, event.replyToken);
-                return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為：' + idIndex++ + '\n請靜候審核。');
+                return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + '\n請靜候審核。');
             });
         });
 }
@@ -201,13 +201,13 @@ module.exports = {
         var title;
         var text;
         var actions = [];
-        if (!couponType) {
+        if (!couponContent) {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
                 if (err) return debug(JSON.stringify(err));
                 altText = "好盒器傳給您抽獎券！";
-                thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // 抽檢券照片
+                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId; // 抽檢券照片
                 title = "抽獎券";
-                text = "您的照片 #" + couponId + " 審核通過！\n目前您有" + amount + "次抽獎機會！";
+                text = "您的照片 #" + couponId + " 審核通過！\n審核結果：" + couponType + "\n目前您總共有" + amount + "次抽獎機會！";
                 actions.push({
                     "type": "uri",
                     "label": "全部抽出",

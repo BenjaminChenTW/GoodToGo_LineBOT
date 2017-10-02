@@ -82,7 +82,7 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
                             if (err) return debug('2: ' + JSON.stringify(err));
                             res.status(200).end();
                         });
-                    }, false, picIndex);
+                    }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
                 });
         } else {
             res.status(402).end();

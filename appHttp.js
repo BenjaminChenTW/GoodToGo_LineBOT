@@ -106,9 +106,9 @@ app.get('/status', authMiddleWare, esm.pageRoute);
  * WEB router
  */
 app.use('/lottery', lottery);
+app.use('/getImg', getImg);
 app.use(authMiddleWare);
 app.use('/img', imgCheck);
-app.use('/getImg', getImg);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 
