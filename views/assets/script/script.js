@@ -207,11 +207,7 @@ function showDialog(customer, customerId, customerName) {
     if (selected_customer === customer) {
         return;
     }
-
-    document.getElementById('name').removeAttribute('status');
-    document.getElementById('time').removeAttribute('status');
-    document.getElementById('text').removeAttribute('status');
-
+    
     document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
 
     socket.on(customerId, function(data) {
