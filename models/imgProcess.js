@@ -26,9 +26,16 @@ module.exports = {
     },
     getImageList: function(index, checked, next, callback) {
         index = parseInt(index);
-        if (index < 0) return callback([]);
-        Message.find({ 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } }, 'img.checkStatus img.checked img.id event', { sort: { 'img.id': 1 } }, function(err, messages) {
-            if (err) next(err);
+        var query = {};
+        if (index === -245) {
+            query = { 'event.message.type': 'image', 'img.checked': checked };
+        } else if (index < 0) {
+            return callback([]);
+        } else {
+            query = { 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } };
+        }
+        Message.find(query, 'img.checkStatus img.checked img.id event', { sort: { 'img.id': 1 } }, function(err, messages) {
+            if (err) return next(err);
             if (!messages) return callback([]);
             var list = [];
             for (var i = 0; i < messages.length; i++) {
