@@ -323,10 +323,14 @@ div.data {
 
 #user_id_title {
     display: block;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 #user_id {
     display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 0px;
 }
 
 #upload_time_title {
@@ -674,12 +678,17 @@ li.system p a.box {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 60px;
-    right: 0;
-    top: 0;
+    height: 40px;
+    width: 40px;
+    right: 15px;
+    top: 10px;
     position: absolute;
     font-family: 'Arial';
+
+    background-color: transparent;
+
+    background-image: url('/assets/icon/end_session.png');
+    background-repeat: no-repeat;
 }
 
 @media screen and (max-width: 460pt) {
