@@ -24,6 +24,7 @@ body {
   text-align: center;
   width: 100vw;
   height: 100vh;
+  color: #444;
 }
 
 body,
@@ -675,19 +676,8 @@ li.system p a.box {
   font-family: 'Arial';
 }
 
-@media screen and (max-width: 460pt) {
-  .message {
-      width: 100vw;
-      z-index: 5;
-      left: 0px;
-  }
-  #message_field nav a {
-      display: flex;
-  }
-}
-
 #message_field nav a {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -704,11 +694,7 @@ li.system p a.box {
 @media screen and (max-width: 460pt) {
   .message {
       width: 100vw;
-      z-index: 5;
       left: 0px;
-  }
-  #message_field nav a {
-      display: flex;
   }
 }
 
