@@ -33,7 +33,7 @@
     </table>
     <div id='change_page'>
         <intput type='button' id='change_page_pre'>&#60&#60</intput>
-        <input type='number' style='width: 30px;'id='current_page'/><p style='position:relative;width:auto;display: inline-block;white-space:pre-wrap;'> / </p><p id='total_num' style='position:relative;width:auto;display: inline-block;'></p>
+        <input type='text' style='width: 25px; height: 16px; font-size: 14px;'id='current_page'/><p style='position:relative;width:auto;display: inline-block;white-space:pre-wrap;'> / </p><p id='total_num' style='position:relative;width:auto;display: inline-block;'></p>
         <intput type='button' id='change_page_next'>&#62&#62</intput>       
     </div>
     </div>
@@ -43,6 +43,7 @@
         
         var total_num;
         var data_list;
+        var num_per_page = 10;
 
         $.ajax({
             url: '/checkedList/imgList',
@@ -50,7 +51,7 @@
             success: function(data){
                 data_list = data.list;
 
-                for(var i = 0 ; i < data_list.length ; i++) {
+                for(var i = data_list.length - 1 ; i >= data_list.length - num_per_page ; i--) {
                     var imgstr = "/getImg/" + data_list[i].indexId;
 
                     var new_tr = document.createElement('tr');
@@ -95,22 +96,23 @@
             },
             complete: function() {
                 $('.loader')[0].style.display = 'none';
-                total_num = parseInt(data_list.length/20);
+                total_num = parseInt(data_list.length/num_per_page);
 
-                total_num += (data_list.length%20 == 0) ? 0 : 1;
+                total_num += (data_list.length%num_per_page == 0) ? 0 : 1;
 
                 document.getElementById('total_num').innerHTML = total_num;
+                document.getElementById('current_page').value = '1';
             }
         });
 
-        function load_next_20(index){
+        function load_next_10(index){
             var table = document.getElementsByTagName('tbody')[0];
 
             while (table.firstChild) {
                 table.removeChild(table.firstChild);
             }
 
-            for (var i = index ; i < index+20 ; i++) {
+            for (var i = (data_list.length - index - 1) ; i > (data_list.length - index - 1 - num_per_page) ; i--) {
                 if (data_list[i] === undefined) {
                     break;
                 }
@@ -161,21 +163,26 @@
         }
 
         $('#change_page_next').on('click', function(){
-            console.log('123');
             if (document.getElementById('current_page').value == total_num) {
                 return;
             }
-            console.log('123231');
 
-            load_next_20(20*document.getElementById('current_page').value);
+            load_next_10(10*document.getElementById('current_page').value);
+                            
+            var num = parseInt(document.getElementById('current_page').value)+1;
+            document.getElementById('current_page').value = num;
+
         });
 
-        $('#change_page_prev').on('click', function(){
-            if (document.getElementById('current_page').value == total_num) {
+        $('#change_page_pre').on('click', function(){
+            if (document.getElementById('current_page').value == 1) {
                 return;
             }
             
-            load_next_20(20*(document.getElementById('current_page').value-2));
+            load_next_10(10*(document.getElementById('current_page').value-2));
+
+            var num = parseInt(document.getElementById('current_page').value)-1;
+            document.getElementById('current_page').value = num;
         });
     </script>
     
