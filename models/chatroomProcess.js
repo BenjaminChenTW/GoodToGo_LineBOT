@@ -110,7 +110,7 @@ module.exports = {
     },
     stopSession: function(id, next, callback) {
         Message.find({ 'event.source.userId': id }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
-            terminateText = '感謝您使用客服，希望您對我們的服務還滿意！';
+            terminateText = '感謝您使用客服，\n希望您對我們的服務還滿意！\n如還有需要與專人聯繫，\n請再次點選聯絡客服。';
             message = new Message();
             message.event = {
                 message: {
