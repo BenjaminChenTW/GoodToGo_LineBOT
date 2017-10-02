@@ -86,9 +86,6 @@ function select_picture(pic) {
 
             document.getElementById('upload_time').textContent = time.toLocaleString()
 
-            let status = pic.getAttribute('checked') === 'true' ? 'checked' : 'unchecked';
-
-            document.getElementById('status').setAttribute('type', status);
         }
     }
 }
@@ -303,7 +300,6 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked) {
     imgtag.setAttribute('onclick', "select_picture(this)");
     imgtag.setAttribute('userName', userName);
     imgtag.setAttribute('uploadTime', uploadTime);
-    imgtag.setAttribute('checked', checked);
     imgtag.setAttribute('indexId', indexId)
 
 
@@ -314,17 +310,6 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, checked) {
     pic_a.setAttribute('class', 'pic');
 
     pic_a.appendChild(imgtag);
-
-    var img = document.createElement('img');
-    var src = '/assets/icon/unchecked.png'
-    img.setAttribute('class', 'icon');
-
-    if (checked) {
-        src = '/assets/icon/checked.png';
-    }
-
-    img.setAttribute('src', src);
-    pic_a.appendChild(img);
 
     var name_p = document.createElement('p');
     name_p.appendChild(document.createTextNode(userName));

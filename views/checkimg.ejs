@@ -62,48 +62,48 @@
 
         load_pic_data(lastIndex);
 
-        var should_update = true;
+        // var should_update = true;
 
-        $( "#picture_view" ).on( "scroll", function() {
-            if ((this.scrollLeft+this.clientWidth) > this.scrollWidth) {
-                if (should_update === true) {
+        // $( "#picture_view" ).on( "scroll", function() {
+        //     if ((this.scrollLeft+this.clientWidth) > this.scrollWidth) {
+        //         if (should_update === true) {
                     
-                    should_update = false;
+        //             should_update = false;
 
-                    this.scrollLeft = this.scrollWidth;
+        //             this.scrollLeft = this.scrollWidth;
 
-                    var new_pic = [];
+        //             var new_pic = [];
                     
-                    $.ajax({
-                        url: "/img/" + (end_index+1),
-                        type: "GET",
-                        dataType: "JSON",
-                        success: function(data){
-                            new_pic = data.list;
-                            pic_data = pic_data.concat(new_pic);
-                        },
-                        error: function(){
-                            console.log('error');                            
-                        },
-                        complete: function(){
-                            setTimeout(function(){should_update = true;}, 3);
+        //             $.ajax({
+        //                 url: "/img/" + (end_index+1),
+        //                 type: "GET",
+        //                 dataType: "JSON",
+        //                 success: function(data){
+        //                     new_pic = data.list;
+        //                     pic_data = pic_data.concat(new_pic);
+        //                 },
+        //                 error: function(){
+        //                     console.log('error');                            
+        //                 },
+        //                 complete: function(){
+        //                     setTimeout(function(){should_update = true;}, 3);
 
-                            if (new_pic.length === 0) {
-                                return;
-                            }
+        //                     if (new_pic.length === 0) {
+        //                         return;
+        //                     }
             
-                            end_index = new_pic[new_pic.length-1].indexId;
+        //                     end_index = new_pic[new_pic.length-1].indexId;
 
-                            for( var i=0; i<new_pic.length; i++){  
-                                var imgstr = "/getImg/" + new_pic[i].indexId;
-                                create_pic('back', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
-                            }
-                            let gallery = document.getElementById('picture_view');
-                        }    
-                    });
-                }
-            }
-        });
+        //                     for( var i=0; i<new_pic.length; i++){  
+        //                         var imgstr = "/getImg/" + new_pic[i].indexId;
+        //                         create_pic('back', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
+        //                     }
+        //                     let gallery = document.getElementById('picture_view');
+        //                 }    
+        //             });
+        //         }
+        //     }
+        // });
 
         $('#check_availible_num_bag').on('change', function(){
             if (this.value === '0' && document.getElementById('check_availible_num_container').value === '0' && document.getElementById('check_availible_num_tableware').value === '0') {
