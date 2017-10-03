@@ -94,7 +94,30 @@ function select_picture(pic) {
     }
 }
 
+function show_success_box(msg='保存成功') {
+    var box = document.createElement('div');
+    box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + msg;
+    box.setAttribute('class', 'submit_result');
+    box.setAttribute('type', 'success');
+    document.getElementsByTagName('body')[0].appendChild(box);
+    box.style.opacity = '1';
+
+    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+}
+
+function show_failed_box(msg='保存失敗'){
+    var box = document.createElement('div');
+    box.innerHTML = "<div class='icon'><p>X</p></div><span class='helper'></span>" + msg;
+    box.setAttribute('class', 'submit_result');
+    box.setAttribute('type', 'failed');
+    document.getElementsByTagName('body')[0].appendChild(box);
+    box.style.opacity = '1';
+
+    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+}
+
 function submit() {
+    
     $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
 
     let id = selected_picture.getAttribute('indexId');
@@ -111,35 +134,33 @@ function submit() {
         type = 'decline';
     }
 
+    var selected_container = selected_picture.parentNode.parentNode;
+    var next_container = selected_container.nextSibling;
+
     request_url += type + '/' + id + '/' + para;
     $.ajax({
         url: request_url,
         type: 'POST',
         success: function() {
             console.log('success');
-            selected_picture.parentNode.getElementsByClassName('icon')[0].setAttribute('src', '/assets/icon/checked.png');
-            selected_picture.setAttribute('status', 'true');
-
-            selected_picture.setAttribute('checked', 'true');
-            document.getElementById('status').setAttribute('type', 'checked');
-
-            var selected_container = selected_picture.parentNode.parentNode;
-            var next_container = selected_container.nextSibling;
 
             document.getElementById('detail').style.display = 'none';
 
             if (next_container) {
                 select_picture(next_container.getElementsByClassName('button')[0]);
             }
-            document.getElementById('picture_view').removeChild(selected_container);
+            //document.getElementById('picture_view').removeChild(selected_container);
         },
         error: function(xhr, statusText, err) {
             console.log('error:' + xhr.status);
+            show_failed_box('請檢察網路連線');
         },
         complete: function(xhr, statusText) {
             console.log(xhr.status);
             if (xhr.status == 402) {
-
+                show_failed_box('此照片已被審核');
+            } else if (xhr.status == 200) {
+                show_success_box();
             }
         }
     })
@@ -326,7 +347,12 @@ function create_pic(place, indexId, imgstr, userName, uploadTime, shouldIgnore) 
 
     pic_a.appendChild(name_p);
 
+    if (selected_picture) {
+        pic_a.style.opacity = 0.3;
+    }
+
     container.appendChild(pic_a);
+
 
     if (place === 'front') {
         gallery.prepend(container);
