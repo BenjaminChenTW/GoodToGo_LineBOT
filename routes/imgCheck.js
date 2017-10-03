@@ -123,7 +123,7 @@ router.post('/ignore/:id', function(req, res, next) {
     var picIndex = req.params.id;
     if (!picIndex || picIndex === 'undefined') return res.status(404).end();
     picIndex = parseInt(picIndex);
-    Message.findOne({ "img.id": picIndex }, 'read', function(err, message) {
+    Message.findOne({ "img.id": picIndex }, 'read event.source.userId', function(err, message) {
         if (message) {
             textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已取消審核。', function() {
                 global.imgEvent.emit('popImg', picIndex);
