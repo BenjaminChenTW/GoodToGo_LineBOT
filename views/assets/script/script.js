@@ -80,11 +80,15 @@ function select_picture(pic) {
 
             detail.style.display = "block";
 
-            document.getElementById('user_id').textContent = pic.getAttribute('userName');
+            document.getElementById('user_id').textContent = pic.getAttribute('userName') + ' (#' + pic.getAttribute('indexId') + ')';
             let timeInterval = pic.getAttribute('uploadTime');
             let time = new Date(Number(timeInterval));
 
             document.getElementById('upload_time').textContent = time.toLocaleString()
+
+            if (pic.getAttribute('shouldIgnore') == 'true') {
+                document.getElementById('ignore_button').style.display = 'inline-block';
+            }
 
         }
     }
@@ -296,7 +300,7 @@ function closeDialog() {
 
 }
 
-function create_pic(place, indexId, imgstr, userName, uploadTime) {
+function create_pic(place, indexId, imgstr, userName, uploadTime, shouldIgnore) {
     let gallery = document.getElementById('picture_view');
 
     var imgtag = document.createElement('img');
@@ -307,7 +311,7 @@ function create_pic(place, indexId, imgstr, userName, uploadTime) {
     imgtag.setAttribute('userName', userName);
     imgtag.setAttribute('uploadTime', uploadTime);
     imgtag.setAttribute('indexId', indexId)
-
+    imgtag.setAttribute('shouldIgnore', shouldIgnore);
 
     var container = document.createElement('div');
     container.setAttribute('class', 'container');
@@ -341,9 +345,12 @@ function load_pic_data(last_index) {
             pic_data = data.list;
 
             for (var i = 0; i < 20; i++) {
+                if (!pic_data[i]) {
+                    break;
+                }
                 var imgstr = "/getImg/" + pic_data[i].indexId;
                 end_index = pic_data[i].indexId;
-                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime)
+                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].ignoreButton);
             }
 
             document.getElementById('picture_view').scrollLeft = 0;

@@ -54,7 +54,7 @@
                         </select>
                         <textarea id='other_reasons' style='display:none ;width: 70%;'></textarea>
                     </p>
-                    <button onclick="submit()" style='cursor:pointer;'>保存</button>
+                    <button onclick="submit()" style='cursor:pointer;'>保存</button><button onclick="decline()" id='ignore_button' style='display:none; cursor:pointer; margin-left: 140px; color: red;'>忽略</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                             break;
                         }
                         var imgstr = "/getImg/" + list[i].indexId;
-                        create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime);
+                        create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
                         end_index = data.list[i].indexId;
                     }
 
@@ -134,7 +134,7 @@
                 }
                 var imgstr = "/getImg/" + pic_data[i].indexId;
                 end_index = pic_data[i].indexId;
-                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime);
+                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].ignoreButton);
                 ctr++;
             }
             console.log(end_index);
