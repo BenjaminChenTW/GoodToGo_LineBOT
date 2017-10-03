@@ -16,7 +16,7 @@
     </header>
     <div id="blocker">
         <div id="picture_view">
-        <div id='main_pic_blocker' style='position:fixed; width: 100vw; height: 200px; top: calc(22vh); background-color: rgb(240,240,240);'></div>
+        <div id='main_pic_blocker' style='position:fixed; width: 100vw; height: 50px; top: calc(22vh); background-color: rgb(240,240,240);'></div>
         </div>
     </div>
     <div class="loader" style='position: absolute; top: calc(50vh - 25px); margin-left: -25px; left: calc(50vw - 25px);'></div>
@@ -97,9 +97,46 @@
 
         socket.on('pop', function(index){
             console.log('pop: ' + index);
+
+            var pics = document.getElementsByClassName('container')
+            var gallery = document.getElementById('picture_view');
+
+            for (var i = 0 ; i < pics.length ; i++) {
+                if (pics[i].firstChild.firstChild.getAttribute('indexId') == index) {
+                    gallery.removeChild(pics[i]);
+                    break;
+                }
+            }
+
+            for (var i = 0 ; i < pic_data.length ; i++ ) {
+                if (pic_data[i].indexId == index) {
+                    pic_data.splice(i, 1);
+                    break;
+                }
+            }
         });
 
         load_pic_data(lastIndex);
+
+        $( "#picture_view" ).on( "scroll", function() {
+            if (this.scrollHeight - this.scrollTop !== this.clientHeight) {  
+                return;      
+            }
+            
+            var ctr = 0;
+
+            for ( var i = 0 ; i < pic_data.length ; i++ ) {
+                if (ctr === 20) {
+                    break;
+                }
+                if (pic_data[i].indexId <= end_index) {
+                    continue;
+                }
+                var imgstr = "/getImg/" + pic_data[i].indexId;
+                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime);
+                ctr++;
+            }
+        }
 
         // var should_update = true;
 
