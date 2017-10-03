@@ -134,7 +134,9 @@ function submit() {
         },
         complete: function(xhr, statusText) {
             console.log(xhr.status);
+            if (xhr.status == 402) {
 
+            }
         }
     })
 }
@@ -294,7 +296,7 @@ function closeDialog() {
 
 }
 
-function create_pic(place, indexId, imgstr, userName, uploadTime, checked) {
+function create_pic(place, indexId, imgstr, userName, uploadTime) {
     let gallery = document.getElementById('picture_view');
 
     var imgtag = document.createElement('img');
@@ -343,10 +345,8 @@ function load_pic_data(last_index) {
 
             for (var i = 0; i < pic_data.length; i++) {
                 var imgstr = "/getImg/" + pic_data[i].indexId;
-                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime, pic_data[i].checked)
+                create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime)
             }
-
-
 
             document.getElementById('picture_view').scrollLeft = 0;
         },

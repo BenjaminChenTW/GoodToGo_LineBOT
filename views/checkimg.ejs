@@ -42,7 +42,7 @@
                     </a>
                 </div>
                 <div class="detail">
-                    <p>抽獎次數(提袋): <input id='check_availible_num_bag' type="number" min='0' value='0'/></p>
+                    <p>抽獎次數(提袋): <input id='check_availible_num_bag' type="number" min='0' value='0'/> </p>
                     <p>抽獎次數(容器): <input id='check_availible_num_container' type="number" min='0' value='0'/></p>
                     <p>抽獎次數(餐具): <input id='check_availible_num_tableware' type="number" min='0' value='0'/></p>
                     <p id='reasons_tag'>資格不承認原因:
@@ -68,7 +68,32 @@
         });
         socket.on('add', function(index){
             console.log('add: ' + index);
+
+            if (index <= end_index) {
+                return;
+            }
+            
+            $.ajax({
+                url: '/img/' + index,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function(data){
+                    let list = data.list;
+
+                    for (var i = 0 ; i < list.length ; i++) {
+                        if ((index - end_index + pic_data.length + i) > 20) {
+                            break;
+                        }
+                        var imgstr = "/getImg/" + list[i].indexId;
+                        create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime);
+                        end_index = data.list[i].indexId;
+                    }
+
+                    pic_data = pic_data.concat(list);
+                }
+            });
         });
+
         socket.on('pop', function(index){
             console.log('pop: ' + index);
         });
@@ -109,7 +134,7 @@
 
         //                     for( var i=0; i<new_pic.length; i++){  
         //                         var imgstr = "/getImg/" + new_pic[i].indexId;
-        //                         create_pic('back', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime, new_pic[i].checked);
+        //                         create_pic('back', new_pic[i].indexId, imgstr, new_pic[i].userName, new_pic[i].uploadTime);
         //                     }
         //                     let gallery = document.getElementById('picture_view');
         //                 }    
