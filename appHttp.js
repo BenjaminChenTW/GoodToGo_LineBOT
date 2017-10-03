@@ -53,19 +53,32 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
- * Chatroom Event init
+ * Socket Event init
  */
 var io = require('socket.io')(server);
+var chat = io.of('/chatroom');
 global.aEvent = new EventEmitter();
 global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
-    chatroom.getMsg(io, userId, userName, imgUrl, msg);
+    chatroom.getMsg(chat, userId, userName, imgUrl, msg);
 });
-io
+chat
     .on('connection', function(socket) {
         socket.emit('server', { msg: "Login Success" });
         socket.on('sendMsg', function(obj) {
             chatroom.sendMsg(socket, obj.userId, obj.msg)
         });
+    });
+var checkingImg = io.of('/img');
+global.imgEvent = new EventEmitter();
+global.imgEvent.on('addImg', function(index) {
+    imgCheck.addEvent(checkingImg, index);
+});
+global.imgEvent.on('popImg', function(index) {
+    imgCheck.popEvent(checkingImg, index);
+});
+checkingImg
+    .on('connection', function(socket) {
+        socket.emit('server', { msg: "Login Success" });
     });
 
 /**
@@ -110,7 +123,7 @@ app.use('/lottery', lottery);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
 app.use(authMiddleWare);
-app.use('/img', imgCheck);
+app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 

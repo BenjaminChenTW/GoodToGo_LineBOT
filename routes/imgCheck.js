@@ -71,6 +71,7 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
                         }
                     }
                     templateSendler(message.event.source.userId, function() {
+                        global.imgEvent.emit('popImg', picIndex);
                         message.img.checked = true;
                         message.img.checkStatus.amount = {
                             container: container,
@@ -103,6 +104,7 @@ router.post('/decline/:id/:type', function(req, res, next) {
     Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
         if (message) {
             textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已完成審核\n但由於我們認為該照片' + decline[declineType] + '\n您無法獲得抽獎資格QQ', function() {
+                global.imgEvent.emit('popImg', picIndex);
                 message.img.checked = true;
                 message.img.checkStatus.typeCode = declineType;
                 message.img.checkStatus.checkTime = Date.now();
@@ -117,4 +119,12 @@ router.post('/decline/:id/:type', function(req, res, next) {
     });
 });
 
-module.exports = router;
+module.exports = {
+    router: router,
+    addEvent: function(socket, index) {
+        socket.emit('add', index);
+    },
+    popEvent: function(socket, index) {
+        socket.emit('pop', index);
+    }
+};

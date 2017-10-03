@@ -51,6 +51,7 @@ function imgHandlerCallback(message, user, event, callback) {
                     message.img.id = idIndex;
                     message.save(function(err) {
                         if (err) return callback(false, event.replyToken);
+                        global.imgEvent.emit('addImg', idIndex);
                         return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + ' ，\n請靜候審核。');
                     });
                 }

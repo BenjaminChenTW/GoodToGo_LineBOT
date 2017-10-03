@@ -52,7 +52,7 @@
     <% for(var i = 0; i < tmpArr.length; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
     <% var tmpStr = '[' + arrStr + ']'; %>
     var extraRoomList = <%- tmpStr %>;
-    var socket = io.connect(window.location.origin);
+    var socket = io.connect(window.location.origin + '/chatroom');
 
     var isSearchImgButtonSelected = false;
 
