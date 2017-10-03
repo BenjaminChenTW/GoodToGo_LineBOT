@@ -58,8 +58,8 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 var chat = io.of('/chatroom');
 global.aEvent = new EventEmitter();
-global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
-    chatroom.getMsg(chat, userId, userName, imgUrl, msg);
+global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg, type) {
+    chatroom.getMsg(chat, userId, userName, imgUrl, msg, type);
 });
 chat
     .on('connection', function(socket) {

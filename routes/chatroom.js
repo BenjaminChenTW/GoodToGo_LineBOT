@@ -70,7 +70,7 @@ module.exports = {
             socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg });
         });
     },
-    getMsg: function(io, userId, userName, imgUrl, msg) {
-        io.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'customer', msg: msg });
+    getMsg: function(io, userId, userName, imgUrl, msg, type = 'customer') {
+        io.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: type, msg: msg });
     }
 };

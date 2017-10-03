@@ -54,8 +54,20 @@ module.exports = {
                         });
                 }
                 if (messages[i].event.timestamp < getDate(startNotify, 3)) {
+                    var type = '';
+                    switch (messages[i].event.source.type) {
+                        case 'user':
+                            type = 'customer';
+                            break;
+                        case 'system':
+                            type = 'system';
+                            break;
+                        default:
+                            type = 'manager';
+                            break;
+                    }
                     userMessages.unshift({
-                        type: ((messages[i].event.source.type) ? 'customer' : 'manager'),
+                        type: type,
                         text: messages[i].event.message.text,
                         time: messages[i].event.timestamp
                     });
@@ -111,7 +123,7 @@ module.exports = {
         });
     },
     stopSession: function(id, next, callback) {
-        Message.find({ 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
+        Message.find({ 'event.message.type': 'text', 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
             if (messages[0].notify === true) {
                 terminateText = '感謝您使用客服，\n希望您對我們的服務還滿意！\n如還有需要與專人聯繫，\n請再次點選聯絡客服。';
                 message = new Message();

@@ -28,11 +28,11 @@ module.exports = {
         index = parseInt(index);
         var query = {};
         if (index === -245) {
-            query = { 'event.message.type': 'image', 'img.checked': checked };
+            query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false };
         } else if (index < 0) {
             return callback([]);
         } else {
-            query = { 'event.message.type': 'image', 'img.checked': checked, 'img.id': { '$gte': index, '$lt': index + 20 } };
+            query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false, 'img.id': { '$gte': index, '$lt': index + 20 } };
         }
         Message.find(query, 'img.checkStatus img.checked img.id event', { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) return next(err);

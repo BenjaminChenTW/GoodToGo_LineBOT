@@ -17,10 +17,11 @@ function regularHandlerCallback(message, user, returnStr, callback) {
     });
 }
 
-function imgHandlerCallback(message, user, event, callback) {
+function imgHandlerCallback(message, user, event, callback, aFunc) {
     var imgBufferList = [];
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
+    message['notify'] = user.isNotify;
     request
         .get('https://api.line.me/v2/bot/message/' + event.message.id + '/content', {
             'auth': { 'bearer': config.bot.channelAccessToken }
@@ -52,6 +53,7 @@ function imgHandlerCallback(message, user, event, callback) {
                     message.save(function(err) {
                         if (err) return callback(false, event.replyToken);
                         global.imgEvent.emit('addImg', idIndex);
+                        if (aFunc) aFunc();
                         return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + ' ，\n請靜候審核。');
                     });
                 }
@@ -184,13 +186,39 @@ module.exports = {
     imgHandler: function(event, callback) {
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
+            if (user.notify) {
+                var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
+                var imgText = '使用者傳來一張圖片：\n' + imgUrl;
+                imgMessage = new Message();
+                imgMessage.event = {
+                    message: {
+                        text: imgText,
+                        type: 'text'
+                    },
+                    timestamp: Date.now(),
+                    source: {
+                        type: 'system',
+                        userId: event.source.userId,
+                        displayName: user.event.source.displayName,
+                        pictureUrl: user.event.source.pictureUrl
+                    }
+                };
+                imgMessage.read = true;
+                imgMessage['notify'] = true;
+                imgMessage.save(function(err) {
+                    if (err) debug(JSON.stringify(err));
+                });
+            }
             if (user) {
                 imgHandlerCallback(message, {
                     displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl
-                }, event, callback);
+                    pictureUrl: user.event.source.pictureUrl,
+                    isNotify: user.notify
+                }, event, callback, function() {
+                    global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
+                });
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
                     'auth': { 'bearer': config.bot.channelAccessToken }
@@ -204,6 +232,7 @@ module.exports = {
                         return callback(false, event.replyToken);
                     }
                     var resData = JSON.parse(body);
+                    resData.isNotify = false;
                     imgHandlerCallback(message, resData, event, callback);
                 });
             }
