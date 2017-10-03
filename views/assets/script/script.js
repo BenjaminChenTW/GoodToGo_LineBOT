@@ -339,12 +339,10 @@ function load_pic_data(last_index) {
         dataType: "JSON",
         success: function(data) {
             pic_data = data.list;
-            if (pic_data.length >= 1) {
-                end_index = pic_data[pic_data.length - 1].indexId;
-            }
 
-            for (var i = 0; i < pic_data.length; i++) {
+            for (var i = 0; i < 20; i++) {
                 var imgstr = "/getImg/" + pic_data[i].indexId;
+                end_index = pic_data[i].indexId;
                 create_pic('back', pic_data[i].indexId, imgstr, pic_data[i].userName, pic_data[i].uploadTime)
             }
 
