@@ -7,7 +7,8 @@ function getListObj(ori) {
         userName: ori.event.source.displayName,
         uploadTime: ori.event.timestamp,
         checked: ori.img.checked,
-        checkedStatus: ori.img.checkStatus
+        checkedStatus: ori.img.checkStatus,
+        ignoreButton: ori.notify
     };
 }
 
@@ -34,7 +35,7 @@ module.exports = {
         } else {
             query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false, 'img.id': { '$gte': index, '$lt': index + 20 } };
         }
-        Message.find(query, 'img.checkStatus img.checked img.id event', { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find(query, 'img.checkStatus img.checked img.id event notify', { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) return next(err);
             if (!messages) return callback([]);
             var list = [];
