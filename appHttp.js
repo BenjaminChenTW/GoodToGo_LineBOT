@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var debug = require('debug')('goodtogo-linebot:app');
 debug.log = console.log.bind(console);
 
@@ -123,6 +124,13 @@ app.use('/lottery', lottery);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
 app.use(authMiddleWare);
+app.use(session({
+    secret: 'a secret string',
+    cookie: {
+        path: '/chatroom',
+        secure: false
+    }
+}));
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
