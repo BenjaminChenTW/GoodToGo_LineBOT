@@ -17,6 +17,7 @@
     "ejs": "~2.5.6",
     "events": "^1.1.1",
     "express": "~4.15.2",
+    "express-session": "^1.15.6",
     "express-status-monitor": "^1.0.0",
     "mongoose": "^4.11.12",
     "morgan": "~1.8.1",

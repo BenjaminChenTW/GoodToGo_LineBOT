@@ -15,7 +15,8 @@ router.get('/', function(req, res, next) {
             next(err);
         } else {
             res.render('chatroom', {
-                'roomList': roomList
+                'roomList': roomList,
+                'lastRoom': req.session.userId || 'none'
             });
         }
     });
@@ -24,6 +25,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var id = req.params.id;
     if (id === 'undefined') return res.status(404).end();
+    req.session.userId = id;
     getMessage(id, next, function(isEmpty, messageList) {
         res.json({
             'isEmpty': isEmpty,
