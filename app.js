@@ -143,7 +143,7 @@ app.use('/lottery', lottery);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
 app.use(authMiddleWare);
-app.use('/img', imgCheck);
+app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 
