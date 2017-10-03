@@ -57,8 +57,21 @@
                 </div>
             </div>
         </div>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         var lastIndex = <%- JSON.stringify(lastIndex) %>;
+        document.title += " - 照片審核";
+        
+        var socket = io.connect(window.location.origin + '/img');
+        socket.on('server', function(obj){
+            console.log('msg: ' + obj.msg);
+        });
+        socket.on('add', function(index){
+            console.log('add: ' + index);
+        });
+        socket.on('pop', function(index){
+            console.log('pop: ' + index);
+        });
 
         load_pic_data(lastIndex);
 
