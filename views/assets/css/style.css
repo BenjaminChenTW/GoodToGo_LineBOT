@@ -165,7 +165,7 @@ div#picture_view {
     left: 0px;
     top: 10vh;
     width: 100%;
-    height: calc(12vh + 10px);
+    height: calc(12vh + 20px);
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
@@ -217,7 +217,7 @@ img.icon {
 #detail {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    height: calc(78% - 10px);
+    height: calc(78% - 20px);
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
