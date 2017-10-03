@@ -111,9 +111,11 @@
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = obj.msg;
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
 
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].setAttribute('status', 'unread');
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].setAttribute('status', 'unread');
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].setAttribute('status', 'unread');
+                if (type == 'customer') {
+                    document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].setAttribute('status', 'unread');
+                    document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].setAttribute('status', 'unread');
+                    document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].setAttribute('status', 'unread');
+                }
 
                 document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
 
