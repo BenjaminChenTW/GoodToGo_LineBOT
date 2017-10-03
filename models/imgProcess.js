@@ -33,7 +33,7 @@ module.exports = {
         } else if (index < 0) {
             return callback([]);
         } else {
-            query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false, 'img.id': { '$gte': index, '$lt': index + 20 } };
+            query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false, 'img.id': { '$gte': index } };
         }
         Message.find(query, 'img.checkStatus img.checked img.id event notify', { sort: { 'img.id': 1 } }, function(err, messages) {
             if (err) return next(err);

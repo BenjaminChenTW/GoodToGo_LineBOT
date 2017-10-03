@@ -169,8 +169,8 @@ div#picture_view {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    background-color: black;
-    z-index: 3;    
+    background-color: rgb(240, 240, 240);
+    z-index: 3;
 }
 
 div.container {
@@ -180,6 +180,7 @@ div.container {
     object-fit: contain;
     position: relative;
     text-align: center;
+    z-index: 5;
 }
 
 a.pic {
