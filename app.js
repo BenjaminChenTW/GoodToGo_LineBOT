@@ -56,6 +56,7 @@ mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
  */
 var app = express();
 app.use(logger('dev'));
+app.disable('x-powered-by');
 var authMiddleWare = basicAuth(config.auth.user, config.auth.pwd);
 
 /**
@@ -149,7 +150,9 @@ app.use(session({
     cookie: {
         path: '/chatroom',
         secure: true
-    }
+    },
+    resave: false,
+    saveUninitialized: false
 }));
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);

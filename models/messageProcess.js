@@ -210,15 +210,17 @@ module.exports = {
                 imgMessage.save(function(err) {
                     if (err) debug(JSON.stringify(err));
                 });
+
+                function emitAEvent() {
+                    global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
+                };
             }
             if (user) {
                 imgHandlerCallback(message, {
                     displayName: user.event.source.displayName,
                     pictureUrl: user.event.source.pictureUrl,
                     isNotify: user.notify
-                }, event, callback, function() {
-                    global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
-                });
+                }, event, callback, emitAEvent);
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
                     'auth': { 'bearer': config.bot.channelAccessToken }
