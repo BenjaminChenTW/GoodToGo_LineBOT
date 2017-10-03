@@ -122,15 +122,16 @@ router.post('/decline/:id/:type', function(req, res, next) {
 router.post('/ignore/:id', function(req, res, next) {
     var picIndex = req.params.id;
     if (!picIndex || picIndex === 'undefined') return res.status(404).end();
-
     picIndex = parseInt(picIndex);
-
     Message.findOne({ "img.id": picIndex }, 'read', function(err, message) {
         if (message) {
-            message.read = true;
-            message.save((err) => {
-                if (err) debug(JSON.stringify(err));
-                res.status(200).end();
+            textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已取消審核。', function() {
+                global.imgEvent.emit('popImg', picIndex);
+                message.read = true;
+                message.save((err) => {
+                    if (err) debug(JSON.stringify(err));
+                    res.status(200).end();
+                });
             });
         } else {
             res.status(402).end();
