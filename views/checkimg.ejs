@@ -60,6 +60,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var lastIndex = <%- JSON.stringify(lastIndex) %>;
+        document.title += " - 照片審核";
         
         var socket = io.connect(window.location.origin + '/img');
         socket.on('server', function(obj){
