@@ -116,6 +116,33 @@ function show_failed_box(msg='保存失敗'){
     setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
 }
 
+function ignore() {
+    let id = selected_picture.getAttribute('indexId');
+
+    var selected_container = selected_picture.parentNode.parentNode;
+    var next_container = selected_container.nextSibling;
+
+    $.ajax({
+        url: '/img/ignore/' + id,
+        type: 'POST',
+        success: function(){
+            document.getElementById('detail').style.display = 'none';
+
+            if (next_container) {
+                select_picture(next_container.getElementsByClassName('button')[0]);
+            }
+        },
+        complete: function(xhr, statusText) {
+            console.log(xhr.status);
+            if (xhr.status == 402) {
+                show_failed_box('忽略失敗');
+            } else if (xhr.status == 200) {
+                show_success_box('忽略成功');
+            }
+        }
+    })
+} 
+
 function submit() {
     
     $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
@@ -149,7 +176,6 @@ function submit() {
             if (next_container) {
                 select_picture(next_container.getElementsByClassName('button')[0]);
             }
-            //document.getElementById('picture_view').removeChild(selected_container);
         },
         error: function(xhr, statusText, err) {
             console.log('error:' + xhr.status);
