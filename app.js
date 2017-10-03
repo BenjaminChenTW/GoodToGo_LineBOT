@@ -31,6 +31,7 @@ var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
 var usage = require('./routes/usage');
+var discount = require('./routes/discount');
 var config = require('./config/config.js');
 
 function httpRequest(req, res) {
@@ -157,6 +158,7 @@ app.use(session({
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
+app.use('/discount', discount);
 
 /**
  * Error handle
