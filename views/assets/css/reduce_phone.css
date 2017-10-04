@@ -6,9 +6,14 @@ html {
 body {
     width: 100%;
     height: 100%;
-    margin: 0;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
 }
 
+h5 {
+    font-size: 40px;
+}
 
 div.top {
     height: 15%;
@@ -18,9 +23,9 @@ div.top {
 }
 
 div.middle {
-    height: 50%;
+    height: 44vh;
     width: 70%;
-    margin: 7% 15% 0px 15%;
+    margin: 15% 0px 0px 15%;
     border-width: 0px;
 }
 
@@ -32,17 +37,19 @@ div.bottom {
 
 #top_text {
     height: 40%;
-    width: 70%;
+    width: 55%;
     border-width: 0px;
-    margin: 0px 55% 10px 45%; 
-    padding: 15px 0px 0px 0px;  
+    margin: 0px 0% 10px 37%; 
+    padding: 7% 0px 0px 0px; 
+    font-size: 40px; 
     line-height: 1.4em;  
     color: white;
 }
 
 #wood_text {
-    width: 10%;
-    margin: 0px 0% 0px 90%;
+    width: 30%;
+    margin: 0px 0% 0px 70%;
+    font-size: 50px;
     text-align: right;
 }
 
@@ -55,7 +62,9 @@ div.bottom {
 }
 
 #water_text {
-    margin: 0px 0% 0px 89%;
+    width: 40%;
+    margin: 0px 0% 0px 60%;
+    font-size: 50px;
     text-align: right;
 }
 
@@ -68,7 +77,9 @@ div.bottom {
 }
 
 #carbon_text {
-    margin: 0px 0% 0px 90%;
+    width: 40%;
+    margin: 0px 0% 0px 60%;
+    font-size: 50px;
     text-align: right;    
 }
 
@@ -88,7 +99,7 @@ div.bottom {
 #amount {
     font-size: 250%;
     position: relative;
-    right: 54px;
+    right: 23.5%;
     color: yellow;
 }
 
@@ -100,9 +111,10 @@ div.bottom {
 }
 
 #bottom_text {
-    width: 70vw;
+    width: 60%;
     height:100%;
-    margin: 0px 0% 0px 40%; 
+    font-size: 40px;
+    margin: 0px 0% 0px 22%; 
 }
 
 #total_amount {
@@ -113,5 +125,4 @@ div.bottom {
 #second_line {
     position: relative;
     left:20px;
-}
-
+}    
