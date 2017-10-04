@@ -94,7 +94,7 @@ function select_picture(pic) {
     }
 }
 
-function show_success_box(msg='保存成功') {
+function show_success_box(msg = '保存成功') {
     var box = document.createElement('div');
     box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + msg;
     box.setAttribute('class', 'submit_result');
@@ -102,10 +102,11 @@ function show_success_box(msg='保存成功') {
     document.getElementsByTagName('body')[0].appendChild(box);
     box.style.opacity = '1';
 
-    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+    setTimeout(function(obj) { obj.style.opacity = '0';
+        setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000) }, 2000, box);
 }
 
-function show_failed_box(msg='保存失敗'){
+function show_failed_box(msg = '保存失敗') {
     var box = document.createElement('div');
     box.innerHTML = "<div class='icon'><p>X</p></div><span class='helper'></span>" + msg;
     box.setAttribute('class', 'submit_result');
@@ -113,7 +114,8 @@ function show_failed_box(msg='保存失敗'){
     document.getElementsByTagName('body')[0].appendChild(box);
     box.style.opacity = '1';
 
-    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+    setTimeout(function(obj) { obj.style.opacity = '0';
+        setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000) }, 2000, box);
 }
 
 function ignore() {
@@ -125,7 +127,7 @@ function ignore() {
     $.ajax({
         url: '/img/ignore/' + id,
         type: 'POST',
-        success: function(){
+        success: function() {
             document.getElementById('detail').style.display = 'none';
 
             if (next_container) {
@@ -141,10 +143,10 @@ function ignore() {
             }
         }
     })
-} 
+}
 
 function submit() {
-    
+
     $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
 
     let id = selected_picture.getAttribute('indexId');
@@ -251,6 +253,8 @@ function create_message(type, message, img) {
     msg_ul.appendChild(new_msg);
 
     msg_ul.scrollTop = msg_ul.scrollHeight;
+
+    return new_msg;
 }
 
 function showDialog(customer, customerId, customerName) {
