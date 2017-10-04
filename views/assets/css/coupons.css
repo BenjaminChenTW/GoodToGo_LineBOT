@@ -1,5 +1,22 @@
+html {
+    width: 100%;
+}
+
+body {
+    display: inline;
+    position: relative;
+
+    font-size: 2.5vh;
+    margin:0;
+    top: 10vh;    
+    
+    background-color: rgba(248,248,248,1);
+
+    overflow: hidden;
+}
+
 #main_nav {
-    width: 100vw;
+    width: 100%;
     height: 10vh;
 
     position: fixed;
@@ -14,15 +31,9 @@
     color: white;
 
     font-size: 2.5vh;
-    font-weight: 200;
-}
+    font-weight: 300;
 
-body {
-    font-size: 2.5vh;
-    margin:0;
-    margin-top: 10vh;    
-    
-    background-color: rgba(248,248,248,1);
+    z-index: 2;
 }
 
 #main_list_view {
@@ -34,13 +45,18 @@ body {
 
 #coupons_list {
     width: 100%;
-    height: auto;
+    height: 100%;
 
     list-style: none;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
+    padding: 0;
+    margin: 0;
 
-    
+    max-height: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: auto;
 }
 
 #coupons_list li {
@@ -114,7 +130,7 @@ body {
     left: 0;
     bottom: 0;
 
-    font-weight: 200;
+    font-weight: 300;
 
     font-size: 1.5vh;
     line-height: 140%;
@@ -139,7 +155,7 @@ body {
     background-color: orange;
 
     color: white;
-    font-weight: 100;
+    font-weight: 300;
 
     font-size: 80%;
 
@@ -154,12 +170,10 @@ body {
     
 }
 
-.top_circle {
+.circle {
     position: absolute;
 
     display: block;
-
-    z-index: 100;
 
     top: -0.5vh;
     left: -0.5vh;
@@ -173,21 +187,6 @@ body {
 
 }
 
-.bottom_circle {
-    position: absolute;
-
-    display: block;
-    
-    z-index: 100;
-
+.bottom {
     bottom: -0.5vh;
-    left: -0.5vh;
-
-    width: 1vh;
-    height: 1vh;
-
-    background-color: rgba(248,248,248,1);
-    
-    border-radius: 0.5vh;
-
 }
