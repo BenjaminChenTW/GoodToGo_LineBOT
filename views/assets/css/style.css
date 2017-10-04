@@ -34,7 +34,7 @@ input {
 }
 
 nav#main_nav {
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 0px;
     z-index: 3;
@@ -161,7 +161,7 @@ nav#main_nav b {
 
 div#picture_view {
     transition: left 0.5s;
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 10vh;
     width: 100%;
@@ -169,7 +169,7 @@ div#picture_view {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    background-color: rgb(240, 240, 240);
+    background-color:transparent;
     z-index: 3;
 }
 
@@ -190,12 +190,14 @@ a.pic {
 }
 
 a.pic p {
+    margin-top: 0;
+    margin-bottom:0;
+    margin-left: 7px;
     color: white;
     position: relative;
-    line-height: 0px;
     height: 20px;
     font-size: 10pt;
-    top: calc(-5px + 2vh);
+    top: calc(2vh + 2px);
 }
 
 img.button {
@@ -209,7 +211,7 @@ img.button {
 #detail {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    height: calc(78% - 20px);
+    height: calc(78% - 10px);
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
@@ -238,7 +240,6 @@ img.button {
         display: block;
     }
     #detail>div#detail_pic {
-        margin-top: 30px;
         width: 80vw;
         margin-right: 10vw;
         margin-left: 10vw;
@@ -254,7 +255,6 @@ div#main_pic_section {
     white-space: nowrap;
     vertical-align: middle;
     text-align: center;
-    margin: 10px auto;
     display: inline;
 }
 
@@ -283,6 +283,7 @@ div.data_container {
     text-align: left;
     display: inline-block;
     vertical-align: middle;
+    padding-bottom: 75px;
     color: rgb(50, 50, 50);
 }
 
@@ -305,6 +306,7 @@ div#detail_data {
     margin-left: 10px;
     margin-right: 10px;
     display: none;
+
 }
 
 div.data {
@@ -567,7 +569,7 @@ ul#customers_list li a #name[status='unread'],
 
 .message {
     width: auto;
-    height: 90vh;
+    height: 100%;
     bottom: 0;
     overflow-y: auto;
     display: block;
@@ -778,9 +780,9 @@ div#text_field input#search_img_btn:hover {
 div#text_field input[type="text"] {
     position: relative;
     display: inline-block;
-    width: calc(90% - 40px);
+    width: calc(80% - 50px);
     height: 40px;
-    padding-right: 50px;
+    padding-right: 20px;
     border-radius: 5px;
     border-style: none;
     padding: 0 10px 0 10px;
@@ -793,7 +795,7 @@ div#text_field input#sendMsg {
     height: 42px;
     width: 50px;
     max-width: 10vw;
-    margin-left: -50px;
+    margin-left: -20px;
     border-style: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
