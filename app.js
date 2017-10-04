@@ -27,6 +27,7 @@ const EventEmitter = require('events');
 var bot = require('./routes/bot.js').handleEvent;
 var imgCheck = require('./routes/imgCheck');
 var checkedList = require('./routes/checkedList');
+var lotteryRecord = require('./routes/lotteryRecord')
 var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
@@ -158,7 +159,9 @@ app.use(session({
 }));
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
+app.use('/lotteryRecord', lotteryRecord);
 app.use('/chatroom', chatroom.router);
+
 app.use('/', function(req, res) { res.redirect('/img'); });
 
 /**
