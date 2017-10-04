@@ -19,7 +19,7 @@ body {
     width: auto;
     color: #444;
  
-    -webkit-overflow-scrolling: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 body,
@@ -165,6 +165,9 @@ div#picture_view {
     white-space: nowrap;
     background-color: transparent;
     z-index: 3;
+
+    -webkit-overflow-scrolling: touch;
+    
 }
 
 div.container {
@@ -403,7 +406,7 @@ Start of chatroom page
     top: 10vh;
 
     overflow-y: hidden;
-    -webkit-overflow-scrolling: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .manager {
@@ -1015,7 +1018,8 @@ fieldset {
 }
 
 #current_state #other_information{
-    padding-top: 10px;
+    margin-top: 20px;
+    padding-top: 0;
 
     border-left: 1px solid #888
 }
