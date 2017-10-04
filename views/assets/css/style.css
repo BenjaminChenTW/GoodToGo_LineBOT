@@ -831,9 +831,15 @@ div.page {
 }
 
 table#checked_list {
+    border-collapse: separate;
+    border-spacing: 0 10px;
     position: relative;
     width: 100%;
     padding: 10px 10px 10px 10px;
+}
+
+table#checked_list td,th {
+    margin-bottom: 40px;
 }
 
 table#checked_list thead tr {
@@ -908,6 +914,134 @@ table#checked_list th img {
 /*
 
 End of checked history tab
+
+*/
+
+/*
+
+Start of lottery reocrd page
+
+*/
+
+#lottery_record_page {
+    width: 100%;
+    height: 90%;
+
+    padding-top: 10vh;
+}
+
+fieldset {
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#filter p {
+    color:  #444;
+
+    display: inline;
+    white-space: nowrap;
+}
+
+#filter select {
+    width: 100px;
+}
+
+#current_state {
+    position: relative;
+
+
+    display: inline-block;
+    align-items: center;
+
+    overflow-y: auto;
+}
+
+#current_state div {
+    display: inline-block;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+}
+
+#current_state div p#total_num,p#total_winner,#used{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    position: relative;
+
+    left: calc(50% - 5vw);
+
+    background-color: white;
+    color: rgba(64, 185, 216, 1);
+
+    height: 10vw;
+    width: 10vw;
+
+    font-size: 5vw;
+
+    border-radius: 1000px;
+}
+
+#current_state div#delivered_amount_title, div#rate_title{
+    display: block;
+    white-space: nowrap;
+
+    position:relative;
+
+    line-height: 40px;
+    padding:0;
+}
+
+#current_state div#delivered_amount_title p, div#rate_title p{
+    display: inline;
+    white-space: nowrap;
+
+    position:relative;
+
+    color: rgba(64, 185, 216, 1);
+    font-size: 20px;
+
+}
+
+#current_state #other_information{
+    padding-top: 10px;
+
+    border-left: 1px solid #888
+}
+
+
+#lottery_record_page table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 30px;
+    margin-left: 0;
+    width: 100vw;
+    position: absolute;
+    left: 0;
+    padding: 10px 10px 10px 10px;
+    display: table;
+}
+
+#lottery_record_page table thead th {
+    height: 40px;
+    background-color: white;
+    color:  #444;
+    letter-spacing: 2px;
+}
+
+
+
+
+/*
+
+End of lottery record page
+
 */
 
 .loader {

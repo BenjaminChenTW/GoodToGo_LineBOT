@@ -16,5 +16,44 @@
                 <b id="goodtogo">LINE BOT 後台</b>
         </nav>
     </header>
+
+    <div id='lottery_record_page'>
+        <div id='filter'>
+        <fieldset>
+            <legend style="color:#888; border-radius: 5px;">查詢</legend>
+            <p>日期: </p>
+            <select id='dates'>
+                <option value='0'>10/7</option>
+            </select>
+            <span style='min-width: 30px;min-height: 1px; display: inline-block'></span>
+            <p>獎項: </p>
+            <select id='prize'>
+                <option value='0'>悠遊卡</option>
+            </select>
+        </fieldset>
+        </div>
+        <div id='current_state'>
+            <div id='total_num_title'>獎品總量<p id='total_num'>12 </p>張</div>
+            <div id='total_winner_title'>中獎者總量<p id='total_winner'>3 </p>人</div>
+            <div id='used_title'>已兌換人數<p id='used'>2 </p>人</div>
+            <div id='other_information'>
+            <div id='delivered_amount_title'>已發放總量: <p id='delivered_amount'>2 </p>張</div>
+            <div id='rate_title'>目前中獎率: <p id='rate'>2 </p>%</div></div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>中獎人</th>
+                    <th>兌換券序號</th>
+                    <th>中獎時間</th>
+                    <th>兌換時間</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
     
 <%- include ./footer.ejs %>
