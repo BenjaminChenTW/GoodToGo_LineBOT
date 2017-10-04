@@ -27,6 +27,7 @@ var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
 var usage = require('./routes/usage');
 var discount = require('./routes/discount');
+var coupons = require('./routes/coupons')
 var config = require('./config/config.js');
 
 /**
@@ -141,6 +142,7 @@ app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/lotteryRecord', lotteryRecord);
 app.use('/chatroom', chatroom.router);
+app.use('/coupons', coupons);
 app.use('/', function(req, res) { res.redirect('/img'); });
 
 /**
