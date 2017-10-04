@@ -18,7 +18,8 @@ body {
     text-align: center;
     width: auto;
     color: #444;
-    
+ 
+    -webkit-overflow-scrolling: auto;
 }
 
 body,
@@ -400,6 +401,9 @@ Start of chatroom page
     height: 90vh;
     left: 0;
     top: 10vh;
+
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: auto;
 }
 
 .manager {
@@ -411,6 +415,7 @@ Start of chatroom page
     border-right-style: solid;
     border-right-color: rgba(220, 220, 220, 1);
     border-right-width: 1px;
+
 }
 
 @media screen and (max-width: 460pt) {
