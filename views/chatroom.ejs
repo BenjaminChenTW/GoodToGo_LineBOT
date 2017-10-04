@@ -69,12 +69,15 @@
                     break;
                 case 1 :
                     console.log('IN1: ' + obj.statusCode);
+                    create_message('system', '參數錯誤: '+obj.msg);
                     break;
                 case 2 :
                     console.log('IN2: ' + obj.statusCode);
+                    create_message('system', '資料庫錯誤: '+obj.msg);
                     break;
                 case 3 :
                     console.log('IN3: ' + obj.statusCode);
+                    create_message('system', obj.msg);
                     break;
                 default: 
                     console.log('Default: ' + obj.statusCode);
