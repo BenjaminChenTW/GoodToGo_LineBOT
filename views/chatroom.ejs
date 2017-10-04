@@ -61,6 +61,8 @@
 
     var current_last_index = 0;
 
+    document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
+
     socket.on('server', function(obj){
         if (typeof obj.statusCode !== 'undefined') {
             switch (obj.statusCode) {
@@ -280,8 +282,9 @@
 
     })
 
-    function load_customers() {
+    function load_customers(start_index) {
         var index = current_last_index;
+        if (start_index != undefined) index = start_index; 
 
         for (var i = index ; i < index+20 ; i++) {
             if (!extraRoomList[i]) {
@@ -358,6 +361,26 @@
     
                 continue;
             }
+        }
+    });
+    var customer_msg_index;
+    $('#message_ul').on('scroll', function(){
+        if (this.scrollTop == 0) {
+            var scroll_pos = this.scrollHeight - this.scrollTop;
+            var data = customer_message_data;
+            for (var i = customer_msg_index+1; i < customer_msg_index + 31; i++) {
+                var img = undefined;
+                let record = data.userMessage[i];
+
+                if (!record) break;
+
+                if (record.type === 'customer') {
+                    img = selected_customer.getElementsByTagName('img')[0].cloneNode(true);
+                }
+                create_message(record.type, record.text, img, false, 'front');
+            }
+            this.scrollTop = this.scrollHeight - scroll_pos;
+            customer_msg_index += 30;
         }
     });
 

@@ -7,6 +7,8 @@ var end_index = 0;
 
 var reasons = ["不在現場", "非好盒器"];
 
+var customer_message_data;
+
 function reset_button() {
     document.getElementById('check_availible_num_bag').value = '0';
     document.getElementById('check_availible_num_container').value = '0';
@@ -224,7 +226,7 @@ function change_tab(tab) {
     }
 }
 
-function create_message(type, message, img) {
+function create_message(type, message, img, shouldScroll=true, pos='back') {
     var msg_ul = document.getElementById('message_ul');
 
     var new_msg = document.createElement('li');
@@ -270,9 +272,14 @@ function create_message(type, message, img) {
         new_p.appendChild(new_href);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
-    msg_ul.appendChild(new_msg);
+    
+    if (pos == 'front') {
+        msg_ul.insertBefore(new_msg, msg_ul.firstChild);
+    } else if (pos == 'back') {
+        msg_ul.appendChild(new_msg);
+    }
 
-    msg_ul.scrollTop = msg_ul.scrollHeight;
+    if (shouldScroll) msg_ul.scrollTop = msg_ul.scrollHeight;
 
     return new_msg;
 }
@@ -334,14 +341,17 @@ function showDialog(customer, customerId, customerName) {
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-            for (var i = data.userMessage.length - 1; i >= 0; i--) {
+            customer_message_data = data;
+            for (var i = 0; i < 30; i++) {
                 var img = undefined;
                 let record = data.userMessage[i];
 
                 if (record.type === 'customer') {
                     img = customer.getElementsByTagName('img')[0].cloneNode(true);
                 }
-                create_message(record.type, record.text, img);
+                create_message(record.type, record.text, img, true, 'front');
+
+                customer_msg_index = i;
             }
         },
         error: function() {

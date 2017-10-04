@@ -18,6 +18,7 @@ body {
     text-align: center;
     width: auto;
     color: #444;
+    
 }
 
 body,
@@ -207,7 +208,7 @@ img.button {
     transition: left 0.5s;
     margin: 0 auto;
     text-align: center;
-    position: relative;
+    position: absolute;
     top: 22vh;
     width: 100%;
     display: none;
@@ -393,24 +394,18 @@ Start of chatroom page
 */
 
 #messenger_view {
-<<<<<<< HEAD
-  position: absolute;
-  width: 100vw;
-  left: 0;
-  top: 10vh;
-  height: 90vh;
-=======
+    background-color: rgb(240, 240, 240);
     position: absolute;
     width: 100vw;
+    height: 90vh;
     left: 0;
     top: 10vh;
->>>>>>> ed647e9a1cfba8aac482fde46270053e715ee7da
 }
 
 .manager {
     min-width: 275px;
     width: 25vw;
-    height: 90vh;
+    height: 100%;
     float: left;
     background-color: white;
     border-right-style: solid;
@@ -558,9 +553,7 @@ ul#customers_list li a #name[status='unread'],
 .message {
     width: auto;
     height: 100%;
-    bottom: 0;
-    overflow-y: auto;
-    display: block;
+    overflow-y: hidden;
 }
 
 #default_words {
@@ -742,7 +735,6 @@ div#text_field {
     position: relative;
     width: 100%;
     height: 60px;
-    bottom: 0px;
     vertical-align: middle;
     white-space: nowrap;
     background-color: lightblue;
@@ -789,6 +781,8 @@ div#text_field input#sendMsg {
     border-bottom-right-radius: 5px;
     background-color: #AAA;
     color: #FFF;
+
+    -webkit-appearance: none;
 }
 
 div#text_field input#search_img_text {
