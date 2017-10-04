@@ -190,7 +190,7 @@ module.exports = {
             if (err) return debug(JSON.stringify(err));
             if (user.notify) {
                 var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
-                var imgText = '使用者傳來一張圖片\n' + imgUrl;
+                var imgText = '使用者傳來一張圖片！\n' + imgUrl;
                 imgMessage = new Message();
                 imgMessage.event = {
                     message: {
