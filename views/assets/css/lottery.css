@@ -1,0 +1,56 @@
+html {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    border-width: 0px;
+    background-color: #1d1d1b;
+}
+
+div.content {
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+#first_part {
+    margin-top: 5%;
+    margin-left: 42.6%;
+    font-size: 100%;
+}
+
+#second_part {
+    margin-top: 10%;
+    margin-left: 0%;
+    position: relative;
+    right: 3%;
+    text-align: center;
+}
+
+#time {
+    font-size: 500%;
+}
+
+#start {
+    width: 20%;
+    height: 5%;
+    margin: 10% auto auto 37.5%;
+    border-width: 0px;
+    font-size: 100%;
+    color: white;
+    background-color: #FF9300;
+}
+
+div.top_icons {
+    height:0%;
+    margin-top: 3%;
+    margin-left: 41%;
+}
+
+div.bottom_icons {
+    height: 0%;
+    margin-left: 41%;
+}

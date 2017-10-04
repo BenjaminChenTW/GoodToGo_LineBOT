@@ -94,7 +94,7 @@ function select_picture(pic) {
     }
 }
 
-function show_success_box(msg='保存成功') {
+function show_success_box(msg = '保存成功') {
     var box = document.createElement('div');
     box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + msg;
     box.setAttribute('class', 'submit_result');
@@ -102,10 +102,13 @@ function show_success_box(msg='保存成功') {
     document.getElementsByTagName('body')[0].appendChild(box);
     box.style.opacity = '1';
 
-    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+    setTimeout(function(obj) {
+        obj.style.opacity = '0';
+        setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000)
+    }, 2000, box);
 }
 
-function show_failed_box(msg='保存失敗'){
+function show_failed_box(msg = '保存失敗') {
     var box = document.createElement('div');
     box.innerHTML = "<div class='icon'><p>X</p></div><span class='helper'></span>" + msg;
     box.setAttribute('class', 'submit_result');
@@ -113,7 +116,10 @@ function show_failed_box(msg='保存失敗'){
     document.getElementsByTagName('body')[0].appendChild(box);
     box.style.opacity = '1';
 
-    setTimeout(function(obj){obj.style.opacity = '0'; setTimeout(function(){document.getElementsByTagName('body')[0].removeChild(obj);},1000)}, 2000, box);
+    setTimeout(function(obj) {
+        obj.style.opacity = '0';
+        setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000)
+    }, 2000, box);
 }
 
 function ignore() {
@@ -125,7 +131,7 @@ function ignore() {
     $.ajax({
         url: '/img/ignore/' + id,
         type: 'POST',
-        success: function(){
+        success: function() {
             document.getElementById('detail').style.display = 'none';
 
             if (next_container) {
@@ -141,10 +147,10 @@ function ignore() {
             }
         }
     })
-} 
+}
 
 function submit() {
-    
+
     $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
 
     let id = selected_picture.getAttribute('indexId');
@@ -226,12 +232,26 @@ function create_message(type, message, img) {
     var new_p = document.createElement('p');
     var new_a = document.createElement('a');
 
+    var index;
+    var new_href;
+
     if (type === 'customer') {
         new_span.setAttribute('class', 'helper customer');
         new_span.appendChild(img);
         new_msg.setAttribute('class', 'customer');
     } else if (type === 'system') {
         new_span.setAttribute('class', 'helper');
+        index = message.indexOf('https:');
+        if (index >= 0) {
+            var hrefLink = message.slice(index, message.length);
+            var hrefStr = '圖片';
+            message = message.slice(0, 7);
+            new_href = document.createElement('a');
+            new_href.appendChild(document.createTextNode(hrefStr));
+            new_href.setAttribute('class', 'href');
+            new_href.setAttribute('href', hrefLink);
+            new_href.setAttribute('target', '_blank');
+        }
         if (img !== undefined) {
             var new_div = document.createElement('div');
             new_div.appendChild(img);
@@ -246,11 +266,15 @@ function create_message(type, message, img) {
     new_a.appendChild(document.createTextNode(message));
     new_a.setAttribute('class', 'box');
     new_p.appendChild(new_a);
+    if (new_href)
+        new_p.appendChild(new_href);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
     msg_ul.appendChild(new_msg);
 
     msg_ul.scrollTop = msg_ul.scrollHeight;
+
+    return new_msg;
 }
 
 function showDialog(customer, customerId, customerName) {
