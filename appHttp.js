@@ -125,6 +125,7 @@ app.get('/status', authMiddleWare, esm.pageRoute);
 app.use('/lottery', lottery);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
+app.use('/discount', discount);
 app.use(authMiddleWare);
 app.use(session({
     secret: 'a secret string',
@@ -138,7 +139,7 @@ app.use(session({
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
-app.use('/discount', discount);
+app.use('/', function(req, res) { res.redirect('/img'); });
 
 /**
  * Error handle
