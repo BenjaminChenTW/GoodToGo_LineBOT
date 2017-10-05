@@ -82,6 +82,7 @@ checkingImg
     .on('connection', function(socket) {
         socket.emit('server', { msg: "Login Success" });
     });
+global._online = false;
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -175,8 +176,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-module.exports = app;
 
 /**
  * Normalize a port into a number, string, or false.

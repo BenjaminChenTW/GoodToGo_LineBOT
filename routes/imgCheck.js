@@ -7,12 +7,13 @@ var getInitList = require('../models/imgProcess.js').getInitList;
 var getImageList = require('../models/imgProcess.js').getImageList;
 var templateSendler = require('../models/messageProcess.js').templateSendler;
 var textSendler = require('../models/messageProcess.js').textSendler;
-var lottery = require('../models/lotteryProcess.1.js').getTicket;
+var lottery = require('../models/lotteryProcess.js').getTicket;
+var saveFile = require('../models/lotteryProcess.js').saveFile;
 var Message = require('../models/DB/messageDB.js');
 var Coupon = require('../models/DB/couponDB.js');
 
 var couponIndex = 0;
-Coupon.findOne({}, {}, { sort: { 'CouponId': -1 } }, function(err, coupon) {
+Coupon.findOne({}, 'couponId', { sort: { 'CouponId': -1 } }, function(err, coupon) {
     if (coupon) couponIndex = coupon.couponId + 1;
 });
 
@@ -49,8 +50,8 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
                             coupon = new Coupon();
                             coupon.userId = message.event.source.userId;
                             coupon.userName = message.event.source.displayName;
-                            coupon.couponId = couponIndex++;
                             coupon.picIndex = picIndex;
+                            coupon.couponId = couponIndex++;
                             coupon.prizeType = rank;
                             coupon.prizeName = name;
                             coupon.isWin = isWin;
@@ -65,6 +66,7 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
             Promise
                 .all(funcList)
                 .then((err) => {
+                    saveFile();
                     for (var i = 0; i < err.length; i++) {
                         if (err[i]) {
                             debug('1: ' + JSON.stringify(err));

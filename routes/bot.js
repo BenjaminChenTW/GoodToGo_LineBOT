@@ -59,6 +59,8 @@ function buttonsReply(success, replyToken, message) {
     var echo = {};
     if (!success) {
         echo = { type: 'text', text: '伺服器維修中...請聯繫客服或再嘗試一次！' };
+    } else if (global._online === false) {
+        echo = { type: 'text', text: '目前客服休息中！\n我們將於上線時回復您的訊息！' };
     } else {
         echo = {
             "type": "template",

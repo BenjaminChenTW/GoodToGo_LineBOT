@@ -11,7 +11,7 @@ var fs = require('fs');
 router.get('/draw/:id', function(req, res, next) {
     var id = req.params.id;
     if (id === 'undefined') return next();
-    Coupon.find({ 'userId': id, 'read': false }, {}, { sort: { 'logTime': 1 } }, function(err, coupons) {
+    Coupon.find({ 'userId': id, 'read': false }, {}, { sort: { 'couponId': -1 } }, function(err, coupons) {
         var couponList = [];
         for (var i = 0; i < coupons.length; i++) {
             couponList.push(coupons[i].couponId);
@@ -51,7 +51,7 @@ router.get('/myCoupons/:userId', function(req, res, next) {
     fs.readFile("./config/prize.json", 'utf8', function(err, data) {
         if (err) throw err;
         prizeList = JSON.parse(data);
-        Coupon.find({ 'userId': userId, 'isWin': true }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
+        Coupon.find({ 'userId': userId, 'isWin': true, 'read': true }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
             renderList = [];
             for (var i = 0; i < coupons.length; i++) {
                 renderList.push({
@@ -98,15 +98,18 @@ recordRouter.get('/', function(req, res, next) {
     fs.readFile("./config/prize.json", 'utf8', function(err, data) {
         if (err) throw err;
         prizeList = JSON.parse(data);
-        Coupon.find({ 'isWin': true }, {}, { sort: { 'prizeType': 1, 'logTime': -1 } }, function(err, coupons) {
+        prizeList['N'] = {
+            amount: 0,
+            name: '獎品已全數發出'
+        };
+        Coupon.find({}, {}, { sort: { 'prizeType': 1, 'logTime': -1 } }, function(err, coupons) {
             var resultList = [];
             var prizeArr = [];
             var dateArr = [];
-            console.log(prizeList)
             var keys = Object.keys(prizeList);
             var tmpLogTime;
             for (var i = 0; i < coupons.length; i++) {
-                if (coupons[i].isWin) {
+                if (coupons[i].isWin || coupons[i].prizeType === 'N') {
                     tmpLogTime = new Date(coupons[i].logTime);
                     resultList.push({
                         type: coupons[i].prizeType,
@@ -118,9 +121,6 @@ recordRouter.get('/', function(req, res, next) {
                     });
                     prizeList[coupons[i].prizeType].gotPrizeAmount =
                         (prizeList[coupons[i].prizeType].gotPrizeAmount ? (prizeList[coupons[i].prizeType].gotPrizeAmount + 1) : 1);
-                    // if (coupons[i].read)
-                    //     prizeList[coupons[i].prizeType].readAmount =
-                    //     (prizeList[coupons[i].prizeType].readAmount ? (prizeList[coupons[i].prizeType].readAmount + 1) : 1);
                     if (coupons[i].exchanged)
                         prizeList[coupons[i].prizeType].exchangedAmount =
                         (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);

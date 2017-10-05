@@ -28,7 +28,6 @@
                 <% optionDatesTag = "<option value='" + dateArr[i] + "'>10/" + dateArr + "</option>"; %>
                 <%- optionDatesTag %>
                 <% } %>
-                <option value='0'>10/7</option>
             </select>
             </div>
             <div>獎項: 
@@ -142,9 +141,9 @@
                 var id = data.id;
 
                 var winTime = custom_date(new Date(data.logTime));
-                var redeemedTime = custom_date(new Date(data.getTime));
+                var redeemedTime = custom_date(new Date(data.exchangedTime));
 
-                if (data.getTime == undefined) 
+                if (data.exchangedTime == undefined) 
                     redeemedTime = '尚未兌換';
 
                 var new_row = document.createElement('tr');
