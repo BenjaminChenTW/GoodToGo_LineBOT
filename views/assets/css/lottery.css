@@ -3,6 +3,19 @@
     height: 100vh;
 } */
 
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+@font-face {
+    font-family: 'GenJyuuGothic';
+    src: url('/assets/font/GenJyuuGothic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body,
+input {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
 body {
     /* width: 100%;
     height: 100%; */
@@ -10,7 +23,7 @@ body {
     background-color: #1d1d1b;
     overflow: auto;
     display: flex;
-    align-items : center;
+    align-items: center;
     justify-content: center;
 }
 
@@ -18,30 +31,40 @@ div.content {
     width: auto;
     height: auto;
     color: white;
-
     text-align: center;
-    margin-top: 20%;
+    margin-top: 30%;
 }
 
 #first_part {
     margin-top: 0;
+    margin-bottom: 50px;
     text-align: center;
-    font-size: 50px;
+    font-size: 30pt;
 }
 
 #second_part {
-    /* margin-top: 10%; */
+    margin-top: 10%;
     display: inline-block;
     /* margin-left: 0%; */
     position: relative;
-    font-size: 60px;
     text-align: center;
-
-    margin-bottom: 2.2vh;
+    margin-bottom: 33vh;
 }
 
 #time {
-    font-size: 360px;
+    font-family: 'GenJyuuGothic';
+    font-size: 200pt;
+    position: absolute;
+    top: 100%;
+    left: calc(50% - 50pt);
+    text-align: center;
+}
+
+#timeText {
+    position: absolute;
+    top: calc(50% + 270pt);
+    left: calc(50% - 15pt);
+    font-size: 30pt;
     text-align: center;
 }
 
@@ -51,17 +74,16 @@ div.content {
     margin: 15vw;
     border-width: 0px;
     font-size: 40px;
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     color: white;
     background-color: #FF9300;
-
     margin-top: 7vh;
 }
 
 div.top_icons {
     position: relative;
-    height:2vh;
-    margin-top: 5vh; 
+    height: 2vh;
+    margin-top: 2vh;
     text-align: center;
 }
 
@@ -74,37 +96,40 @@ div.bottom_icons {
     width: 100px;
     height: 100px;
 }
+
 #icon_2 {
     width: 100px;
     height: 100px;
 }
+
 #icon_3 {
     width: 100px;
     height: 100px;
 }
+
 #icon_4 {
     width: 100px;
     height: 100px;
 }
+
 #icon_5 {
     width: 100px;
     height: 100px;
 }
+
 #icon_6 {
     width: 100px;
     height: 100px;
 }
 
 @keyframes spin {
-0% {
-    transform: scale(1);
-}
-
-50% {
-    transform: scale(1.5);
-}
-
-100% {
-    transform: scale(1);
-}   
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
