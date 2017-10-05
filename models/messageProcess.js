@@ -163,7 +163,7 @@ module.exports = {
         var returnStr = "https://bot.goodtogo.tw/" + route + '/' + event.source.userId;
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 regularHandlerCallback(message, {
