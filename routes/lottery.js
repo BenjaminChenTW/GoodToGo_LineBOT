@@ -59,7 +59,7 @@ router.get('/myCoupons/:userId', function(req, res, next) {
         if (err) throw err;
         prizeList = JSON.parse(data);
     });
-    Coupon.find({ 'userId': userId }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
+    Coupon.find({ 'userId': userId, 'isWin': true }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
         renderList = [];
         for (var i = 0; i < coupons.length; i++) {
             renderList.push({
@@ -67,7 +67,7 @@ router.get('/myCoupons/:userId', function(req, res, next) {
                 couponeId: "#" + coupons[i].couponId,
                 picSrc: "/getImg/prize/" + coupons[i].prizeType,
                 name: coupons[i].prizeName,
-                sponser: prizeList[coupons[i].prizeType].sponser
+                sponsor: prizeList[coupons[i].prizeType].sponsor
             });
         }
         res.render('coupons', { list: renderList });
