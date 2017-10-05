@@ -170,12 +170,11 @@ body {
     
 }
 
-.circle {
+div[class='circle']{
     position: absolute;
 
     display: block;
 
-    top: -0.5vh;
     left: -0.5vh;
 
     width: 1vh;
@@ -187,6 +186,10 @@ body {
 
 }
 
-.bottom {
+div[type='top'] {
+    top: -0.5vh;
+}
+
+div[type='bottom'] {
     bottom: -0.5vh;
 }

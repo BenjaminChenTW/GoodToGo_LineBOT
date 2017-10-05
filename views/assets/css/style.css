@@ -208,12 +208,13 @@ img.button {
 #detail {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    height: calc(78% - 10px);
-    transition: left 0.5s;
+    height: calc(78% - 20px);
     margin: 0 auto;
     text-align: center;
     position: absolute;
-    top: 22vh;
+    top: calc(22vh);
+    padding-top: 20px;
+    left: 0;
     width: 100%;
     display: none;
     background-color: rgb(240, 240, 240);
@@ -232,14 +233,12 @@ img.button {
 @media screen and (max-width: 460pt) {
     #detail>div#detail_data {
         width: 80vw;
-        margin-right: 10vw;
-        margin-left: 10vw;
+        margin: 0 auto;
         display: block;
     }
     #detail>div#detail_pic {
         width: 80vw;
-        margin-right: 10vw;
-        margin-left: 10vw;
+        margin: 0 auto;
         display: block;
     }
     nav#main_nav b {
@@ -288,14 +287,22 @@ div.data_container {
     div#main_pic_section {
         width: 80vw;
         height: auto;
+        margin: 0 auto;
     }
+
+    div#detail_pic {
+        margin-left: 0;
+    }
+
     img#main_pic {
         height: auto;
         max-height: initial;
         max-width: 80vw;
+        margin: 0 auto;
     }
     div.data_container {
         text-align: center;
+        margin: 0 auto;
     }
 }
 
