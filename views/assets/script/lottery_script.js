@@ -3,7 +3,7 @@ document.ontouchmove = function(event) {
 }
 
 function changeView(page) {
-    if (page === 1) {
+    if (page === 1 && couponList.length !== 0) {
         $('div').remove();
         $('body').html('<img id="background" src="/assets/icon/background.png" alt="cannot find image">' + '<img id="text" src="/assets/icon/drawing.png" alt="cannot find image">');
         $('#background').css({
@@ -25,17 +25,16 @@ function changeView(page) {
             'max-width': 'calc(20 / 48 * 100%)',
             'max-height': 'auto'
         });
-
-        // if (couponList.length !== 0) {
-        //     $.ajax({
-        //         url: '/sendcoupon/' + couponList[0],
-        //         type: 'GET',
-        //         success: function(data) {
-        //             endView(data);
-        // couponList.pop();
-        //         },
-        //     })
-        // }
+        console.log(couponList[couponList.length - 1])
+        $.ajax({
+            url: '/lottery/sendcoupon/' + couponList[couponList.length - 1],
+            type: 'GET',
+            success: function(data) {
+                endView(data);
+                console.log(data)
+                couponList.pop();
+            }
+        });
     } else if (page === 0) {
         $('div').remove();
         $('body').html('<div class="content">' +
@@ -63,14 +62,14 @@ function endView(data) {
     htmlStr = (data.isWin) ?
         ('<div class="content">' +
             '<p id="first_part">中獎了</p>' + // 改成圖片
-            '<p id="second_part">恭喜您抽中了</br>' + data.prizeName + '</p>' +
+            '<p id="first_part">恭喜您抽中了</br>' + data.prizeName + '</p>' +
             '<img id="gift" src="/assets/icon/gift.png" alt="cannot load image">' +
-            '<p id="third_part">獎品兌換券 #' + data.couponId + ' 已傳送至你的LINE</br>請憑兌換券至容器租借攤位兌換，謝謝！：)</p>' +
+            '<p id="second_part">獎品兌換券 #' + data.couponId + ' 已傳送至你的LINE</br>請憑兌換券至容器租借攤位兌換，謝謝！：)</p>' +
             '<input type="button" id="start" value="確定" onclick="changeView(0)">' +
             '</div>') :
         ('<div class="content">' +
-            '<p id="first_part">中獎了</p>' + // 改成圖片
-            '<p id="second_part">恭喜您抽中了<br />由 臺中市政府 提供的<br />臺中GO悠遊卡(內有100元) 1張</p>' +
+            '<p id="first_part">沒中獎</p>' + // 改成圖片
+            '<p id="first_part">好可惜！您這次沒有中獎</p>' +
             '<img id="gift" src="/assets/icon/gift.png" alt="cannot load image">' +
             '<input type="button" id="start" value="確定" onclick="changeView(0)">' +
             '</div>');
@@ -82,12 +81,13 @@ function endView(data) {
         'margin-top': '10%'
     })
     $('#first_part').css({
-        'font-size': '120px',
-        'margin-bottom': '0'
+        'font-size': '40pt',
+        'margin-top': '5%',
+        'width': '100%'
     })
     $('#second_part').css({
         'margin-top': '5%',
-        'font-size': '40px',
+        'font-size': '20px',
         'width': '100%'
     })
     $('#gift').css({
