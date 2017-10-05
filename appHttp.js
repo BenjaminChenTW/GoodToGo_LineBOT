@@ -22,12 +22,10 @@ var bot = require('./routes/bot.js').handleEvent;
 var imgCheck = require('./routes/imgCheck');
 var checkedList = require('./routes/checkedList');
 var chatroom = require('./routes/chatroom');
-var lotteryRecord = require('./routes/lotteryRecord');
 var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
 var usage = require('./routes/usage');
 var discount = require('./routes/discount');
-var coupons = require('./routes/coupons')
 var config = require('./config/config.js');
 
 /**
@@ -124,7 +122,7 @@ app.get('/status', authMiddleWare, esm.pageRoute);
 /**
  * WEB router
  */
-app.use('/lottery', lottery);
+app.use('/lottery', lottery.router);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
 app.use('/discount', discount);
@@ -140,9 +138,8 @@ app.use(session({
 }));
 app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
-app.use('/lotteryRecord', lotteryRecord);
 app.use('/chatroom', chatroom.router);
-app.use('/coupons', coupons);
+app.use('/lotteryRecord', lottery.record);
 app.use('/', function(req, res) { res.redirect('/img'); });
 
 /**
