@@ -7,11 +7,6 @@ var Coupon = require('../models/DB/couponDB.js');
 var templateSendler = require('../models/messageProcess.js').templateSendler;
 
 var fs = require('fs');
-var prizeList;
-fs.readFile("./config/prize.json", 'utf8', function(err, data) {
-    if (err) throw err;
-    prizeList = JSON.parse(data);
-});
 
 router.get('/draw/:id', function(req, res, next) {
     var id = req.params.id;
@@ -34,7 +29,10 @@ router.get('/draw/:id', function(req, res, next) {
 router.get('/sendcoupon/:couponId', function(req, res, next) {
     var couponId = req.params.couponId;
     if (couponId === 'undefined') return res.status(404).end();
-    Coupon.findOne({ 'couponId': couponId, 'read': false }, function(err, coupon) {
+    console.log(couponId)
+    Coupon.findOne({ 'couponId': couponId }, function(err, coupon) {
+        console.log(err)
+        console.log(coupon)
         if (!coupon) return res.status(404).end();
         coupon.read = true;
         if (!coupon.readTime)
@@ -55,6 +53,12 @@ router.get('/sendcoupon/:couponId', function(req, res, next) {
 
 router.get('/myCoupons/:userId', function(req, res, next) {
     var userId = req.params.userId;
+    if (userId === 'undefined') return res.status(404).end();
+    var prizeList;
+    fs.readFile("./config/prize.json", 'utf8', function(err, data) {
+        if (err) throw err;
+        prizeList = JSON.parse(data);
+    });
     Coupon.find({ 'userId': userId }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
         renderList = [];
         for (var i = 0; i < coupons.length; i++) {
@@ -96,8 +100,32 @@ router.get('/exchange/:couponId', function(req, res, next) {
     });
 });
 
-recordRouter.get('/record', function(req, res, next) {
-    res.render('lotteryRecord');
+recordRouter.get('/', function(req, res, next) {
+    var prizeList;
+    fs.readFile("./config/prize.json", 'utf8', function(err, data) {
+        if (err) throw err;
+        prizeList = JSON.parse(data);
+    });
+    Coupon.find({}, {}, { sort: { 'prizeType': 1, 'readTime': 1 } }, function(err, coupons) {
+        var resultList = [];
+        var prizeArr = [];
+        for (var i = 0; i < coupons.length; i++) {
+            // if (coupons[i].readTime)
+            resultList.push({
+                prizeType: coupons[i].prizeType,
+                name: coupons[i].userName,
+                logTime: coupons[i].logTime,
+                getTime: coupons[i].readTime,
+                exchangedTime: coupons[i].exchangedTime
+            });
+            prizeList[coupons[i].prizeType].amount++;
+        }
+        for (var i = 0; i < prizeList.length; i++) {
+            prizeArr.push({});
+        }
+        res.render('lotteryRecord');
+    });
+
 });
 
 module.exports = {

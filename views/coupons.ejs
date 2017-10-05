@@ -39,16 +39,17 @@
     <script>
         $('.status').on('click', function(){
             if (this.parentNode.getAttribute('type') == 'unused') {
-                console.log('availible');
-
+                console.log('availible');this.previousSibling.childNodes[1].innerHTML
+                console.log(this.previousSibling.childNodes[1].innerHTML.slice(1));
                 $.ajax({
-                    url: '/coupons/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML,
+                    url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
                     type: 'GET'
                 });
             } else {
                 console.log('expired');
             }
         });
+        $('.coupon[type="unused"]').find('.status').css( 'cursor', 'pointer');
     </script>
 </body>
 </html>
