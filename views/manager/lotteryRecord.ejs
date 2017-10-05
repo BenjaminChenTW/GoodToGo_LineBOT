@@ -28,7 +28,7 @@
                 <% optionDatesTag = "<option value='" + dateArr[i] + "'>10/" + dateArr + "</option>"; %>
                 <%- optionDatesTag %>
                 <% } %>
-                <!-- <option value='0'>10/7</option> -->
+                <option value='0'>10/7</option>
             </select>
             <span style='min-width: 30px;min-height: 1px; display: inline-block'></span>
             <p>獎項: </p>
@@ -69,35 +69,99 @@
         var prizeArr = <%- JSON.stringify(prizeArr) %>;
         var resultList = <%- JSON.stringify(resultList) %>;
 
-        var all_prize = {};
+        var list = {};
+        var info = {};
 
         for (var i = 0 ; i < prizeArr.length ; i++) {
-            var info = prizeArr[i];
+            var data = prizeArr[i];
+            var type = data.type;
 
-            var type = info.type;
-            var name = info.name;
-            var amount = info.amount;
-            var winner = info.gotPrizeAmount;
-            var redeemed = info.exchangeAmount;
-
-            all_prize[type] = [];
+            info[type] = data;
+            list[type] = [];
         }
 
         for (var i = 0 ; i < resultList.length ; i++) {
-            let info = resultList[i];
+            let data = resultList[i];
+            var type = data.type;
 
-            var type = info.type;
-            // var name = info.name;
-            // var id = info.id;
+            list[type].push(data);
 
-            // var winTime = (new Date(info.logTime)).toLocaleString();
-            // var redeemedTime = (new Date(info.getTime)).toLocaleString();
-
-            // if (info.getTime == undefined) 
-            //     redeemedTime = '尚未兌換';
-
-            all_prize[type].push(info);
         }
+
+        $('#dates').on('change', function(){
+            if (this.value == new Date().getDate()) {
+                document.getElementById('current_state').style.display = 'inline-block';
+            } else {
+                document.getElementById('current_state').style.display = 'none';
+                return;
+            }
+
+            let data = info[document.getElementById('prize').value];
+
+            var name = data.name;
+            var amount = data.amount;
+            var winner = data.gotPrizeAmount;
+            var redeemed = data.exchangeAmount;
+
+            var delivered = data.giveoutAmount;
+            var odds = data.odds;
+
+        });
+
+        $('#prize').on('change', function(){
+
+            var table = document.getElementsByTagName('tbody')[0];
+
+            if (!list[this.value][0]) {
+                var empty_tr = document.createElement('tr');
+                
+                var td = document.createElement('td');
+                td.innerHTML = '尚無資料';
+                td.setAttribute('colspan', '4');
+                td.style = 'border-bottom: 0px; color: #888; font-size: 120%;';
+                empty_tr.appendChild(td);
+
+                table.appendChild(empty_tr);
+
+                return;
+            }
+
+            while (table.firstChild) {
+                    table.removeChild(table.firstChild);
+            }
+
+            for (var i = 0 ; i < list[this.value].length ; i++ ){
+                let data = list[this.value][i];
+
+                var name = data.name;
+                var id = data.id;
+
+                var winTime = (new Date(data.logTime)).toLocaleString();
+                var redeemedTime = (new Date(data.getTime)).toLocaleString();
+
+                if (data.getTime == undefined) 
+                    redeemedTime = '尚未兌換';
+
+                var new_row = document.createElement('tr');
+
+                var new_name = document.createElement('td');
+                var new_id = document.createElement('td');
+                var new_wt = document.createElement('td');
+                var new_rt = document.createElement('td');
+
+                new_name.innerHTML = name;
+                new_id.innerHTML = id;
+                new_wt.innerHTML = winTime;
+                new_rt.innerHTML = redeemedTime;
+
+                new_row.appendChild(new_name);
+                new_row.appendChild(new_id);
+                new_row.appendChild(new_wt);
+                new_row.appendChild(new_rt);
+
+                table.appendChild(new_row);
+            }
+        });
 
     </script>
     

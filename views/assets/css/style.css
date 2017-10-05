@@ -853,7 +853,7 @@ table#checked_list thead tr {
     height: 40px;
 }
 
-table#checked_list tbody tr:hover {
+tr:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -1011,7 +1011,7 @@ div#rate_title p {
 
 #lottery_record_page table {
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 0 10px;
     margin-top: 30px;
     margin-left: 0;
     width: 100vw;
@@ -1028,6 +1028,10 @@ div#rate_title p {
     letter-spacing: 2px;
 }
 
+#lottery_record_page table tbody td {
+    height: 40px;
+    border-bottom: 1px solid #BBB;
+}
 
 /*
 
