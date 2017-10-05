@@ -103,7 +103,7 @@ checkingImg
     .on('connection', function(socket) {
         socket.emit('server', { msg: "Login Success" });
     });
-global._online = false;
+global._online = true;
 
 /**
  * Listen on provided port, on all network interfaces.

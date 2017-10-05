@@ -8,6 +8,7 @@ var getImg = require('../models/chatroomProcess.js').getImg;
 var stopSession = require('../models/chatroomProcess.js').stopSession;
 
 router.get('/', function(req, res, next) {
+    req.session.userId = undefined;
     getFirst(next, function(isEmpty, roomList) {
         if (isEmpty) {
             var err = new Error('No Msg');
