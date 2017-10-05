@@ -343,8 +343,13 @@ function showDialog(customer, customerId, customerName) {
         success: function(data) {
             customer_message_data = data;
             for (var i = 0; i < 30; i++) {
+
                 var img = undefined;
                 let record = data.userMessage[i];
+
+                if (!record) {
+                    return;
+                } 
 
                 if (record.type === 'customer') {
                     img = customer.getElementsByTagName('img')[0].cloneNode(true);

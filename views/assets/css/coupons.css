@@ -56,7 +56,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 
-    -webkit-overflow-scrolling: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 #coupons_list li {
@@ -168,14 +168,14 @@ body {
     border-bottom-right-radius: 0.5vh;
     border-top-right-radius: 0.5vh;
     
+    cursor: pointer;
 }
 
-.circle {
+div[class='circle']{
     position: absolute;
 
     display: block;
 
-    top: -0.5vh;
     left: -0.5vh;
 
     width: 1vh;
@@ -187,6 +187,10 @@ body {
 
 }
 
-.bottom {
+div[type='top'] {
+    top: -0.5vh;
+}
+
+div[type='bottom'] {
     bottom: -0.5vh;
 }
