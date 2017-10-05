@@ -937,7 +937,7 @@ Start of lottery reocrd page
 }
 
 fieldset {
-    height: 40px;
+    height: auto;
     border-radius: 10px;
     margin-top: 20px;
 }
