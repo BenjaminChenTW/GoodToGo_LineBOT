@@ -97,11 +97,7 @@ function endView(data) {
         'width': '40%',
         'height': 'auto'
     })
-<<<<<<< HEAD
     $('#start').css({
         'margin-top': '4vh'
     })
 }
-=======
-}
->>>>>>> db4457d1fb8e908ea342aed98b570aac7a995bd7
