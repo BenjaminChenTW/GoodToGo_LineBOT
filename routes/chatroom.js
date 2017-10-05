@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
             err.status = 404;
             next(err);
         } else {
-            res.render('chatroom', {
+            res.render('manager/chatroom', {
                 'roomList': roomList,
                 'lastRoom': req.session.userId || 'none'
             });

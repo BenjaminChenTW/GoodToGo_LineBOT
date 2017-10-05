@@ -19,7 +19,7 @@ router.get('/draw/:id', function(req, res, next) {
                 refImgIndex: picIndex
             });
         }
-        res.render('draw', {
+        res.render('user/lottery', {
             amount: coupons.length,
             couponList: couponList
         });
@@ -70,7 +70,7 @@ router.get('/myCoupons/:userId', function(req, res, next) {
                 sponsor: prizeList[coupons[i].prizeType].sponsor
             });
         }
-        res.render('coupons', { list: renderList });
+        res.render('user/coupons', { list: renderList });
     });
 });
 
@@ -146,7 +146,7 @@ recordRouter.get('/', function(req, res, next) {
                 odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].amount * 100) || 0
             });
         }
-        res.render('lotteryRecord', {
+        res.render('manager/lotteryRecord', {
             dateArr: dateArr,
             prizeArr: prizeArr,
             resultList: resultList
