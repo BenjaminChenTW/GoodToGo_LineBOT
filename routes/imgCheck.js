@@ -11,7 +11,7 @@ var lottery = require('../models/lotteryProcess.1.js').getTicket;
 var Message = require('../models/DB/messageDB.js');
 var Coupon = require('../models/DB/couponDB.js');
 
-var couponIndex = 0
+var couponIndex = 0;
 Coupon.findOne({}, {}, { sort: { 'CouponId': -1 } }, function(err, coupon) {
     if (coupon) couponIndex = coupon.couponId + 1;
 });

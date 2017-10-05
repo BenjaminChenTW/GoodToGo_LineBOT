@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var schema = mongoose.Schema({
     userId: String, //Name
     userName: String,
-    couponId: String,
+    couponId: Number,
     picIndex: Number,
     prizeType: String,
     prizeName: String,

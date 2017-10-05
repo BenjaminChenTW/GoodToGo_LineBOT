@@ -37,7 +37,8 @@ router.get('/sendcoupon/:couponId', function(req, res, next) {
     Coupon.findOne({ 'couponId': couponId, 'read': false }, function(err, coupon) {
         if (!coupon) return res.status(404).end();
         coupon.read = true;
-        coupon.readTime = Date.now();
+        if (!coupon.readTime)
+            coupon.readTime = Date.now();
         coupon.save(function(err) {
             if (err) return debug(JSON.stringify(err));
             templateSendler(coupon.userId, function() {
@@ -59,6 +60,7 @@ router.get('/myCoupons/:userId', function(req, res, next) {
         for (var i = 0; i < coupons.length; i++) {
             renderList.push({
                 used: (coupons[i].exchanged ? "used" : "unused"),
+                couponeId: "#" + coupons[i].couponId,
                 picSrc: "/getImg/prize/" + coupons[i].prizeType,
                 name: coupons[i].prizeName,
                 sponser: prizeList[coupons[i].prizeType].sponser
