@@ -27,7 +27,7 @@ div.top {
 }
 
 div.middle {
-    height: 65%;
+    height: 64%;
     width: 100%;
     border-width: 0px;
     display: flex;
@@ -48,7 +48,7 @@ hr {
 }
 
 div.bottom {
-    height: 15%;
+    height: 16%;
     /* margin: 15px 15px 15px 15px; */
     /* width: calc(100% - 30px); */
     background-color: white;
