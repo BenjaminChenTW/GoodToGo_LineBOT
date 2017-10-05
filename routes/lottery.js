@@ -34,17 +34,17 @@ router.get('/sendcoupon/:couponId', function(req, res, next) {
         coupon.read = true;
         if (!coupon.readTime)
             coupon.readTime = Date.now();
-        coupon.save(function(err) {
-            if (err) return debug(JSON.stringify(err));
-            templateSendler(coupon.userId, function() {
-                res.status(200).json({
-                    couponId: couponId,
-                    isWin: coupon.isWin,
-                    prizeType: coupon.prizeType,
-                    prizeName: coupon.prizeName,
-                });
-            }, coupon.isWin, couponId, coupon.prizeType, coupon.prizeName);
-        });
+        // coupon.save(function(err) {
+        if (err) return debug(JSON.stringify(err));
+        templateSendler(coupon.userId, function() {
+            res.status(200).json({
+                couponId: couponId,
+                isWin: coupon.isWin,
+                prizeType: coupon.prizeType,
+                prizeName: coupon.prizeName,
+            });
+        }, coupon.isWin, couponId, coupon.prizeType, coupon.prizeName);
+        // });
     });
 });
 
@@ -143,7 +143,7 @@ recordRouter.get('/', function(req, res, next) {
                 gotPrizeAmount: prizeList[keys[i]].gotPrizeAmount || 0,
                 giveoutAmount: prizeList[keys[i]].giveoutAmount || 0,
                 exchangedAmount: prizeList[keys[i]].exchangedAmount || 0,
-                odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].amount * 100) || 0
+                odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].giveoutAmount * 100) || 0
             });
         }
         res.render('manager/lotteryRecord', {
