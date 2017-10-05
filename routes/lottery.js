@@ -20,31 +20,27 @@ router.get('/draw/:id', function(req, res, next) {
             couponList: couponList
         });
     });
-    // res.render('user/lottery', {});
 });
 
 router.get('/sendcoupon/:couponId', function(req, res, next) {
     var couponId = req.params.couponId;
     if (couponId === 'undefined') return res.status(404).end();
-    console.log(couponId)
     Coupon.findOne({ 'couponId': couponId }, function(err, coupon) {
-        console.log(err)
-        console.log(coupon)
         if (!coupon) return res.status(404).end();
         coupon.read = true;
         if (!coupon.readTime)
             coupon.readTime = Date.now();
-        // coupon.save(function(err) {
-        if (err) return debug(JSON.stringify(err));
-        templateSendler(coupon.userId, function() {
-            res.status(200).json({
-                couponId: couponId,
-                isWin: coupon.isWin,
-                prizeType: coupon.prizeType,
-                prizeName: coupon.prizeName,
-            });
-        }, coupon.isWin, couponId, coupon.prizeType, coupon.prizeName);
-        // });
+        coupon.save(function(err) {
+            if (err) return debug(JSON.stringify(err));
+            templateSendler(coupon.userId, function() {
+                res.status(200).json({
+                    couponId: couponId,
+                    isWin: coupon.isWin,
+                    prizeType: coupon.prizeType,
+                    prizeName: coupon.prizeName,
+                });
+            }, coupon.isWin, couponId, coupon.prizeType, coupon.prizeName);
+        });
     });
 });
 
