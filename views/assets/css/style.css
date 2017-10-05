@@ -373,7 +373,7 @@ input {
     text-align: center;
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     color: white;
 }
 

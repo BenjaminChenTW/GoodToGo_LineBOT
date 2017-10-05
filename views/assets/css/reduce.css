@@ -9,8 +9,6 @@
         height: 100%;
         margin: 0px;
         padding: 0px;
-        -webkit-appearance: none; 
-        overflow: hidden;
     }
     
     div.top {
@@ -21,7 +19,7 @@
     }
     
     div.middle {
-        height: 50%;
+        height: 67%;
         width: 70%;
         margin: 7% 0px 0px 15%;
         border-width: 0px;
@@ -54,7 +52,6 @@
         display: block;
         width: 100%;
         text-align: right;
-        font-size: 50%;
     }
     
     #water_text {
@@ -67,7 +64,6 @@
         display: block;
         width: 100%;
         text-align: right;
-        font-size: 50%;
     }
     
     #carbon_text {
@@ -80,23 +76,21 @@
         display: block;
         width: 100%;
         text-align: right;
-        font-size: 50%;
+
+        
     }
     
     #afterAmount {
-        font-size: 40%;    
         color: white;    
     }
     
     #amount {
-        font-size: 250%;
         position: relative;
         right: 54px;
         color: yellow;
     }
     
     #amount_total {
-        font-size: 250%;
         position: relative;
         right: 100px;
         color: yellow;
@@ -109,7 +103,6 @@
     }
     
     #total_amount {
-        font-size: 300%;
         color: #00B0D0;
     }
     

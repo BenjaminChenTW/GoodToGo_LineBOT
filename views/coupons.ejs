@@ -41,7 +41,6 @@
     <script>
         $('.status').on('click', function(){
             if (this.parentNode.getAttribute('type') == 'unused') {
-                console.log('availible');
                 $.ajax({
                     url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
                     type: 'GET',
@@ -59,7 +58,6 @@
                         }, 2000, box);
                     }
                 });
-                
             } else {
                 console.log('expired');
             }
