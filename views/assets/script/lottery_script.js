@@ -1,3 +1,5 @@
+var x = 1;
+
 document.ontouchmove = function(event){
     event.preventDefault();
 }
@@ -28,37 +30,68 @@ function changeView(){
     setTimeout(function(){
         $('#background').remove();
         $('#text').remove(); 
-        $('body').html(
-            '<div class="content">'+
-            '<p id="first_part">中獎了</p>'+
-            '<p id="second_part">恭喜您抽中了<br />由 臺中市政府 提供的<br />臺中GO悠遊卡(內有100元) 1張</p>'+
-            '<img id="gift" src="assets/icon/gift.png" alt="cannot load image">' +
-            '<input type="button" id="start" value="傳送兌換卷至LINE" onclick="changeView()">'+
-            '</div>'
-        )  
-        $('.content').css({
-            'margin-top': '10%'
-        })
-        $('#first_part').css({
-            'font-size': '120px',
-            'margin-bottom': '0'
-        })
-        $('#second_part').css({
-            'margin-top': '5%',
-            'font-size': '40px',
-            'width': '100%'
-        })
-        $('#gift').css({
-            'margin-top': '5%',
-            'display': 'inline',
-            'text-align': 'center',
-            'white-space' : 'pre-wrap',
-            'width':'40%',
-            'height': 'auto'
-        })
+        console.log(x);
+        if(x = 1) {
+            $('body').html(
+                '<div class="content">'+
+                '<p id="first_part">中獎了</p>'+
+                '<p id="second_part">恭喜您抽中了<br />由 臺中市政府 提供的<br />臺中GO悠遊卡(內有100元) 1張</p>'+
+                '<img id="gift" src="assets/icon/gift.png" alt="cannot load image">' +
+                '<input type="button" id="start" value="傳送兌換卷至LINE" onclick="closeView()">'+
+                '</div>'
+            )  
+            $('.content').css({
+                'margin-top': '10%'
+            })
+            $('#first_part').css({
+                'font-size': '120px',
+                'margin-bottom': '0'
+            })
+            $('#second_part').css({
+                'margin-top': '5%',
+                'font-size': '40px',
+                'width': '100%'
+            })
+            $('#gift').css({
+                'margin-top': '5%',
+                'display': 'inline',
+                'text-align': 'center',
+                'white-space' : 'pre-wrap',
+                'width':'40%',
+                'height': 'auto'
+            })
+        } else {
+            $('body').html(
+                '<div class="content">'+
+                '<p id="first_part">..沒抽中..</p>'+
+                '<p id="second_part">好可惜！您這次沒有中獎</p>'+
+                '<img id="lose" src="assets/icon/lose.png" alt="cannot load image">' +
+                '<input type="button" id="start" value="確定" onclick="closeView()">'+
+                '</div>'
+            )  
+            $('.content').css({
+                'margin-top': '10%'
+            })
+            $('#first_part').css({
+                'font-size': '120px',
+                'margin-bottom': '0'
+            })
+            $('#second_part').css({
+                'margin-top': '5%',
+                'font-size': '40px',
+                'width': '100%'
+            })
+            $('#lose').css ({
+                'margin-top': '5%',
+                'display': 'inline',
+                'text-align': 'center',
+                'white-space' : 'pre-wrap',
+                'width':'60%',
+                'height': 'auto'
+            })
+        }      
     },4000)
 }
-
 
 
 
