@@ -1,8 +1,10 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 html {
     width: 100%;
 }
 
 body {
+    font-family: 'Noto Sans TC', sans-serif;
     display: flex;
     position: relative;
     font-size: 2.5vh;
@@ -10,7 +12,6 @@ body {
     top: 10vh;
     background-color: rgba(248, 248, 248, 1);
     overflow: hidden;
-
     align-items: center;
     justify-content: center;
 }
@@ -152,33 +153,25 @@ div[type='bottom'] {
     bottom: -0.5vh;
 }
 
-
 .submit_result {
     -webkit-transition: all 1s ease;
     -moz-transition: all 1s ease;
     -ms-transition: all 1s ease;
     -o-transition: all 1s ease;
     transition: all 1s ease;
-    
     opacity: 0;
     position: fixed;
-    
     width: auto;
     height: 50px;
-
     background-color: white;
     z-index: 100;
-
     padding-right: 10px;
     padding-left: 50px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     border-radius: 2px;
-    
-    box-shadow: 1px 1px rgba(200,200,200,0.7);
+    box-shadow: 1px 1px rgba(200, 200, 200, 0.7);
 }
 
 .submit_result div.icon {

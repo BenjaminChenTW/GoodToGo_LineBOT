@@ -44,7 +44,10 @@ function imgHandlerCallback(message, user, event, callback, aFunc) {
             var hash = crypto.createHash('md5').update(imgBuffer).digest("hex");
             Message.findOne({ 'img.hash': hash }, 'img.id', function(err, img) {
                 if (img) {
-                    callback(true, event.replyToken, '收到您的照片！\n但您的照片似乎重複上傳，\n若有疑問請聯絡客服。\n錯誤代碼：' + idIndex++);
+                    var msg = '收到您的照片！\n但您的照片似乎重複上傳，\n若有疑問請聯絡客服。';
+                    if (global._online === false) msg += '\n我們將於上線時回復您的訊息！';
+                    msg += '\n錯誤代碼：'
+                    callback(true, event.replyToken, msg + idIndex++);
                 } else {
                     message.img.data = imgBuffer;
                     message.img.hash = hash;
@@ -54,7 +57,10 @@ function imgHandlerCallback(message, user, event, callback, aFunc) {
                         if (err) return callback(false, event.replyToken);
                         global.imgEvent.emit('addImg', idIndex);
                         if (aFunc) aFunc();
-                        return callback(true, event.replyToken, '收到您的照片！\n您的照片編號為 #' + idIndex++ + ' ，\n請靜候審核。');
+                        var msg = '收到您的照片！\n您的照片編號為 #' + idIndex++;
+                        if (global._online === false) msg += ' ，\n我們將於上線為您審核！';
+                        else msg += ' ，\n請靜候審核。';
+                        return callback(true, event.replyToken, msg);
                     });
                 }
             });
@@ -89,6 +95,7 @@ module.exports = {
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
+            if (global._online === false) returnStr += '\n我們將於上線時回復您的訊息！';
             if (user) {
                 var displayName = user.event.source.displayName;
                 var pictureUrl = user.event.source.pictureUrl;
