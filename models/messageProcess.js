@@ -275,7 +275,7 @@ module.exports = {
             }
             altText = "好盒器傳給您一張兌換券！";
             title = "兌換券";
-            text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵\n若因此喪失兌換資格恕不負責！"
+            text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵，\n若因此喪失兌換資格恕不負責！"
             switch (couponType) {
                 case 'A':
                     thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // A獎品照片
