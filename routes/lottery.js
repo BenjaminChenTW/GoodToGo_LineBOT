@@ -11,19 +11,16 @@ var fs = require('fs');
 router.get('/draw/:id', function(req, res, next) {
     var id = req.params.id;
     if (id === 'undefined') return next();
-    Coupon.find({ 'userId': id, 'read': false }, function(err, coupons) {
+    Coupon.find({ 'userId': id, 'read': false }, {}, { sort: { 'logTime': 1 } }, function(err, coupons) {
         var couponList = [];
         for (var i = 0; i < coupons.length; i++) {
-            couponList.push({
-                id: coupons[i].couponId,
-                refImgIndex: picIndex
-            });
+            couponList.push(coupons[i].couponId);
         }
         res.render('user/lottery', {
-            amount: coupons.length,
             couponList: couponList
         });
     });
+    // res.render('user/lottery', {});
 });
 
 router.get('/sendcoupon/:couponId', function(req, res, next) {
@@ -117,6 +114,7 @@ recordRouter.get('/', function(req, res, next) {
             resultList.push({
                 type: coupons[i].prizeType,
                 name: coupons[i].userName,
+                id: coupons[i].couponId,
                 logTime: tmpLogTime.getTime(),
                 getTime: coupons[i].readTime,
                 exchangedTime: coupons[i].exchangedTime
@@ -130,8 +128,6 @@ recordRouter.get('/', function(req, res, next) {
             if (coupons[i].exchanged)
                 prizeList[coupons[i].prizeType].exchangedAmount =
                 (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);
-            console.log(coupons[i].logTime.getDate())
-            console.log(dateArr.indexOf(coupons[i].logTime.getDate()))
             if (dateArr.indexOf(coupons[i].logTime.getDate()) < 0)
                 dateArr.push(coupons[i].logTime.getDate())
         }
