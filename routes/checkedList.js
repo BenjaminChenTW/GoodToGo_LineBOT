@@ -5,7 +5,7 @@ var getImageList = require('../models/imgProcess.js').getImageList;
 var Message = require('../models/DB/messageDB.js');
 
 router.get('/', function(req, res, next) {
-    res.render('checkedList');
+    res.render('manager/checkedList');
 });
 
 router.get('/imgList', function(req, res, next) {

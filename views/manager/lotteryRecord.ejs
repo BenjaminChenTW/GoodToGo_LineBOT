@@ -68,6 +68,37 @@
     <script>
         var prizeArr = <%- JSON.stringify(prizeArr) %>;
         var resultList = <%- JSON.stringify(resultList) %>;
+
+        var all_prize = {};
+
+        for (var i = 0 ; i < prizeArr.length ; i++) {
+            var info = prizeArr[i];
+
+            var type = info.type;
+            var name = info.name;
+            var amount = info.amount;
+            var winner = info.gotPrizeAmount;
+            var redeemed = info.exchangeAmount;
+
+            all_prize[type] = [];
+        }
+
+        for (var i = 0 ; i < resultList.length ; i++) {
+            let info = resultList[i];
+
+            var type = info.type;
+            // var name = info.name;
+            // var id = info.id;
+
+            // var winTime = (new Date(info.logTime)).toLocaleString();
+            // var redeemedTime = (new Date(info.getTime)).toLocaleString();
+
+            // if (info.getTime == undefined) 
+            //     redeemedTime = '尚未兌換';
+
+            all_prize[type].push(info);
+        }
+
     </script>
     
 <%- include ./footer.ejs %>
