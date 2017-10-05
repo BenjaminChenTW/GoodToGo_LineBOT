@@ -50,14 +50,15 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-#coupons_list li {
+#coupons_list li,
+div#coupon_container {
     height: calc(100vh / 6);
     margin: 0;
     padding-right: 5px;
     padding-left: 5px;
 }
 
-#coupons_list li div.coupon {
+div.coupon {
     position: relative;
     display: flex;
     align-items: center;
@@ -69,14 +70,14 @@ body {
     box-shadow: 1px 2px 1px 1px rgba(200, 200, 200, 0.3);
 }
 
-#coupons_list li div.coupon[type='used'] {
+div.coupon[type='used'] {
     -webkit-filter: grayscale(100%);
     /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
     opacity: 0.5;
 }
 
-#coupons_list li img {
+img.pic {
     display: inline-block;
     position: relative;
     height: auto;
@@ -86,7 +87,7 @@ body {
     max-width: auto;
 }
 
-#coupons_list li div.info {
+div.info {
     line-height: 3vh;
     position: relative;
     display: inline;
@@ -95,7 +96,7 @@ body {
     left: calc(5px + 4vw);
 }
 
-#coupons_list li div.info p {
+div.info p {
     margin: 0;
     padding: 0;
     letter-spacing: 1px;
@@ -112,12 +113,12 @@ body {
     color: rgba(189, 193, 201, 1);
 }
 
-#coupons_list li div.info p.sponser,
+div.info p.sponser,
 p.availible_time {
     letter-spacing: 0px;
 }
 
-#coupons_list li div.status {
+div.status {
     position: absolute;
     top: 0;
     right: 0;
@@ -196,4 +197,132 @@ div[type='bottom'] {
 
 div[type='success']>div {
     background-color: greenyellow;
+}
+
+#warning {
+    width: 100%;
+    height: 12vh;
+    border-bottom: 1px solid #CCC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 85%;
+    font-weight: 700;
+}
+
+#warning img {
+    position: absolute;
+    width: auto;
+    left: calc(12vh * 0.2);
+    height: calc(12vh * 0.6);
+}
+
+#redeem_page {
+    width: 100%;
+    height: 90%;
+}
+
+#input {
+    background-color: rgb(249, 60, 58);
+    position: relative;
+    border-radius: 0.5vh;
+    margin-top: -5px;
+    left: 5px;
+    height: 10vh;
+    width: calc(100% - 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 90%;
+    font-weight: 200;
+    color: white;
+    border-style: none;
+    -webkit-appearance: none;
+}
+
+#input[type='used'] {
+    background-color: rgb(218, 219, 221);
+}
+
+#back_button {
+    background-image: url('/assets/icon/back_icon.png');
+    background-size: 5vh 5vh;
+    width: 5vh;
+    height: 5vh;
+    position: absolute;
+    left: 4vh;
+    -moz-user-focus: none;
+}
+
+#back_button:hover {
+    background-color: rgba(1, 1, 1, 0.1);
+}
+
+#full_screen {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    background-color: rgba(1, 1, 1, 0.3);
+}
+
+#check_box {
+    position: relative;
+    width: 75%;
+    height: 30%;
+    background-color: white;
+    border-radius: 0.5vh;
+    box-shadow: 2px 2px rgba(1, 1, 1, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#check_title {
+    position: absolute;
+    text-align: center;
+    width: 80%;
+    height: auto;
+    font-weight: 700;
+    top: 10%;
+}
+
+#check_content {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    font-size: 85%;
+    font-weight: 400;
+    margin-top: 3vh;
+}
+
+.btn {
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    height: 20%;
+    border: 1px solid #DDD;
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#confirm_btn[class='btn'] {
+    right: 0;
+    color: rgba(64, 185, 216, 1);
+}
+
+#cancel_btn[class='btn'] {
+    left: 0;
+    color: #DDD;
 }

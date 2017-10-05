@@ -226,7 +226,9 @@ function change_tab(tab) {
     }
 }
 
-function create_message(type, message, img, shouldScroll=true, pos='back') {
+var wait_for_check = [];
+
+function create_message(type, message, img, shouldScroll = true, pos = 'back', msg_id) {
     var msg_ul = document.getElementById('message_ul');
 
     var new_msg = document.createElement('li');
@@ -272,7 +274,12 @@ function create_message(type, message, img, shouldScroll=true, pos='back') {
         new_p.appendChild(new_href);
     new_msg.appendChild(new_span);
     new_msg.appendChild(new_p);
-    
+
+    if (msg_id) {
+        new_msg.setAttribute('class', 'me ' + msg_id);
+        wait_for_check.push(msg_id);
+    }
+
     if (pos == 'front') {
         msg_ul.insertBefore(new_msg, msg_ul.firstChild);
     } else if (pos == 'back') {
@@ -290,19 +297,6 @@ function showDialog(customer, customerId, customerName) {
     }
 
     document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
-
-    // socket.on(customerId, function(data) {
-    //     var img = customer.getElementsByTagName('img')[0].cloneNode(true);
-
-    //     var type = data.type;
-    //     var msg = data.msg;
-
-    //     create_message(type, msg, img);
-
-    //     document.getElementById('name').setAttribute('status', 'unread');
-    //     document.getElementById('time').setAttribute('status', 'unread');
-    //     document.getElementById('text').setAttribute('status', 'unread');
-    // })
 
     clear_message_field();
 
@@ -349,7 +343,7 @@ function showDialog(customer, customerId, customerName) {
 
                 if (!record) {
                     return;
-                } 
+                }
 
                 if (record.type === 'customer') {
                     img = customer.getElementsByTagName('img')[0].cloneNode(true);

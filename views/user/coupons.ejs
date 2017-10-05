@@ -15,11 +15,12 @@
 <body>    
     <header>
         <nav id='main_nav'>
+        <div id='back_button'></div>
         我的獎品兌換券
         </nav>
     </header>
 
-    <div id='main_list_view'>
+    <div id='main_list_view' style='display:none;'>
         <ul id='coupons_list'>
             <% var couponDiv; %>
             <% var imgTag; %>
@@ -30,41 +31,75 @@
             <% if (list[i].sponsor) sponsorTag = "此獎品由 " + list[i].sponsor + " 贊助提供"; %>
             <li><%- couponDiv %><%- imgTag %><div class='info'><p class='name'><%- list[i].name %></p><p class='amount'><%- list[i].couponeId %></p><div class='feet'><p class='sponser'><%- sponsorTag %></p><p class='availible_time'>請於 2017/10/15 22:00前 兌換</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div><%- ( list[i].used? "取<br/>得<br/>獎<br/>券":"已<br/>兌<br/>換") %></div></div></li>
             <% } %>
-            <!--
+
             <li><div class='coupon' type='unused'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>重<br/>傳<br/>獎<br/>券</div></div></li>
             <li><div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>已<br/>兌<br/>換</div></div></li>
             <li><div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>已<br/>兌<br/>換</div></div></li>
             <li><div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>已<br/>兌<br/>換</div></div></li>
             <li><div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>已<br/>兌<br/>換</div></div></li>
             <li><div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>已<br/>兌<br/>換</div></div></li>
-            -->
+            
         </ul>
+    </div>
+
+    <div id='redeem_page'>
+        <div id='warning'>
+            <img src='/assets/icon/icon.png' />
+            <div id='warning_content'>請至容器租借攤位</br>向工作人員出示此畫面兌換獎品</div>
+        </div>
+        <div id='coupon_container'>
+            <div class='coupon' type='unused'><img class='pic' src='/assets/icon/prize.png'/><div class='info'><p class='name'>Ball 12Oz 窄口梅森罐</p><p class='amount'>1個</p><div class='feet'><p class='sponser'>此獎品由 好合器 贊助提供</p><p class='availible_time'>2017/10/15 10:22前有效</p></div></div><div class='status' style='display:none;'><div class='circle' type='top'></div><div class='circle' type='bottom'></div>重<br/>傳<br/>獎<br/>券</div></div>
+        </div>
+        <button id='input' type='used'style='cursor:pointer;'>使用獎品兌換券(請工作人員操作)</div>
+        <div id='full_screen'><div id='check_box'><div id='check_title'>確定使用兌換券嗎？<br/>(工作人員操作)<br/><span id='check_content'>請注意，點選「確認」後將會使此兌換券失效，此操作無法返回</span></div><div id='cancel_btn' class='btn'>取消</div><div id='confirm_btn' class='btn'>確認</div></div></div>
     </div>
     <script>
         $('.status').on('click', function(){
-            if (this.parentNode.getAttribute('type') == 'unused') {
-                $.ajax({
-                    url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
-                    type: 'GET',
-                    success: function(){
-                        var box = document.createElement('div');
-                        box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + '兌換券已傳送至聊天室';
-                        box.setAttribute('class', 'submit_result');
-                        box.setAttribute('type', 'success');
-                        document.getElementsByTagName('body')[0].appendChild(box);
-                        box.style.opacity = '1';
+            var coupon = this.parentNode.cloneNode(true);
 
-                        setTimeout(function(obj) {
-                            obj.style.opacity = '0';
-                            setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000)
-                        }, 2000, box);
-                    }
-                });
+            coupon.childNodes[2].style.display='none';
+
+            if (coupon.getAttribute('type') == 'used') {
+                document.getElementById('warning').style.display = 'none';
+                document.getElementById('input').setAttribute('type', 'used');
             } else {
-                console.log('expired');
+                document.getElementById('warning').style.display = 'flex';
+                document.getElementById('input').setAttribute('type', 'unused');
             }
+
+
+            // if (this.parentNode.getAttribute('type') == 'unused') {
+            //     $.ajax({
+            //         url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
+            //         type: 'GET',
+            //         success: function(){
+            //             var box = document.createElement('div');
+            //             box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + '兌換券已傳送至聊天室';
+            //             box.setAttribute('class', 'submit_result');
+            //             box.setAttribute('type', 'success');
+            //             document.getElementsByTagName('body')[0].appendChild(box);
+            //             box.style.opacity = '1';
+
+            //             setTimeout(function(obj) {
+            //                 obj.style.opacity = '0';
+            //                 setTimeout(function() { document.getElementsByTagName('body')[0].removeChild(obj); }, 1000)
+            //             }, 2000, box);
+            //         }
+            //     });
+            // } else {
+            //     console.log('expired');
+            // }
         });
         $('.coupon[type="unused"]').find('.status').css( 'cursor', 'pointer');
+
+        $('#back_button').on('click', function(){
+
+        });
+
+
+        $('#input').on('click', function(){
+            this.disabled = true;
+        });
     </script>
 </body>
 </html>

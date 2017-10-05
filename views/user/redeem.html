@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-tw" style="width:100vw">
+
+<head>
+    <title>爵士音樂節 獎品兌換券</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=0, width=device-width, height=device-height" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="shortcut icon" type="image/png" href="/assets/favicon.ico" />
+    <link rel="stylesheet" href="/assets/css/coupons.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav id='main_nav'>
+            我的獎品兌換券
+        </nav>
+    </header>
+
+    <div id='main_list_view'>
+        <ul id='coupons_list'>
+            <li>
+                <div class='coupon' type='unused'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>重<br/>傳<br/>獎<br/>券</div>
+                </div>
+            </li>
+            <li>
+                <div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>已<br/>兌<br/>換</div>
+                </div>
+            </li>
+            <li>
+                <div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>已<br/>兌<br/>換</div>
+                </div>
+            </li>
+            <li>
+                <div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>已<br/>兌<br/>換</div>
+                </div>
+            </li>
+            <li>
+                <div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>已<br/>兌<br/>換</div>
+                </div>
+            </li>
+            <li>
+                <div class='coupon' type='used'><img class='pic' src='/assets/icon/prize.png' />
+                    <div class='info'>
+                        <p class='name'>Ball 12Oz 窄口梅森罐</p>
+                        <p class='amount'>1個</p>
+                        <div class='feet'>
+                            <p class='sponser'>此獎品由 好合器 贊助提供</p>
+                            <p class='availible_time'>2017/10/15 10:22前有效</p>
+                        </div>
+                    </div>
+                    <div class='status'>
+                        <div class='circle' type='top'></div>
+                        <div class='circle' type='bottom'></div>已<br/>兌<br/>換</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        $('.status').on('click', function() {
+            if (this.parentNode.getAttribute('type') == 'unused') {
+                $.ajax({
+                    url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
+                    type: 'GET',
+                    success: function() {
+                        var box = document.createElement('div');
+                        box.innerHTML = "<div class='icon'><p>&#x2713</p></div><span class='helper'></span>" + '兌換券已傳送至聊天室';
+                        box.setAttribute('class', 'submit_result');
+                        box.setAttribute('type', 'success');
+                        document.getElementsByTagName('body')[0].appendChild(box);
+                        box.style.opacity = '1';
+
+                        setTimeout(function(obj) {
+                            obj.style.opacity = '0';
+                            setTimeout(function() {
+                                document.getElementsByTagName('body')[0].removeChild(obj);
+                            }, 1000)
+                        }, 2000, box);
+                    }
+                });
+            } else {
+                console.log('expired');
+            }
+        });
+        $('.coupon[type="unused"]').find('.status').css('cursor', 'pointer');
+    </script>
+</body>
+
+</html>
