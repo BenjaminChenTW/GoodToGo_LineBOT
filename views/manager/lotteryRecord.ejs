@@ -88,8 +88,17 @@
 
         }
 
-        $('#dates').on('change', function(){
-            if (this.value == new Date().getDate()) {
+        function custom_date(date) {
+            var month = date.getMonth();
+            var d = intReLength(date.getDate(), 2);
+            var hour = intReLength(date.getHours(), 2);
+            var minute = intReLength(date.getMinutes(), 2);
+
+            return ((month + 1) + '/' + d + ' ' + hour + ':' + minute);
+        }
+
+        function load_info(date) {
+            if (date == new Date().getDate()) {
                 document.getElementById('current_state').style.display = 'inline-block';
             } else {
                 document.getElementById('current_state').style.display = 'none';
@@ -98,46 +107,40 @@
 
             let data = info[document.getElementById('prize').value];
 
-            var name = data.name;
             var amount = data.amount;
             var winner = data.gotPrizeAmount;
-            var redeemed = data.exchangeAmount;
+            var redeemed = data.exchangedAmount;
 
             var delivered = data.giveoutAmount;
             var odds = data.odds;
 
-        });
+            document.getElementById('total_num').innerHTML = amount;
+            document.getElementById('total_winner').innerHTML = winner;
+            document.getElementById('used').innerHTML = redeemed;
+            document.getElementById('delivered_amount').innerHTML = delivered;
+            document.getElementById('rate').innerHTML = odds;
+        }
 
-        $('#prize').on('change', function(){
-
+        function load_list(value) {
             var table = document.getElementsByTagName('tbody')[0];
-
-            if (!list[this.value][0]) {
-                var empty_tr = document.createElement('tr');
-                
-                var td = document.createElement('td');
-                td.innerHTML = '尚無資料';
-                td.setAttribute('colspan', '4');
-                td.style = 'border-bottom: 0px; color: #888; font-size: 120%;';
-                empty_tr.appendChild(td);
-
-                table.appendChild(empty_tr);
-
-                return;
-            }
+            var date = document.getElementById('dates').value;
 
             while (table.firstChild) {
-                    table.removeChild(table.firstChild);
+                table.removeChild(table.firstChild);
             }
 
-            for (var i = 0 ; i < list[this.value].length ; i++ ){
-                let data = list[this.value][i];
+            for (var i = 0 ; i < list[value].length ; i++ ){
+                let data = list[value][i];
+
+                if (date != new Date(data.logTime).getDate()) {
+                    continue;
+                }
 
                 var name = data.name;
                 var id = data.id;
 
-                var winTime = (new Date(data.logTime)).toLocaleString();
-                var redeemedTime = (new Date(data.getTime)).toLocaleString();
+                var winTime = custom_date(new Date(data.logTime));
+                var redeemedTime = custom_date(new Date(data.getTime));
 
                 if (data.getTime == undefined) 
                     redeemedTime = '尚未兌換';
@@ -161,6 +164,31 @@
 
                 table.appendChild(new_row);
             }
+
+            if (!table.firstChild) {
+                var empty_tr = document.createElement('tr');
+                
+                var td = document.createElement('td');
+                td.innerHTML = '尚無資料';
+                td.setAttribute('colspan', '4');
+                td.style = 'border-bottom: 0px; color: #888; font-size: 120%;';
+                empty_tr.appendChild(td);
+
+                table.appendChild(empty_tr);
+            }
+        }
+
+        load_info(document.getElementById('dates').value);
+        load_list(document.getElementById('prize').value);
+
+        $('#dates').on('change', function(){
+            load_info(this.value);
+            load_list(document.getElementById('prize').value);
+        });
+
+        $('#prize').on('change', function(){
+            load_info(document.getElementById('dates').value)
+            load_list(this.value);            
         });
 
     </script>
