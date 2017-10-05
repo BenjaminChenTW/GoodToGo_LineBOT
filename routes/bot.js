@@ -13,7 +13,9 @@ module.exports = {
             if (event.message.text === "聯絡客服") {
                 contactHandler(event, buttonsReply);
             } else if (event.message.text === "我們的環境貢獻") {
-                rewardHandler(event, textReply);
+                normalHandler('usage', event, textReply);
+            } else if (event.message.text === "我的獎品兌換券") {
+                normalHandler('lottery/myCoupons', event, textReply);
             } else {
                 textHandler(event, textReply);
             }
@@ -36,7 +38,7 @@ module.exports = {
 var textHandler = require('../models/messageProcess.js').textHandler;
 var imgHandler = require('../models/messageProcess.js').imgHandler;
 var contactHandler = require('../models/messageProcess.js').contactHandler;
-var rewardHandler = require('../models/messageProcess.js').rewardHandler;
+var normalHandler = require('../models/messageProcess.js').normalHandler;
 
 function textReply(success, replyToken, message) {
     if (!success) {

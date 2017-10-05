@@ -39,4 +39,10 @@ router.get('/prize/:id', function(req, res, next) {
     });
 });
 
+router.get('/discount', function(req, res, next) { res.end() });
+
+router.get('/rule', function(req, res, next) { res.end() });
+
+router.get('/rent', function(req, res, next) { res.end() });
+
 module.exports = router;

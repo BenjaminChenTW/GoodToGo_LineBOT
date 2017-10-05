@@ -32,7 +32,6 @@ var chatroom = require('./routes/chatroom');
 var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
 var usage = require('./routes/usage');
-var discount = require('./routes/discount');
 var config = require('./config/config.js');
 
 function httpRequest(req, res) {
@@ -146,7 +145,6 @@ app.get('/status', authMiddleWare, esm.pageRoute);
 app.use('/lottery', lottery.router);
 app.use('/getImg', getImg);
 app.use('/usage', usage);
-app.use('/discount', discount);
 app.use(authMiddleWare);
 app.use(session({
     secret: 'a secret string',
