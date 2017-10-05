@@ -39,8 +39,7 @@
     <script>
         $('.status').on('click', function(){
             if (this.parentNode.getAttribute('type') == 'unused') {
-                console.log('availible');this.previousSibling.childNodes[1].innerHTML
-                console.log(this.previousSibling.childNodes[1].innerHTML.slice(1));
+
                 $.ajax({
                     url: '/lottery/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML.slice(1),
                     type: 'GET',
