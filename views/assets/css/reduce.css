@@ -1,13 +1,13 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
-html {
+/* html {
     width: 100vw;
     height: 100vh;
-}
+} */
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 100vh;
     margin: 0px;
     padding: 0px;
     font-size: 3vh;
@@ -59,9 +59,16 @@ div.bottom {
 }
 
 #top_text {
-    height: 9vh;
+    height:auto;
     width: 100%;
+    font-size: 2vh;
     color: white;
+}
+
+#first_line {
+    position: relative;
+    left: 10vw;
+    max-width: 50vw;
 }
 
 #wood_text {
@@ -103,12 +110,14 @@ div.bottom {
     margin-bottom: 1em;
 }
 
-#reuse_icon {
+#co2_icon {
+    width: 10vh;
+    height: auto;
     display: inline;
+    margin-top: 1vh;
     max-height: 9vh;
     max-height: auto;
     position: relative;
-    margin-left: 10vw;
 }
 
 #afterAmount {
@@ -130,7 +139,10 @@ div.bottom {
     color: yellow;
     display: inline-block;
     font-size: 250%;
-    top: -1.25vh;
+}
+
+#kg {
+    color: yellow;
 }
 
 #bottom_text {

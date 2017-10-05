@@ -10,8 +10,8 @@
     <body>
         <div class="top">
             <div id="top_text">
-                <img src="/assets/icon/reuse_icon.png" alt="recycle" title="recycle image" id='reuse_icon'/>
-                <p id="amount"><%- reduce %></p><p id="afterAmount"> 你減少了，<br/>克的碳排放</p>
+                <!-- <img src="/assets/icon/co2_icon.png" alt="recycle" title="recycle image" id='reuse_icon'/> -->
+                <p id="first_line">我們在爵士音樂節一起減少了，<br/><img src="/assets/icon/co2_icon.png" alt="recycle" title="recycle image" id='co2_icon'/><span id="amount"><%- reduce %></span><span id="kg">公斤</span>的碳排放量</p>
             </div>
         </div>
 
@@ -19,16 +19,16 @@
             <div id='info'>
             <p id='title_used'>使用了</p>
             <hr/>
-            <p id="wood_text"><span id="wood">提袋</span><%- bag + "個" %><br/></p>      
+            <p id="wood_text"><span id="wood">一次性容器</span><%- bag + "個" %><br/></p>      
             <hr/>     
-            <p id="water_text"><span id="water">容器</span><%- container + "個" %><br/></p>
+            <p id="water_text"><span id="water">一次性餐具</span><%- container + "個" %><br/></p>
             <hr/>
-            <p id="carbon_text"><span id="carbon">餐具</span><%- tableware + "個" %><br/></p>
+            <p id="carbon_text"><span id="carbon">一次性塑膠袋</span><%- tableware + "個" %><br/></p>
             </div>
         </div>
         <hr />
         <div class="bottom"> 
-            <p id="bottom_text">我們一起減少了 <span id="total_amount"><%- allReduce %></span> 克的碳排放</p>
+            <p id="bottom_text">你累積達成了 <span id="total_amount"><%- allReduce %></span> <span id="g">克</span>的碳排放</p>
         </div>
         
     </body>
