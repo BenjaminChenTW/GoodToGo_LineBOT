@@ -85,7 +85,8 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
                             res.status(200).end();
                         });
                     }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
-                });
+                })
+                .catch((err) => console.log(err));
         } else {
             res.status(402).end();
         }

@@ -2,19 +2,27 @@ var Message = require('./DB/messageDB.js');
 var debug = require('debug')('goodtogo-linebot:usageProcess');
 
 module.exports = function(userId, callback) {
-    var query = { 'event.message.type': 'image' };
-    if (userId !== '') query['event.source.userId'] = userId;
-    Message.find(query, 'img.checkStatus.amount', function(err, messages) {
+    Message.find({ 'event.message.type': 'image' }, 'img.checkStatus.amount event.source.userId', function(err, messages) {
         if (err) return debug(err);
         var container = 0;
         var bag = 0;
         var tableware = 0;
+        var allContainer = 0;
+        var allBag = 0;
+        var allTableware = 0;
         for (var i = 0; i < messages.length; i++) {
-            container += messages[i].img.checkStatus.amount.container;
-            bag += messages[i].img.checkStatus.amount.bag;
-            tableware += messages[i].img.checkStatus.amount.tableware;
+            if (messages[i].event.source.userId === userId) {
+                container += messages[i].img.checkStatus.amount.container || 0;
+                bag += messages[i].img.checkStatus.amount.bag || 0;
+                tableware += messages[i].img.checkStatus.amount.tableware || 0;
+            }
+            allContainer += messages[i].img.checkStatus.amount.container || 0;
+            allBag += messages[i].img.checkStatus.amount.bag || 0;
+            allTableware += messages[i].img.checkStatus.amount.tableware || 0;
         }
         callback({
+            reduce: (container * 11 + tableware * 5 + bag * 5),
+            allReduce: (allContainer * 11 + allTableware * 5 + allBag * 5),
             container: container,
             bag: bag,
             tableware: tableware

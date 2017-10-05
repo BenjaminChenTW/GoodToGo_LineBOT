@@ -1,20 +1,23 @@
 var fs = require('fs');
+var debug = require('debug')('goodtogo-linebot:lotteryProcess');
+debug.log = console.log.bind(console);
+
 var prizeList;
 fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     if (err) throw err;
     prizeList = JSON.parse(data);
     prizeList.rank = Object.keys(prizeList);
+    debug("Prize init!");
 });
 
 function saveFile(data) {
-    var str = JSON.stringify(data);
+    var obj = Object.assign({}, data);
+    obj.rank = undefined;
+    var str = JSON.stringify(obj);
     fs.writeFile("./config/prize.json", str, 'utf8', function(err) {
         if (err) throw err;
     });
 }
-// getTicket(function(isWin, rank, name) {
-//     console.log(isWin, name)
-// })
 
 module.exports = {
     getTicket: function(callback) {

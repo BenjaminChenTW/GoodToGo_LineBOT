@@ -9,6 +9,7 @@ var debug = require('debug')('goodtogo-linebot:app');
 debug.log = console.log.bind(console);
 
 var debugServer = require('debug')('goodtogo-linebot:server');
+debugServer.log = console.log.bind(console);
 var redLog = require('debug')('goodtogo-linebot:serverRedirect');
 redLog.log = console.log.bind(console);
 var http = require('http');

@@ -276,23 +276,7 @@ module.exports = {
             altText = "好盒器傳給您一張兌換券！";
             title = "兌換券";
             text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵，\n若因此喪失兌換資格恕不負責！"
-            switch (couponType) {
-                case 'A':
-                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // A獎品照片
-                    break;
-                case 'B':
-                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // B獎品照片
-                    break;
-                case 'C':
-                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // C獎品照片
-                    break;
-                case 'D':
-                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // D獎品照片
-                    break;
-                case 'E':
-                    thumbnailImageUrl = "https://163a5d76.ngrok.io/assets/icon/checked.png"; // E獎品照片
-                    break;
-            }
+            thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/prize/" + couponType;
             actions.push({
                 "type": "uri",
                 "label": "兌換",
@@ -313,30 +297,3 @@ var idIndex = 0
 Message.findOne({ 'event.message.type': 'image' }, {}, { sort: { 'img.id': -1 } }, function(err, message) {
     if (message) idIndex = message.img.id + 1;
 });
-
-var template = {
-    "type": "template",
-    "altText": "this is a buttons template",
-    "template": {
-        "type": "buttons",
-        "thumbnailImageUrl": "https://163a5d76.ngrok.io/assets/icon/checked.png",
-        "title": "Menu",
-        "text": "Please select",
-        "actions": [{
-                "type": "postback",
-                "label": "Buy",
-                "data": "action=buy&itemid=123"
-            },
-            {
-                "type": "postback",
-                "label": "Add to cart",
-                "data": "action=add&itemid=123"
-            },
-            {
-                "type": "uri",
-                "label": "View detail",
-                "uri": "https://163a5d76.ngrok.io/img"
-            }
-        ]
-    }
-};
