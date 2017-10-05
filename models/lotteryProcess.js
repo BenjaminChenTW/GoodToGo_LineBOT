@@ -7,6 +7,9 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     if (err) throw err;
     prizeList = JSON.parse(data);
     prizeList.rank = Object.keys(prizeList);
+    for (var i = 0; i < prizeList.rank.length; i++) {
+        if (prizeList[prizeList.rank[i]].amount === 0) prizeList.rank.splice(prizeList.rank.indexOf(prizeList.rank[i]), 1);
+    }
     debug("Prize init!");
 });
 
