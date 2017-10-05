@@ -11,6 +11,12 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     prizeList = JSON.parse(data);
 });
 
+router.get('/discount', function(req, res, next) { res.status(200).end() });
+
+router.get('/rule', function(req, res, next) { res.end() });
+
+router.get('/rent', function(req, res, next) { res.end() });
+
 router.get('/:id', function(req, res, next) {
     var index = req.params.id;
     process.nextTick(function() {
@@ -38,11 +44,5 @@ router.get('/prize/:id', function(req, res, next) {
         }
     });
 });
-
-router.get('/discount', function(req, res, next) { res.end() });
-
-router.get('/rule', function(req, res, next) { res.end() });
-
-router.get('/rent', function(req, res, next) { res.end() });
 
 module.exports = router;

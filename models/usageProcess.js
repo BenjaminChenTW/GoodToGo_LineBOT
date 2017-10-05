@@ -21,8 +21,8 @@ module.exports = function(userId, callback) {
             allTableware += messages[i].img.checkStatus.amount.tableware || 0;
         }
         callback({
-            reduce: (container * 11 + tableware * 5 + bag * 5),
-            allReduce: (allContainer * 11 + allTableware * 5 + allBag * 5),
+            reduce: (container * 110 + tableware * 50 + bag * 50),
+            allReduce: (allContainer * 110 + allTableware * 50 + allBag * 50),
             container: container,
             bag: bag,
             tableware: tableware
