@@ -34,6 +34,19 @@
         /*
         Implement EJS here
         */
+
+        $('.status').on('click', function(){
+            if (this.parentNode.getAttribute('type') == 'unused') {
+                console.log('availible');
+
+                $.ajax({
+                    url: '/coupons/sendcoupon/' + this.previousSibling.childNodes[1].innerHTML,
+                    type: 'GET'
+                });
+            } else {
+                console.log('expired');
+            }
+        });
     </script>
 </body>
 </html>
