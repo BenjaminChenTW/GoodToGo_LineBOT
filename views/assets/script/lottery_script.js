@@ -14,8 +14,7 @@ function changeView(page) {
             'height': 'auto',
             'max-width': '500px',
             'max-height': 'auto',
-            'animation': 'spin 0.5s linear infinite',
-            'animation-iteration-count': '8'
+            'animation': 'spin 0.5s linear infinite'
         });
         $('#text').css({
             'position': 'absolute',
@@ -61,15 +60,15 @@ function endView(data) {
     htmlStr = (data.isWin) ?
         ('<div class="content">' +
             '<img id="gift" src="/assets/icon/gotPrize.png" alt="cannot load image">' + // 改成圖片
-            '<p id="first_part">恭喜您抽中了</br>' + data.prizeName + '</p>' +
-            '<img id="gift" src="/assets/icon/gift.png" alt="cannot load image" style="height: 400px;">' +
-            '<p id="second_part">獎品兌換券 #' + data.couponId + ' 已傳送至你的LINE</br>請憑兌換券至容器租借攤位兌換，謝謝！：)</p>' +
+            '<p id="first_part_1">恭喜您抽中了</br>' + data.prizeName + '</p>' +
+            '<img id="gift" src="/assets/icon/gift.png" alt="cannot load image" style="height: 40vh;">' +
+            '<p id="second_part_1">獎品兌換券 #' + data.couponId + ' 已傳送至你的LINE</br>請憑兌換券至容器租借攤位兌換，謝謝！：)</p>' +
             '<input type="button" id="start" value="確定" onclick="changeView(0)">' +
             '</div>') :
         ('<div class="content">' +
             '<img id="gift" src="/assets/icon/nonPrize.png" alt="cannot load image">' + // 改成圖片
             '<p id="first_part">好可惜！您這次沒有中獎</p>' +
-            '<img id="gift" src="/assets/icon/noGift.png" alt="cannot load image" style="height: 540px;">' +
+            '<img id="lose_icon" src="/assets/icon/noGift.png" alt="cannot load image" style="height: 540px;">' +
             '<input type="button" id="start" value="確定" onclick="changeView(0)">' +
             '</div>');
 
@@ -77,11 +76,16 @@ function endView(data) {
     $('#text').remove();
     $('body').html(htmlStr)
     $('.content').css({
-        'margin-top': '10%'
+        'margin-top': '5vh'
     })
     $('#first_part').css({
-        'font-size': '30pt',
-        'margin-top': '5%',
+        'font-size': '2.4vh',
+        'margin-top': '7vh',
+        'width': '100%'
+    })
+    $('#first_part_1').css({
+        'font-size': '2.4vh',
+        'margin-top': '2vh',
         'width': '100%'
     })
     $('#second_part').css({
@@ -89,14 +93,24 @@ function endView(data) {
         'font-size': '20pt',
         'width': '100%'
     })
+    $('#second_part_1').css({
+        'margin-bottom': '0',
+        'font-size': '2.4vh',
+        'width': '100%'
+    })
     $('#gift').css({
-        'margin-top': '5%',
+        'margin-top': '0',
         'display': 'inline',
         'text-align': 'center',
         'white-space': 'pre-wrap',
-        'width': '40%',
-        'height': 'auto'
+        'width': 'auto',
+        'height': '10vh'
     })
+
+    $('#lose_icon').css({
+        'height': '50vh'
+    })
+
     $('#start').css({
         'margin-top': '4vh'
     })
