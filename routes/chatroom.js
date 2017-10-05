@@ -8,7 +8,6 @@ var getImg = require('../models/chatroomProcess.js').getImg;
 var stopSession = require('../models/chatroomProcess.js').stopSession;
 
 router.get('/', function(req, res, next) {
-    req.session.userId = undefined;
     getFirst(next, function(isEmpty, roomList) {
         if (isEmpty) {
             var err = new Error('No Msg');
@@ -17,7 +16,8 @@ router.get('/', function(req, res, next) {
         } else {
             res.render('manager/chatroom', {
                 'roomList': roomList,
-                'lastRoom': req.session.userId || 'none'
+                'lastRoom': req.session.userId || 'none',
+                'online': global._online
             });
         }
     });
@@ -59,6 +59,12 @@ router.post('/terminateSession/:id', function(req, res, next) {
             });
         }
     });
+});
+
+router.post('/changestatus', function(req, res, next) {
+    global._online = !global._online;
+    console.log = global._online
+    res.json({ online: global._online });
 });
 
 module.exports = {

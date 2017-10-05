@@ -24,7 +24,7 @@
             </div>
             <ul id="customers_list">
             </ul>
-            <div id='rest_button' status='off' onclick='change_status(this)'>離線</div>
+            <div id='rest_button' status='off' onclick='change_status(this)'><%- (online? "上線中":"已離線") %></div>
         </div>
         <div class="message" id='message'>
             <p id='default_words'>請點選使用者以回覆</p>
@@ -50,6 +50,9 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
+    var online = <%- online %>
+    $('#rest_button').css('backgroundColor', (online? 'green': 'red'));
+
     <% var tmpArr = roomList %>
     <% var arrStr = ''; %>
     <% for(var i = 0; i < tmpArr.length; i++) arrStr += JSON.stringify(tmpArr[i]) + (((i+1) === tmpArr.length)? '':', '); %>
@@ -424,13 +427,19 @@
     })
 
     function change_status(btn) {
-        if (btn.textContent == '上線') {
-            btn.textContent = '離線'
-            btn.style.backgroundColor = 'red';
-        } else {
-            btn.textContent = '上線'
-            btn.style.backgroundColor = 'green'
-        }
+        $.ajax({
+            url: '/chatroom/changestatus',
+            type: 'POST',
+            success: function(data){
+                if (data.online) {
+                    btn.textContent = '上線中';
+                    btn.style.backgroundColor = 'green';
+                } else {
+                    btn.textContent = '已離線'
+                    btn.style.backgroundColor = 'red';
+                }
+            }
+        })
     }
 
     load_customers();
