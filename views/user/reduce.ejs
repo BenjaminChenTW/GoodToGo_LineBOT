@@ -10,14 +10,9 @@
     <body>
         <div class="top">
             <div id="top_text">
-<<<<<<< HEAD
-                <!-- <img src="/assets/icon/co2_icon.png" alt="recycle" title="recycle image" id='reuse_icon'/> -->
-                <p id="first_line">我們在爵士音樂節一起減少了，<br/><img src="/assets/icon/co2_icon.png" alt="recycle" title="recycle image" id='co2_icon'/><span id="amount"><%- reduce %></span><span id="kg">公斤</span>的碳排放量</p>
-=======
                 <p id="beforeAmount"> 我們在爵士音樂節一起減少了，</p>
                 <img src="/assets/icon/reuse_icon.png" alt="recycle" title="recycle image" id='reuse_icon'/>
                 <p id="amount"><%- allReduce %></p><p id="unit">公斤</p><p id="afterAmount">的碳排放量</p>
->>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
             </div>
         </div>
 
@@ -25,28 +20,16 @@
             <div id='info'>
             <p id='title_used'>你已減少使用了</p>
             <hr/>
-<<<<<<< HEAD
-            <p id="wood_text"><span id="wood">一次性容器</span><%- bag + "個" %><br/></p>      
-            <hr/>     
-            <p id="water_text"><span id="water">一次性餐具</span><%- container + "個" %><br/></p>
+            <p id="water_text"><img src="/assets/icon/cup_icon.png" alt="recycle" title="recycle image" id='cup_icon'/><span id="water">一次性容器</span><span id="unit_bottom"><%- container + " 個" %></span><br/></p>
             <hr/>
-            <p id="carbon_text"><span id="carbon">一次性塑膠袋</span><%- tableware + "個" %><br/></p>
-=======
-            <p id="water_text"><span id="water">一次性容器</span><%- container + "個" %><br/></p>
+            <p id="carbon_text"><img src="/assets/icon/chopsticks_icon.png" alt="recycle" title="recycle image" id='chopsticks_icon'/><span id="carbon">一次性餐具</span><span id="unit_bottom"><%- tableware + " 個" %></span><br/></p>
             <hr/>
-            <p id="carbon_text"><span id="carbon">一次性餐具</span><%- tableware + "個" %><br/></p>
-            <hr/>
-            <p id="wood_text"><span id="wood">一次性塑膠袋</span><%- bag + "個" %><br/></p>
->>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
+            <p id="wood_text"><img src="/assets/icon/plasticbag_icon.png" alt="recycle" title="recycle image" id='plasticbag_icon'/><span id="wood">一次性塑膠袋</span><span id="unit_bottom"><%- bag + " 個" %></span><br/></p>
             </div>
         </div>
         <hr />
         <div class="bottom"> 
-<<<<<<< HEAD
-            <p id="bottom_text">你累積達成了 <span id="total_amount"><%- allReduce %></span> <span id="g">克</span>的碳排放</p>
-=======
-            <p id="bottom_text">你累積達成了<span id="total_amount"><%- reduce %></span> 克的碳減量</p>
->>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
+            <p id="bottom_text">你累積達成了<br/><span id="bottom_secondline"><span id="total_amount"><%- reduce %></span> <span id="g">克 </span>的碳減量</p>
         </div>
         
     </body>
