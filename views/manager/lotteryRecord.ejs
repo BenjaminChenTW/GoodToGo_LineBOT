@@ -21,7 +21,7 @@
         <div id='filter'>
         <fieldset>
             <legend style="color:#888; border-radius: 5px;">查詢</legend>
-            <p>日期: </p>
+            <div>日期:
             <select id='dates'>
                 <% var optionDatesTag; %>
                 <% for (var i = 0; i < dateArr.length; i++){ %>
@@ -30,16 +30,16 @@
                 <% } %>
                 <option value='0'>10/7</option>
             </select>
-            <span style='min-width: 30px;min-height: 1px; display: inline-block'></span>
-            <p>獎項: </p>
+            </div>
+            <div>獎項: 
             <select id='prize'>
                 <% var optionPrizeTag; %>
                 <% for (var i = 0; i < prizeArr.length; i++){ %>
                 <% optionPrizeTag = "<option value='" + prizeArr[i].type + "'>" + prizeArr[i].name + "</option>"; %>
                 <%- optionPrizeTag %>
                 <% } %>
-                <!-- <option value='0'>悠遊卡</option> -->
             </select>
+            </div>
         </fieldset>
         </div>
         <div id='current_state'>
@@ -66,6 +66,8 @@
 
     </div>
     <script>
+        document.body.style.overflowY = 'auto';
+
         var prizeArr = <%- JSON.stringify(prizeArr) %>;
         var resultList = <%- JSON.stringify(resultList) %>;
 
