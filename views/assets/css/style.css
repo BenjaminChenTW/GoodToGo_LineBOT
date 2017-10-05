@@ -556,6 +556,23 @@ ul#customers_list li a #name[status='unread'],
     font-weight: 900;
 }
 
+#rest_button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50pt;
+    height: 50pt;
+    border-radius: 25pt;
+    background-color: red;
+    left: calc(100% - 70pt);
+    bottom: 80pt;
+    font-size: 110%;
+    color: white;
+    cursor: pointer;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.4);
+}
+
 .message {
     width: auto;
     height: 100%;

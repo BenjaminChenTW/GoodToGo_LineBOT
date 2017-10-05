@@ -1,13 +1,13 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
-html {
+/* html {
     width: 100vw;
     height: 100vh;
-}
+} */
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 100vh;
     margin: 0px;
     padding: 0px;
     font-size: 3vh;
@@ -59,10 +59,22 @@ div.bottom {
 }
 
 #top_text {
+<<<<<<< HEAD
+    height:auto;
+    width: 100%;
+    font-size: 2vh;
+=======
     height: 8vh;
     width: 100%;
     margin-left: calc(50% - 47vw);
+>>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
     color: white;
+}
+
+#first_line {
+    position: relative;
+    left: 10vw;
+    max-width: 50vw;
 }
 
 #wood_text {
@@ -104,6 +116,16 @@ div.bottom {
     margin-bottom: 1em;
 }
 
+<<<<<<< HEAD
+#co2_icon {
+    width: 10vh;
+    height: auto;
+    display: inline;
+    margin-top: 1vh;
+    max-height: 9vh;
+    max-height: auto;
+    position: relative;
+=======
 #reuse_icon {
     top: -5px;
     display: inline;
@@ -134,6 +156,7 @@ div.bottom {
     position: relative;
     margin-left: 7px;
     top: -1.25vh;
+>>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
 }
 
 #afterAmount {
@@ -154,8 +177,16 @@ div.bottom {
     position: relative;
     color: rgb(255, 233, 92);
     display: inline-block;
+<<<<<<< HEAD
+    font-size: 250%;
+}
+
+#kg {
+    color: yellow;
+=======
     font-size: 200%;
     top: -1.25vh;
+>>>>>>> 3d0ae7770b55a1a1336546ea530af80740ecdbc8
 }
 
 #bottom_text {
