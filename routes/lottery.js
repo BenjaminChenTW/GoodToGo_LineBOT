@@ -130,7 +130,7 @@ recordRouter.get('/', function(req, res, next) {
     fs.readFile("./config/prize.json", 'utf8', function(err, data) {
         if (err) throw err;
         prizeList = JSON.parse(data);
-        prizeList['N'] = {
+        prizeList['Z'] = {
             amount: 0,
             name: '獎品已全數發出'
         };

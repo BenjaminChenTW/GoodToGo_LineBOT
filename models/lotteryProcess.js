@@ -24,7 +24,7 @@ function saveFile(data) {
 
 module.exports = {
     getTicket: function(callback) {
-        if (prizeList.rank.length === 0) return callback(false, 'N', 'No Prize');
+        if (prizeList.rank.length === 0) return callback(false, 'Z', 'No Prize');
         var maxNum = prizeList.rank.length - 1;
         var minNum = 0;
         var random = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
