@@ -106,26 +106,52 @@ recordRouter.get('/', function(req, res, next) {
         if (err) throw err;
         prizeList = JSON.parse(data);
     });
-    Coupon.find({}, {}, { sort: { 'prizeType': 1, 'readTime': 1 } }, function(err, coupons) {
+    Coupon.find({ 'isWin': true }, {}, { sort: { 'prizeType': 1, 'logTime': -1 } }, function(err, coupons) {
         var resultList = [];
         var prizeArr = [];
+        var dateArr = [];
+        var keys = Object.keys(prizeList);
+        var tmpLogTime;
         for (var i = 0; i < coupons.length; i++) {
-            // if (coupons[i].readTime)
+            tmpLogTime = new Date(coupons[i].logTime);
             resultList.push({
-                prizeType: coupons[i].prizeType,
+                type: coupons[i].prizeType,
                 name: coupons[i].userName,
-                logTime: coupons[i].logTime,
+                logTime: tmpLogTime.getTime(),
                 getTime: coupons[i].readTime,
                 exchangedTime: coupons[i].exchangedTime
             });
             prizeList[coupons[i].prizeType].amount++;
+            prizeList[coupons[i].prizeType].gotPrizeAmount =
+                (prizeList[coupons[i].prizeType].gotPrizeAmount ? (prizeList[coupons[i].prizeType].gotPrizeAmount + 1) : 1);
+            if (coupons[i].read)
+                prizeList[coupons[i].prizeType].readAmount =
+                (prizeList[coupons[i].prizeType].readAmount ? (prizeList[coupons[i].prizeType].readAmount + 1) : 1);
+            if (coupons[i].exchanged)
+                prizeList[coupons[i].prizeType].exchangedAmount =
+                (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);
+            console.log(coupons[i].logTime.getDate())
+            console.log(dateArr.indexOf(coupons[i].logTime.getDate()))
+            if (dateArr.indexOf(coupons[i].logTime.getDate()) < 0)
+                dateArr.push(coupons[i].logTime.getDate())
         }
-        for (var i = 0; i < prizeList.length; i++) {
-            prizeArr.push({});
+        for (var i in keys) {
+            prizeArr.push({
+                type: keys[i],
+                name: prizeList[keys[i]].name,
+                amount: prizeList[keys[i]].amount,
+                gotPrizeAmount: prizeList[keys[i]].gotPrizeAmount || 0,
+                readAmount: prizeList[keys[i]].readAmount || 0,
+                exchangedAmount: prizeList[keys[i]].exchangedAmount || 0,
+                odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].amount * 100) || 0
+            });
         }
-        res.render('lotteryRecord');
+        res.render('lotteryRecord', {
+            dateArr: dateArr,
+            prizeArr: prizeArr,
+            resultList: resultList
+        });
     });
-
 });
 
 module.exports = {
