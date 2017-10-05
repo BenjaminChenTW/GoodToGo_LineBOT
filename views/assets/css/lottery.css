@@ -32,38 +32,45 @@ div.content {
     height: auto;
     color: white;
     text-align: center;
-    margin-top: 20%;
+    margin-top: 30%;
 }
 
 #first_part {
     margin-top: 0;
-    margin-bottom: 50px;
     text-align: center;
     font-size: 30pt;
 }
 
 #second_part {
-    margin-top: 10%;
-    display: inline-block;
+    display: block;
     /* margin-left: 0%; */
     position: relative;
     text-align: center;
-    margin-bottom: 33vh;
+}
+
+#container {
+    position: relative;
+    width: 100vw;
+    height: 200pt;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #time {
     font-family: 'GenJyuuGothic';
     font-size: 200pt;
-    position: absolute;
-    top: 100%;
-    left: calc(50% - 50pt);
     text-align: center;
+    width: 100%;
 }
 
 #timeText {
     position: absolute;
-    top: calc(50% + 270pt);
-    left: calc(50% - 15pt);
+    width: 100%;
+    height: auto;
+    left: 0;
+    margin-top: calc(100pt + 10px);
     font-size: 30pt;
     text-align: center;
 }
@@ -82,14 +89,16 @@ div.content {
 
 div.top_icons {
     position: relative;
-    height: 2vh;
+    height: auto;
     margin-top: 2vh;
+    margin-bottom: calc(5vh);
     text-align: center;
 }
 
 div.bottom_icons {
     position: relative;
     text-align: center;
+    margin-top: 10vh;
 }
 
 #icon_1 {

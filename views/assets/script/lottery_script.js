@@ -43,7 +43,7 @@ function changeView(page) {
             '<img id="icon_2" src="/assets/icon/mid_top_deco.png" alt "中間裝飾" width="130" height="130">' +
             '<img id="icon_3" src="/assets/icon/right_top_deco.png" alt "右上角裝飾" width="130" height="130">' +
             '</div>' +
-            '<p id="second_part"><span id="time">' + couponList.length + '</span><br/><br/><span id="timeText">次</span></p>' +
+            '<div id="container"><span id="time">' + couponList.length + '</span><br/><br/><span id="timeText">次</span></div>' +
             '<div class="bottom_icons">' +
             '<img id="icon_4" src="/assets/icon/left_bottom_deco.png" alt "左下角裝飾" width="130" height="130">' +
             '<img id="icon_5" src="/assets/icon/mid_bottom_deco.png" alt "中間裝飾" width="130" height="130">' +
