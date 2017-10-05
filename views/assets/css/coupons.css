@@ -251,6 +251,8 @@ div[type='success']>div {
     position: absolute;
     left: 4vh;
     -moz-user-focus: none;
+    border-style: none;
+    background-color: transparent;
 }
 
 #back_button:hover {
