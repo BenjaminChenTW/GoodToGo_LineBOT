@@ -143,7 +143,7 @@ recordRouter.get('/', function(req, res, next) {
                 gotPrizeAmount: prizeList[keys[i]].gotPrizeAmount || 0,
                 giveoutAmount: prizeList[keys[i]].giveoutAmount || 0,
                 exchangedAmount: prizeList[keys[i]].exchangedAmount || 0,
-                odds: Math.floor(prizeList[keys[i]].giveoutAmount / prizeList[keys[i]].amount * 100) || 0
+                odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].amount * 100) || 0
             });
         }
         res.render('manager/lotteryRecord', {
