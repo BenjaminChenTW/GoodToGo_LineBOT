@@ -1,173 +1,146 @@
-    html {
-        width: 100vw;
-        height: 100vh;
-    }
-    
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+html {
+    width: 100vw;
+    height: 100vh;
+}
 
-        font-size: 3vh;
-        font-weight: 400;
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-size: 3vh;
+    font-weight: 400;
+    overflow: hidden;
+    color: #666;
+}
 
-        overflow: hidden;
+div.top {
+    height: 15%;
+    width: 100%;
+    border-width: 0px;
+    background-color: #00B0D0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        color: #666;
-    }
-    
-    div.top {
-        height: 15%;
-        width: 100%;
-        border-width: 0px;
-        background-color: #00B0D0;
+div.middle {
+    height: 67%;
+    width: 100%;
+    border-width: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    div.middle {
-        height: 67%;
-        width: 100%;
-        border-width: 0px;
+div.middle div {
+    width: 80vw;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+div.middle p#title_used {
+    margin-top: 0px;
+}
 
-    div.middle div {
-        width: 80vw;
+hr {
+    margin: 0px 0px 0px 0px;
+}
 
-    }
+div.bottom {
+    height: calc(18% - 30px);
+    margin: 15px 15px 15px 15px;
+    width: calc(100% - 30px);
+    background-color: #E8E8E8;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    div.middle p#title_used{
-        margin-top: 0px;
-    }
+#top_text {
+    height: 9vh;
+    width: 100%;
+    color: white;
+}
 
-    hr {
-        margin:0px 0px 0px 0px;
-    }
+#wood_text {
+    text-align: right;
+}
 
-    div.bottom {
-        height: calc(18% - 30px);
-        margin: 15px 15px 15px 15px;
+#wood {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-size: 75%;
+    margin-bottom: 1em;
+}
 
-        width: calc(100% - 30px);
+#water_text {
+    text-align: right;
+}
 
-        background-color: #E8E8E8;
+#water {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-size: 75%;
+    margin-bottom: 1em;
+}
 
-        text-align: center;
+#carbon_text {
+    text-align: right;
+}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+#carbon {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-size: 75%;
+    margin-bottom: 1em;
+}
 
-    }
-    
-    #top_text { 
-        height: 9vh;
-        width: 100%;
-        color: white;
-    }
-    
-    #wood_text {
-        text-align: right;           
-    }
-    
-    #wood {
-        position: relative;
-        display: block;
-        width: 100%;
-        text-align: right;
-        font-size: 75%;
-        margin-bottom: 1em;        
-    }
-    
-    #water_text {
-        text-align: right;
-    }
-    
-    #water {
-        position: relative;
-        display: block;
-        width: 100%;
-        text-align: right;
-        font-size: 75%;
-        margin-bottom: 1em; 
-    }
-    
-    #carbon_text {
-        text-align: right;  
-    }
-    
-    #carbon {
-        position: relative;
-        display: block;
-        width: 100%;
-        text-align: right;
-        font-size: 75%;
-        margin-bottom: 1em; 
-    }
-    
-    #reuse_icon {
-        display: inline;
+#reuse_icon {
+    display: inline;
+    max-height: 9vh;
+    max-height: auto;
+    position: relative;
+    margin-left: 10vw;
+}
 
+#afterAmount {
+    color: white;
+    margin: 0;
+    width: auto;
+    font-size: 60%;
+    font-weight: 200;
+    display: inline-block;
+    position: relative;
+    margin-left: 43px;
+    top: -1.25vh;
+}
 
-        max-height: 9vh;
-        max-height: auto;
+#amount {
+    margin: 0;
+    margin-left: 15px;
+    position: relative;
+    color: yellow;
+    display: inline-block;
+    font-size: 250%;
+    top: -1.25vh;
+}
 
-        position: relative;
+#bottom_text {
+    margin: 0;
+    font-size: 60%;
+    text-align: center;
+}
 
-        margin-left: 10vw;
-    }
-
-    #afterAmount {
-        color: white;  
-        margin: 0;
-
-        width: auto;
-
-        font-size: 60%;
-        font-weight: 200;
-
-        display: inline-block;
-
-        position: relative;        
-
-        margin-left: 43px;
-        top:-1.25vh;
-        
-    }
-    
-    #amount {
-        margin: 0;
-
-        margin-left: 15px;
-
-        position: relative;
-        color: yellow;
-
-        display: inline-block;
-
-        font-size: 250%;
-
-        top:-1.25vh;
-    }
-    
-    #bottom_text {
-        margin: 0;
-        font-size: 60%;
-
-        text-align: center;
-    }
-    
-    #total_amount {
-        color: #00B0D0;
-        margin: 0 20px 0 20px;
-        font-size: 400%;
-    }
-
-
+#total_amount {
+    color: #00B0D0;
+    margin: 0 20px 0 20px;
+    font-size: 400%;
+}

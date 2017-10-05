@@ -12,10 +12,8 @@ module.exports = {
         if (event.type === 'message' && event.message.type === 'text') {
             if (event.message.text === "聯絡客服") {
                 contactHandler(event, buttonsReply);
-            } else if (event.message.text === "查看個人累積功德數") {
-                rewardHandler(false, event, textReply);
-                // } else if (event.message.text === "查看總體累積功德數") {
-                // rewardHandler(true, event, imgMapReply);
+            } else if (event.message.text === "我們的環境貢獻") {
+                rewardHandler(event, textReply);
             } else {
                 textHandler(event, textReply);
             }

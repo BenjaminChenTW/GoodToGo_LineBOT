@@ -152,8 +152,8 @@ module.exports = {
             }
         });
     },
-    rewardHandler: function(isGlobal, event, callback) {
-        var returnStr = (isGlobal) ? 'global' : event.source.userId;
+    rewardHandler: function(event, callback) {
+        var returnStr = "https://bot.goodtogo.tw/usage/" + event.source.userId;
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
