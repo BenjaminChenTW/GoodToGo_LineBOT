@@ -23,12 +23,22 @@
             <legend style="color:#888; border-radius: 5px;">查詢</legend>
             <p>日期: </p>
             <select id='dates'>
-                <option value='0'>10/7</option>
+                <% var optionDatesTag; %>
+                <% for (var i = 0; i < dateArr.length; i++){ %>
+                <% optionDatesTag = "<option value='" + dateArr[i] + "'>10/" + dateArr + "</option>"; %>
+                <%- optionDatesTag %>
+                <% } %>
+                <!-- <option value='0'>10/7</option> -->
             </select>
             <span style='min-width: 30px;min-height: 1px; display: inline-block'></span>
             <p>獎項: </p>
             <select id='prize'>
-                <option value='0'>悠遊卡</option>
+                <% var optionPrizeTag; %>
+                <% for (var i = 0; i < prizeArr.length; i++){ %>
+                <% optionPrizeTag = "<option value='" + prizeArr[i].type + "'>" + prizeArr[i].name + "</option>"; %>
+                <%- optionPrizeTag %>
+                <% } %>
+                <!-- <option value='0'>悠遊卡</option> -->
             </select>
         </fieldset>
         </div>
@@ -55,5 +65,9 @@
         </table>
 
     </div>
+    <script>
+        var prizeArr = <%- JSON.stringify(prizeArr) %>;
+        var resultList = <%- JSON.stringify(resultList) %>;
+    </script>
     
 <%- include ./footer.ejs %>

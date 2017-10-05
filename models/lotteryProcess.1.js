@@ -3,6 +3,7 @@ var prizeList;
 fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     if (err) throw err;
     prizeList = JSON.parse(data);
+    prizeList.rank = Object.keys(prizeList);
 });
 
 function saveFile(data) {
@@ -39,6 +40,7 @@ module.exports = {
             }
             if (didAppear.indexOf(random) !== -1) {
                 prizeList[rank].amount--;
+                if (prizeList[rank].amount) prizeList.rank.splice(prizeList.rank.indexOf(rank), 1);
                 // console.log("in " + rank + " win")
                 // console.log(random)
                 // console.log(didAppear)

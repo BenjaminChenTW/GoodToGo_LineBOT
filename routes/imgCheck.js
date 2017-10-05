@@ -18,7 +18,7 @@ Coupon.findOne({}, {}, { sort: { 'CouponId': -1 } }, function(err, coupon) {
 
 router.get('/', function(req, res, next) {
     getInitIndex(next, function(lastIndex) {
-        res.render('checkimg', {
+        res.render('manager/checkimg', {
             'lastIndex': lastIndex
         });
     });
