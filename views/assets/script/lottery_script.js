@@ -14,8 +14,7 @@ function changeView(page) {
             'height': 'auto',
             'max-width': '500px',
             'max-height': 'auto',
-            'animation': 'spin 0.5s linear infinite',
-            'animation-iteration-count': '8'
+            'animation': 'spin 0.5s linear infinite'
         });
         $('#text').css({
             'position': 'absolute',
@@ -26,14 +25,23 @@ function changeView(page) {
             'max-width': 'calc(20 / 48 * 100%)',
             'max-height': 'auto'
         });
-        $.ajax({
-            url: '/lottery/sendcoupon/' + couponList[couponList.length - 1],
-            type: 'GET',
-            success: function(data) {
-                endView(data);
-                couponList.pop();
-            }
-        });
+        var obj;
+        var funcList = [];
+        funcList.push(new Promise((resolve, reject) => { setTimeout(resolve, 1500); }));
+        funcList.push(new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/lottery/sendcoupon/' + couponList[couponList.length - 1],
+                type: 'GET',
+                success: function(data) {
+                    obj = data;
+                    couponList.pop();
+                    resolve();
+                }
+            });
+        }));
+        Promise
+            .all(funcList)
+            .then(() => endView(obj));
     } else if (page === 0) {
         $('div').remove();
         $('body').html('<div class="content">' +
@@ -52,8 +60,6 @@ function changeView(page) {
             '<input type="button" id="start" value="開始抽獎" onclick="changeView(1)">' +
             '</div>');
     }
-
-
 }
 
 function endView(data) {
