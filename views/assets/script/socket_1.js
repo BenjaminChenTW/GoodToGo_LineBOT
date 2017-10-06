@@ -104,11 +104,6 @@ socket.on('server', function(obj) {
             case 0:
                 console.log('chatroom: ' + obj.statusCode);
 
-                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話' && obj.unread == false) {
-                    document.getElementById('chatroom').style.display = 'none';
-                    return;
-                }
-
                 let time = custom_date(new Date(), true);
 
                 var msg = document.getElementsByClassName(wait_for_check[0])[0].textContent;
@@ -172,8 +167,12 @@ socket.on('server', function(obj) {
     console.log('msg: ' + obj.msg);
 });
 socket.on('user', function(obj) {
+
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
         document.getElementById('chatroom').style.display = 'block';
+        if (obj.unread == false) {
+            document.getElementById('chatroom').style.display = 'none';
+        }
         return;
     }
 
