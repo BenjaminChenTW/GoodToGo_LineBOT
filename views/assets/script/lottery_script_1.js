@@ -40,6 +40,9 @@ function changeView(page) {
             .then(() => endView(obj));
     } else if (page === 0) {
         $('div').remove();
+        if ($('#time').text() === '0'){
+            $('input#start').css('background-color', 'gray');
+        }
         $('body').html('<div class="content">' +
             '<p id="first_part">您目前有抽獎機會</p>' +
             '<div class="top_icons">' +
