@@ -45,9 +45,9 @@ function imgHandlerCallback(message, user, event, callback, aFunc) {
             var hash = crypto.createHash('md5').update(imgBuffer).digest("hex");
             Message.findOne({ 'img.hash': hash }, 'img.id', function(err, img) {
                 if (img) {
-                    var msg = '收到您的照片！\n但您的照片似乎重複上傳，\n若有疑問請聯絡客服。';
-                    if (global._online === false) msg += '\n我們將於上線時回復您的訊息！';
-                    msg += '\n錯誤代碼：'
+                    var msg = '收到您的照片！但您的照片似乎重複上傳，若有疑問請聯絡客服。';
+                    if (global._online === false) msg += '我們將於上線時回復您的訊息！';
+                    msg += '錯誤代碼：'
                     callback(true, event.replyToken, msg + idIndex++);
                 } else {
                     message.img.data = imgBuffer;
@@ -58,9 +58,9 @@ function imgHandlerCallback(message, user, event, callback, aFunc) {
                         if (err) return callback(false, event.replyToken);
                         global.imgEvent.emit('addImg', idIndex);
                         if (aFunc) aFunc();
-                        var msg = '收到您的照片！\n您的照片編號為 #' + idIndex++;
-                        if (global._online === false) msg += ' ，\n我們將於上線時為您審核！';
-                        else msg += ' ，\n請靜候審核。';
+                        var msg = '收到您的照片！您的照片編號為 #' + idIndex++;
+                        if (global._online === false) msg += ' ，我們將於上線時為您審核！';
+                        else msg += ' ，請靜候審核。';
                         return callback(true, event.replyToken, msg);
                     });
                 }
@@ -95,13 +95,12 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (!user) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
-            if (global._online === false) returnStr += '我們將於上線時回復您的訊息！';
+            if (!global._online) returnStr = '工作人員休息中！我們將在活動時間回覆你的訊息。活動時間：10/7-15，平日17:00 - 22:30；假日15:00 - 22:30。謝謝：）';
             if (user) {
                 var displayName = user.event.source.displayName;
                 var pictureUrl = user.event.source.pictureUrl;
                 if (user.notify) global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
-                if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
+                if (!user.notify && global._online) returnStr = '我是沒有聊天技能的機器人>"<！若需聯繫工作人員，請點選「聯絡工作人員」，將有專人回答您的問題，謝謝：）';
                 regularHandlerCallback(message, {
                     displayName: displayName,
                     pictureUrl: pictureUrl,
@@ -109,6 +108,7 @@ module.exports = {
                     read: (!user.notify)
                 }, returnStr, callback);
             } else {
+                if (global._online) returnStr = '我是沒有聊天技能的機器人>"<！若需聯繫工作人員，請點選「聯絡工作人員」，將有專人回答您的問題，謝謝：）';
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
                     'auth': { 'bearer': config.bot.channelAccessToken }
                 }, function(error, response, body) {

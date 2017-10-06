@@ -125,7 +125,7 @@ module.exports = {
     stopSession: function(id, next, callback) {
         Message.find({ 'event.message.type': 'text', 'event.source.userId': id }, 'event.source notify read', { sort: { 'event.timestamp': -1 } }, function(err, messages) {
             if (messages[0].notify === true) {
-                terminateText = '感謝您使用客服，\n希望您對我們的服務還滿意！\n如還有需要與專人聯繫，\n請再次點選聯絡客服。';
+                terminateText = '謝謝您聯繫我們，希望您的問題都有被解決！如還有需要與專人聯繫，請再次點選「聯絡客服」';
                 message = new Message();
                 message.event = {
                     message: {
