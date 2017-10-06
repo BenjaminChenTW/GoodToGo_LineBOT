@@ -155,6 +155,12 @@ module.exports = {
                 callback(false);
             }
         });
+    },
+    checkUnRead: function(callback) {
+        Message.count({ 'event.message.type': 'text', 'read': false }, function(err, unreadAmount) {
+            if (unreadAmount > 0) return callback(true);
+            return callback(false);
+        });
     }
 };
 

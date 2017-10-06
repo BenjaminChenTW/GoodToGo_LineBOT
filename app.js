@@ -85,7 +85,7 @@ global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
 });
 io
     .on('connection', function(socket) {
-        socket.emit('server', { msg: "Login Success" });
+        socket.emit('init', { msg: "Login Success" });
         socket.on('sendMsg', function(obj) {
             chatroom.sendMsg(socket, obj.userId, obj.msg)
         });

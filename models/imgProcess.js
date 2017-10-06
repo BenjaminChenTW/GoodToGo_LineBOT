@@ -44,5 +44,11 @@ module.exports = {
             }
             callback(list);
         });
+    },
+    checkUnckecked: function(callback) {
+        Message.count({ 'event.message.type': 'image', 'img.checked': false, 'read': false }, function(err, uncheckedAmount) {
+            if (uncheckedAmount > 0) return callback(true);
+            return callback(false);
+        });
     }
-}
+};
