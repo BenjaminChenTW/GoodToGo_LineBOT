@@ -60,12 +60,13 @@ socket.on('pop', function(object) {
     var index = object.index;
     var remain = object.remain;
     console.log('pop: ' + index + ' remain: ' + remain);
-    if (!remain) {
+    if (remain == false) {
         document.getElementById('checkimg').style.display = 'none';
     }
     
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
-        document.getElementById('checkimg').style.display = 'block';
+        if (remain != false)
+            document.getElementById('checkimg').style.display = 'block';
         return;
     }
 
@@ -98,15 +99,15 @@ socket.on('pop', function(object) {
  */
 
 socket.on('server', function(obj) {
-    if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
-        document.getElementById('chatroom').style.display = 'block';
-        return;
-    }
-
     if (typeof obj.statusCode !== 'undefined') {
         switch (obj.statusCode) {
             case 0:
                 console.log('chatroom: ' + obj.statusCode);
+
+                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話' && !(obj.unread)) {
+                    document.getElementById('chatroom').style.display = 'none';
+                    return;
+                }
 
                 let time = custom_date(new Date(), true);
 
