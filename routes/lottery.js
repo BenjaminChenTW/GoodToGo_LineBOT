@@ -140,29 +140,44 @@ recordRouter.get('/', function(req, res, next) {
             var prizeArr = [];
             var dateArr = [];
             var keys = Object.keys(prizeList);
-            var tmpLogTime;
+            var nowTime = new Date();
+            var checkPointTime = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate(), -8, 0, 0, 0);
+            console.log(checkPointTime)
             for (var i = 0; i < coupons.length; i++) {
-                if (coupons[i].isWin || coupons[i].prizeType === 'N') {
-                    tmpLogTime = new Date(coupons[i].logTime);
-                    resultList.push({
-                        type: coupons[i].prizeType,
-                        name: coupons[i].userName,
-                        id: coupons[i].couponId,
-                        logTime: tmpLogTime.getTime(),
-                        getTime: coupons[i].readTime,
-                        exchangedTime: coupons[i].exchangedTime
-                    });
-                    prizeList[coupons[i].prizeType].gotPrizeAmount =
-                        (prizeList[coupons[i].prizeType].gotPrizeAmount ? (prizeList[coupons[i].prizeType].gotPrizeAmount + 1) : 1);
-                    if (coupons[i].exchanged)
-                        prizeList[coupons[i].prizeType].exchangedAmount =
-                        (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);
-                    if (dateArr.indexOf(coupons[i].logTime.getDate()) < 0)
-                        dateArr.push(coupons[i].logTime.getDate())
+                console.log(coupons[i].logTime)
+                if (checkPointTime < coupons[i].logTime) {
+                    if (coupons[i].isWin || coupons[i].prizeType === 'N') {
+                        resultList.push({
+                            type: coupons[i].prizeType,
+                            name: coupons[i].userName,
+                            id: coupons[i].couponId,
+                            logTime: coupons[i].logTime.getTime(),
+                            getTime: coupons[i].readTime,
+                            exchangedTime: coupons[i].exchangedTime
+                        });
+                        prizeList[coupons[i].prizeType].gotPrizeAmount =
+                            (prizeList[coupons[i].prizeType].gotPrizeAmount ? (prizeList[coupons[i].prizeType].gotPrizeAmount + 1) : 1);
+                        if (coupons[i].exchanged)
+                            prizeList[coupons[i].prizeType].exchangedAmount =
+                            (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);
+                    }
+                    prizeList[coupons[i].prizeType].amount++;
+                    prizeList[coupons[i].prizeType].giveoutAmount =
+                        (prizeList[coupons[i].prizeType].giveoutAmount ? (prizeList[coupons[i].prizeType].giveoutAmount + 1) : 1);
+                } else {
+                    if (coupons[i].isWin || coupons[i].prizeType === 'N') {
+                        resultList.push({
+                            type: coupons[i].prizeType,
+                            name: coupons[i].userName,
+                            id: coupons[i].couponId,
+                            logTime: coupons[i].logTime.getTime(),
+                            getTime: coupons[i].readTime,
+                            exchangedTime: coupons[i].exchangedTime
+                        });
+                    }
                 }
-                prizeList[coupons[i].prizeType].amount++;
-                prizeList[coupons[i].prizeType].giveoutAmount =
-                    (prizeList[coupons[i].prizeType].giveoutAmount ? (prizeList[coupons[i].prizeType].giveoutAmount + 1) : 1);
+                if (dateArr.indexOf(coupons[i].logTime.getDate()) < 0)
+                    dateArr.push(coupons[i].logTime.getDate())
             }
             for (var i in keys) {
                 prizeArr.push({
