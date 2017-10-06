@@ -6,6 +6,7 @@ var getMessage = require('../models/chatroomProcess.js').getMessage;
 var sendMessage = require('../models/chatroomProcess.js').sendMessage;
 var getImg = require('../models/chatroomProcess.js').getImg;
 var stopSession = require('../models/chatroomProcess.js').stopSession;
+var hasUnread = require('../models/chatroomProcess.js').checkUnRead;
 
 router.get('/', function(req, res, next) {
     getFirst(next, function(isEmpty, roomList) {
@@ -75,8 +76,10 @@ module.exports = {
             socket.emit('server', { statusCode: 2, msg: "ServerDB Error" + JSON.stringify(err) });
         }, function(userName, imgUrl, reject) {
             if (reject) return socket.emit('server', { statusCode: 3, msg: reject.text });
-            socket.emit('server', { statusCode: 0, msg: "Sended" });
-            socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg });
+            hasUnread(function(hasUnread) {
+                socket.emit('server', { statusCode: 0, msg: "Sended", unread: hasUnread });
+                socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg });
+            });
         });
     },
     getMsg: function(io, userId, userName, imgUrl, msg, type = 'customer') {
