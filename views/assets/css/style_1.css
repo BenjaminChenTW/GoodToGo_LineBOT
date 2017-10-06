@@ -1111,3 +1111,19 @@ a.href:hover {
 a.href:active {
     color: red;
 }
+
+.alert{
+    display: none;
+
+    width: 10pt;
+    height: 10pt;
+
+    border-radius: 5pt;
+    background-color: red;
+
+    position: absolute;
+    right: 6pt;
+    top: 0;
+    
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+}
