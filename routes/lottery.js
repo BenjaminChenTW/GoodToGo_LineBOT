@@ -142,9 +142,7 @@ recordRouter.get('/', function(req, res, next) {
             var keys = Object.keys(prizeList);
             var nowTime = new Date();
             var checkPointTime = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate(), -8, 0, 0, 0);
-            console.log(checkPointTime)
             for (var i = 0; i < coupons.length; i++) {
-                console.log(coupons[i].logTime)
                 if (checkPointTime < coupons[i].logTime) {
                     if (coupons[i].isWin || coupons[i].prizeType === 'N') {
                         resultList.push({
