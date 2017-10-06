@@ -42,13 +42,18 @@ body {
     height: 90vh;
 }
 
-#main_list_view p#default{
-    position:fixed;
+div#empty {
+    width: 100%;
+    text-align: center;
+    position: fixed;
     top: calc(50% - 3vh);
     color: #888;
-    margin: 0 10vw 0 10vw;
 }
 
+#main_list_view p#default {
+    text-align: center;
+    margin: 0 10vw 0 10vw;
+}
 
 #coupons_list {
     width: 100%;
