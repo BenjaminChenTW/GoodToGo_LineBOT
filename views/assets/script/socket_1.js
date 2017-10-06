@@ -1,4 +1,5 @@
 var socket = io.connect(window.location.origin);
+var socket = io.connect('bot.goodtogo.tw');
 
 socket.on('init', function(obj) {
     console.log('has unchecked img' + obj.img);
