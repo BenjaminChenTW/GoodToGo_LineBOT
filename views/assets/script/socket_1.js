@@ -3,10 +3,6 @@ var socket = io.connect(window.location.origin);
 /*
  ** from origin /checkimg
  */
-
-socket.on('server', function(obj) {
-    console.log('msg: ' + obj.msg);
-});
 socket.on('add', function(index) {
     console.log('add: ' + index);
 
