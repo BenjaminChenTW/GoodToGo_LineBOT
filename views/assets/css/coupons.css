@@ -3,6 +3,10 @@ html {
     width: 100%;
 }
 
+button {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
 body {
     font-family: 'Noto Sans TC', sans-serif;
     display: flex;
@@ -246,6 +250,7 @@ div[type='success']>div {
 }
 
 #back_button {
+    cursor: pointer;
     background-image: url('/assets/icon/back_icon.png');
     background-size: 5vh 5vh;
     width: 5vh;
@@ -305,6 +310,7 @@ div[type='success']>div {
 }
 
 .btn {
+    cursor: pointer;
     width: 50%;
     padding: 0;
     margin: 0;

@@ -11,11 +11,34 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     prizeList = JSON.parse(data);
 });
 
-router.get('/discount', function(req, res, next) { res.status(200).end() });
-
-router.get('/rule', function(req, res, next) { res.end() });
-
-router.get('/rent', function(req, res, next) { res.end() });
+router.get('/poster/:id', function(req, res, next) {
+    var index = req.params.id;
+    fs.readFile("./views/assets/image/" + index + ".png", 'base64', function(err, data) {
+        if (err) {
+            res.status(404).end();
+        } else {
+            var title;
+            switch (index) {
+                case 'discount':
+                    title = '環保容器優惠與使用說明';
+                    break;
+                case 'rule':
+                    title = '抽獎活動說明';
+                    break;
+                case 'rent':
+                    title = '容器租借方法說明';
+                    break;
+            }
+            res.set({ 'content-type': 'text/html', 'charset': 'utf-8' });
+            res.end(
+                "<head><title>" + title + "</title></head>" +
+                "<body style='margin: 0 0 0 0;'>" +
+                "<img src='data:image/jpg;base64," + data + "' style='width: 100%;' />" +
+                "</body>"
+            );
+        }
+    });
+});
 
 router.get('/:id', function(req, res, next) {
     var index = req.params.id;

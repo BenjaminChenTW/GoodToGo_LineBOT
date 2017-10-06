@@ -44,14 +44,14 @@ router.get('/sendcoupon/:couponId', function(req, res, next) {
     });
 });
 
-router.get('/myCoupons/:userId', function(req, res, next) {
+router.get('/coupons/:userId', function(req, res, next) {
     var userId = req.params.userId;
     if (userId === 'undefined') return res.status(404).end();
     var prizeList;
     fs.readFile("./config/prize.json", 'utf8', function(err, data) {
         if (err) throw err;
         prizeList = JSON.parse(data);
-        Coupon.find({ 'userId': userId, 'isWin': true, 'read': true }, {}, { sort: { 'couponId': 1 } }, function(err, coupons) {
+        Coupon.find({ 'userId': userId, 'isWin': true, 'read': true }, {}, { sort: { 'logTime': -1 } }, function(err, coupons) {
             renderList = [];
             for (var i = 0; i < coupons.length; i++) {
                 renderList.push({
@@ -62,33 +62,65 @@ router.get('/myCoupons/:userId', function(req, res, next) {
                     sponsor: prizeList[coupons[i].prizeType].sponsor
                 });
             }
-            res.render('user/coupons', { list: renderList });
+            res.render('user/coupons', { userId: userId, select: -1, list: renderList });
         });
     });
 });
 
-router.get('/exchange/:couponId', function(req, res, next) {
+router.get('/coupons/:userId/:couponId', function(req, res, next) {
     var couponId = req.params.couponId;
-    if (couponId === 'undefined') return next();
+    var userId = req.params.userId;
+    if (couponId === 'undefined') return res.status(404).end();
+    if (userId === 'undefined') return res.status(404).end();
+    couponId = parseInt(couponId);
+    var prizeList;
+    fs.readFile("./config/prize.json", 'utf8', function(err, data) {
+        if (err) throw err;
+        prizeList = JSON.parse(data);
+        Coupon.find({ 'userId': userId, 'isWin': true, 'read': true }, {}, { sort: { 'logTime': -1 } }, function(err, coupons) {
+            renderList = [];
+            var found = false;
+            for (var i = 0; i < coupons.length; i++) {
+                if (coupons[i].couponId === couponId) found = true;
+                renderList.push({
+                    used: (coupons[i].exchanged ? "used" : "unused"),
+                    couponeId: "#" + coupons[i].couponId,
+                    picSrc: "/getImg/prize/" + coupons[i].prizeType,
+                    name: coupons[i].prizeName,
+                    sponsor: prizeList[coupons[i].prizeType].sponsor
+                });
+            }
+            console.log(found)
+            if (!found) return res.status(404).end();
+            res.render('user/coupons', { userId: userId, select: couponId, list: renderList });
+        });
+    });
+});
+
+router.post('/exchange/:couponId', function(req, res, next) {
+    var couponId = req.params.couponId;
+    if (couponId === 'undefined') return res.status(404).end();
     Coupon.findOne({ 'couponId': couponId, 'read': true, 'isWin': true }, function(err, coupon) {
         if (!coupon) return res.status(404).end();
-        if (exchanged === false) {
+        if (coupon.exchanged === false) {
             coupon.exchanged = true;
             coupon.exchangedTime = Date.now();
             coupon.save((err) => {
                 if (err) return debug(JSON.stringify(err));
-                res.render('exchange', {
-                    couponId: couponId,
-                    type: coupon.prizeType,
-                    couponContent: coupon.prizeName
-                });
+                // res.render('exchange', {
+                //     couponId: couponId,
+                //     type: coupon.prizeType,
+                //     couponContent: coupon.prizeName
+                // });
+                res.status(200).end();
             });
         } else {
-            res.render('hasExchange', {
-                couponId: couponId,
-                type: coupon.prizeType,
-                couponContent: coupon.prizeName
-            });
+            res.status(404).end();
+            // res.render('hasExchange', {
+            //     couponId: couponId,
+            //     type: coupon.prizeType,
+            //     couponContent: coupon.prizeName
+            // });
         }
     });
 });
@@ -98,7 +130,7 @@ recordRouter.get('/', function(req, res, next) {
     fs.readFile("./config/prize.json", 'utf8', function(err, data) {
         if (err) throw err;
         prizeList = JSON.parse(data);
-        prizeList['N'] = {
+        prizeList['Z'] = {
             amount: 0,
             name: '獎品已全數發出'
         };

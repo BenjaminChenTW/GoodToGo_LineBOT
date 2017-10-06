@@ -1,13 +1,13 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
-html {
+/* html {
     width: 100vw;
     height: 100vh;
-}
+} */
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 100vh;
     margin: 0px;
     padding: 0px;
     font-size: 3vh;
@@ -27,7 +27,7 @@ div.top {
 }
 
 div.middle {
-    height: 64%;
+    height: 57%;
     width: 100%;
     border-width: 0px;
     display: flex;
@@ -41,32 +41,40 @@ div.middle div {
 
 div.middle p#title_used {
     margin-top: 0px;
+    font-size: 75%;
 }
 
-hr {
+/* hr {
     margin: 0px 0px 0px 0px;
-}
+} */
 
 div.bottom {
     height: 16%;
     /* margin: 15px 15px 15px 15px; */
     /* width: calc(100% - 30px); */
     background-color: white;
-    text-align: center;
+    /* text-align: center; */
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 
 #top_text {
-    height: 8vh;
-    width: 100%;
-    margin-left: calc(50% - 47vw);
+    height: 100%;
+    width: auto;
+    margin-top: 13vh;
     color: white;
+}
+
+#first_line {
+    position: relative;
+    left: 10vw;
+    max-width: 50vw;
 }
 
 #wood_text {
     text-align: right;
+    height: 10vh;
 }
 
 #wood {
@@ -75,11 +83,13 @@ div.bottom {
     width: 100%;
     text-align: right;
     font-size: 75%;
-    margin-bottom: 1em;
+    bottom: 11vh;
+    /* margin-bottom: 1em; */
 }
 
 #water_text {
     text-align: right;
+    height: 10vh;
 }
 
 #water {
@@ -88,11 +98,13 @@ div.bottom {
     width: 100%;
     text-align: right;
     font-size: 75%;
-    margin-bottom: 1em;
+    bottom: 11vh;
+    /* margin-bottom: 1em; */
 }
 
 #carbon_text {
     text-align: right;
+    height: 10vh;
 }
 
 #carbon {
@@ -101,7 +113,8 @@ div.bottom {
     width: 100%;
     text-align: right;
     font-size: 75%;
-    margin-bottom: 1em;
+    bottom: 11vh;
+    /* margin-bottom: 1em; */
 }
 
 #reuse_icon {
@@ -136,6 +149,10 @@ div.bottom {
     top: -1.25vh;
 }
 
+#g {
+    color: #00b2d4;
+}
+
 #afterAmount {
     color: white;
     margin: 0;
@@ -160,12 +177,53 @@ div.bottom {
 
 #bottom_text {
     margin: 0;
-    font-size: 60%;
-    text-align: center;
+    margin-left: 20%;
+    font-size: 70%;
+    /* text-align: center; */
+}
+
+#bottom_secondline {
+    position: relative;
+    top: -2vh;
+    left: -2vw;
 }
 
 #total_amount {
     color: #00B0D0;
     margin: 0 20px 0 20px;
     font-size: 400%;
+}
+
+#cup_icon {
+    position: sticky;
+    display: inline;
+    width: 10vh;
+    height: auto;
+    max-width: 10vh;
+    right: 80%;
+}
+
+#chopsticks_icon {
+    position: sticky;
+    display: inline;
+    width: 10vh;
+    height: auto;
+    max-width: 10vh;
+    right: 80%;
+}
+
+#plasticbag_icon {
+    position: sticky;
+    display: inline;
+    width: 10vh;
+    height: auto;
+    max-width: 10vh;
+    right: 80%;
+}
+
+#unit_bottom {
+    position: relative;
+    display: block;
+    font-size: 130%;
+    bottom: 10.5vh;
 }

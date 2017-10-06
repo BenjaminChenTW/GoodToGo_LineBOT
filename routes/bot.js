@@ -15,7 +15,7 @@ module.exports = {
             } else if (event.message.text === "我們的環境貢獻") {
                 normalHandler('usage', event, textReply);
             } else if (event.message.text === "我的獎品兌換券") {
-                normalHandler('lottery/myCoupons', event, textReply);
+                normalHandler('lottery/coupons', event, textReply);
             } else {
                 textHandler(event, textReply);
             }

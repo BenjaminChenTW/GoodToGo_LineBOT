@@ -16,7 +16,8 @@ router.get('/', function(req, res, next) {
         } else {
             res.render('manager/chatroom', {
                 'roomList': roomList,
-                'lastRoom': req.session.userId || 'none'
+                'lastRoom': req.session.userId || 'none',
+                'online': global._online
             });
         }
     });
@@ -58,6 +59,12 @@ router.post('/terminateSession/:id', function(req, res, next) {
             });
         }
     });
+});
+
+router.post('/changestatus', function(req, res, next) {
+    global._online = !global._online;
+    console.log = global._online
+    res.json({ online: global._online });
 });
 
 module.exports = {

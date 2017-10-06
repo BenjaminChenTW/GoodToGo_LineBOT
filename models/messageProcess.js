@@ -58,7 +58,7 @@ function imgHandlerCallback(message, user, event, callback, aFunc) {
                         global.imgEvent.emit('addImg', idIndex);
                         if (aFunc) aFunc();
                         var msg = '收到您的照片！\n您的照片編號為 #' + idIndex++;
-                        if (global._online === false) msg += ' ，\n我們將於上線為您審核！';
+                        if (global._online === false) msg += ' ，\n我們將於上線時為您審核！';
                         else msg += ' ，\n請靜候審核。';
                         return callback(true, event.replyToken, msg);
                     });
@@ -95,7 +95,7 @@ module.exports = {
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
-            if (global._online === false) returnStr += '\n我們將於上線時回復您的訊息！';
+            if (global._online === false) returnStr += '我們將於上線時回復您的訊息！';
             if (user) {
                 var displayName = user.event.source.displayName;
                 var pictureUrl = user.event.source.pictureUrl;
@@ -163,7 +163,7 @@ module.exports = {
         var returnStr = "https://bot.goodtogo.tw/" + route + '/' + event.source.userId;
         message = new Message();
         message.event = event;
-        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
+        Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 regularHandlerCallback(message, {
@@ -282,12 +282,12 @@ module.exports = {
             }
             altText = "好盒器傳給您一張兌換券！";
             title = "兌換券";
-            text = "恭喜您抽中" + couponContent + "！\n請勿自行點按兌換鍵，\n若因此喪失兌換資格恕不負責！"
+            text = "恭喜您抽中" + couponContent + "！"
             thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/prize/" + couponType;
             actions.push({
                 "type": "uri",
                 "label": "兌換",
-                "uri": "https://bot.goodtogo.tw/lottery/exchange/" + couponId
+                "uri": "https://bot.goodtogo.tw/lottery/coupons/" + lineUserId + "/" + couponId
             });
             templateSendlerCallback(lineUserId, {
                 altText: altText,
