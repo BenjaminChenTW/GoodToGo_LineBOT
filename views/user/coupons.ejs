@@ -54,6 +54,13 @@
     <script>
         var userId = <%-"'" + userId + "'"%>;
 
+        if (!$('#user_coupons').firstChild) {
+            var list_view = document.getElementById('main_list_view');
+            var new_text = document.createElement('p');
+            new_text.textContent = '您目前還沒有兌換券呦～';
+            list_view.insertBefore(new_text, list_view.firstChild);
+        }
+
         $('.status').on('click', function(){
             if (this.parentNode.getAttribute('type') == 'unused') {
                 var coupon = this.parentNode.cloneNode(true);

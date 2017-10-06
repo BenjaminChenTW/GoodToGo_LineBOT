@@ -152,8 +152,7 @@ function ignore() {
 }
 
 function submit() {
-
-    $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
+    document.getElementById('detail').style.display = 'none';
 
     let id = selected_picture.getAttribute('indexId');
     var request_url = '/img/';

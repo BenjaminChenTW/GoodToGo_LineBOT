@@ -40,6 +40,12 @@ body {
     position: relative;
     width: 100%;
     height: 90vh;
+    text-align: center;
+}
+
+#main_list_view p {
+    color: #888;
+    margin-top: calc(90vh * 0.5 - 2.5vh);
 }
 
 #coupons_list {
