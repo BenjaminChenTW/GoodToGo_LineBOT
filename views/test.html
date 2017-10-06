@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>抽獎嚕！</title>
+    <meta content="text/html" http-equiv="Content-Type" ; charset="utf8">
+    <link href="assets/css/lottery_1.css" rel="stylesheet" type="text/css" id="css_style" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/script/lottery_script_1.js"></script>
+
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            background-color: #1d1d1b;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #text{
+            position: absolute;
+            width: 20%;
+            height: auto;
+            max-width: calc(20 / 48 * 100%);
+            max-height: auto;
+        }
+
+        #background {
+            position: absolute;
+            width: 50%;
+            height: auto;
+            max-width: 500px;
+            max-height: auto;
+            animation: spin 0.5s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="background" src="assets/icon/background.png" alt="cannot find image">
+    <img id="text" src="assets/icon/drawing.png" alt="cannot find image">
+</body>
+
+<script>
+</script>
+
+</html>

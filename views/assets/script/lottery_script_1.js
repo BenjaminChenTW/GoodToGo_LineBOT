@@ -5,11 +5,9 @@ document.ontouchmove = function(event) {
 function changeView(page) {
     if (page === 1 && couponList.length !== 0) {
         $('div').remove();
-        $('body').html('<img id="background" src="/assets/icon/background.png" alt="cannot find image">' +
-            '<img id="text" src="/assets/icon/drawing.png" alt="cannot find image">');
+        $('body').html('<img id="background" src="/assets/icon/background.png" alt="cannot find image"><img id="text" src="/assets/icon/drawing.png" alt="cannot find image">');
         $('#background').css({
             'position': 'absolute',
-            'top': '35%',
             'width': '50%',
             'height': 'auto',
             'max-width': '500px',
@@ -18,8 +16,6 @@ function changeView(page) {
         });
         $('#text').css({
             'position': 'absolute',
-            'top': '46%',
-            'left': '40%',
             'width': '20%',
             'height': 'auto',
             'max-width': 'calc(20 / 48 * 100%)',
@@ -44,6 +40,9 @@ function changeView(page) {
             .then(() => endView(obj));
     } else if (page === 0) {
         $('div').remove();
+        if ($('#time').text() === '0'){
+            $('input#start').css('background-color', 'gray');
+        }
         $('body').html('<div class="content">' +
             '<p id="first_part">您目前有抽獎機會</p>' +
             '<div class="top_icons">' +
@@ -63,7 +62,7 @@ function changeView(page) {
 }
 
 function endView(data) {
-    var htmlStr;
+   var htmlStr;
     htmlStr = (data.isWin) ?
         ('<div class="content">' +
             '<img id="gift" src="/assets/icon/gotPrize.png" alt="cannot load image">' + // 改成圖片
@@ -75,7 +74,7 @@ function endView(data) {
         ('<div class="content">' +
             '<img id="gift" src="/assets/icon/nonPrize.png" alt="cannot load image">' + // 改成圖片
             '<p id="first_part">好可惜！您這次沒有中獎</p>' +
-            '<img id="lose_icon" src="/assets/icon/noGift.png" alt="cannot load image" style="height: 540px;">' +
+            '<div id="img_container"><img id="lose_icon" src="/assets/icon/noGift.png" alt="cannot load image" style="height: 540px;" /></div>' +
             '<input type="button" id="start" value="確定" onclick="changeView(0)">' +
             '</div>');
 
@@ -83,7 +82,7 @@ function endView(data) {
     $('#text').remove();
     $('body').html(htmlStr)
     $('.content').css({
-        'margin-top': '5vh'
+        'margin-top': '10vh'
     })
     $('#first_part').css({
         'font-size': '2.4vh',
