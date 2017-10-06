@@ -199,32 +199,6 @@ function submit() {
     })
 }
 
-function change_tab(tab) {
-    let elements = document.getElementById('cssmenu').getElementsByTagName('ul')[0].getElementsByTagName('li');
-    if (!tab.classList.contains('active')) {
-        for (var i = 0; i < elements.length; i++) {
-            if (elements[i] != tab) {
-                elements[i].classList.remove('active');
-            } else {
-                elements[i].classList.add('active');
-            }
-        }
-
-        if (tab.value == "0") {
-            document.getElementById('picture_view').style.display = 'block';
-            document.getElementById('detail').style.visibility = 'visible';
-
-            document.getElementById('messenger_view').style.display = 'none';
-        } else if (tab.value == "1") {
-            document.getElementById('picture_view').style.display = 'none';
-            document.getElementById('detail').style.visibility = 'hidden';
-
-            document.getElementById('messenger_view').style.display = 'inline';
-
-        }
-    }
-}
-
 var wait_for_check = [];
 
 function create_message(type, message, img, shouldScroll = true, pos = 'back', msg_id) {

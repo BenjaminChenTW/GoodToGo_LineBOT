@@ -3,12 +3,12 @@ var socket = io.connect(window.location.origin);
 /*
  ** from origin /checkimg
  */
-
-socket.on('server', function(obj) {
-    console.log('msg: ' + obj.msg);
-});
 socket.on('add', function(index) {
     console.log('add: ' + index);
+
+    if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
+        document.getElementById('checkimg').style.display = 'block';
+    }
 
     if (index <= end_index) {
         return;
@@ -36,6 +36,9 @@ socket.on('add', function(index) {
 });
 
 socket.on('pop', function(index) {
+    if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
+        document.getElementById('checkimg').style.display = 'block';
+    }
     console.log('pop: ' + index);
 
     var pics = document.getElementsByClassName('container')
@@ -70,7 +73,7 @@ socket.on('server', function(obj) {
     if (typeof obj.statusCode !== 'undefined') {
         switch (obj.statusCode) {
             case 0:
-                console.log('IN0: ' + obj.statusCode);
+                console.log('chatroom: ' + obj.statusCode);
 
                 let time = custom_date(new Date(), true);
 
@@ -109,19 +112,19 @@ socket.on('server', function(obj) {
                 }
                 break;
             case 1:
-                console.log('IN1: ' + obj.statusCode);
+                console.log('chatroom: ' + obj.statusCode);
                 document.getElementsByClassName(wait_for_check[0])[0].style.opacity = '0.5';
                 wait_for_check.shift();
                 create_message('system', '參數錯誤: ' + obj.msg);
                 break;
             case 2:
-                console.log('IN2: ' + obj.statusCode);
+                console.log('chatroom: ' + obj.statusCode);
                 document.getElementsByClassName(wait_for_check[0])[0].style.opacity = '0.5';
                 wait_for_check.shift();
                 create_message('system', '資料庫錯誤: ' + obj.msg);
                 break;
             case 3:
-                console.log('msg_' + wait_for_check[0]);
+                console.log('chatrom: ' + obj.statusCode);
                 document.getElementsByClassName(wait_for_check[0])[0].style.opacity = '0.5';
                 wait_for_check.shift();
                 create_message('system', obj.msg);
@@ -135,6 +138,10 @@ socket.on('server', function(obj) {
     console.log('msg: ' + obj.msg);
 });
 socket.on('user', function(obj) {
+    if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
+        document.getElementById('chatroom').style.display = 'block';
+    }
+
     let time = custom_date(new Date(), true);
 
     var img = document.createElement('img');
