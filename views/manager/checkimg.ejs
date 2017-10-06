@@ -52,6 +52,7 @@
                         <select name="reasons" id='reasons'>
                             <option value="0">不在現場</option>
                             <option value="1">容器非好盒器</option>
+                            <option value='2'>其他</option>
                         </select>
                         <textarea id='other_reasons' style='display:none ;width: 70%;'></textarea>
                     </p>
@@ -155,8 +156,6 @@
                 document.getElementById('reasons_tag').style.display = 'none';
             }
         })
-
-
 
         $('#reasons').on('change', function() {
             if (this.value === '2'){

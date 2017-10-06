@@ -172,9 +172,19 @@ function submit() {
     var next_container = selected_container.nextSibling;
 
     request_url += type + '/' + id + '/' + para;
+
+
+    var obj = {};
+    if (type == 'decline') {
+        var text = document.getElementById('other_reasons').value
+        obj = {otherReason:text};
+    }
+
     $.ajax({
         url: request_url,
         type: 'POST',
+        data: JSON.stringify(obj),
+        dataType: 'application/json; charset=utf-8',
         success: function() {
             console.log('success');
 
@@ -196,7 +206,7 @@ function submit() {
                 show_success_box();
             }
         }
-    })
+    });
 }
 
 var wait_for_check = [];
