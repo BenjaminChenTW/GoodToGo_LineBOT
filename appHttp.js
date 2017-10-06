@@ -58,30 +58,24 @@ var server = http.createServer(app);
  * Socket Event init
  */
 var io = require('socket.io')(server);
-var chat = io.of('/chatroom');
 global.aEvent = new EventEmitter();
-global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg, type) {
-    chatroom.getMsg(chat, userId, userName, imgUrl, msg, type);
+global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
+    chatroom.getMsg(io, userId, userName, imgUrl, msg);
 });
-chat
+io
     .on('connection', function(socket) {
         socket.emit('server', { msg: "Login Success" });
         socket.on('sendMsg', function(obj) {
             chatroom.sendMsg(socket, obj.userId, obj.msg)
         });
     });
-var checkingImg = io.of('/img');
 global.imgEvent = new EventEmitter();
 global.imgEvent.on('addImg', function(index) {
-    imgCheck.addEvent(checkingImg, index);
+    imgCheck.addEvent(io, index);
 });
 global.imgEvent.on('popImg', function(index) {
-    imgCheck.popEvent(checkingImg, index);
+    imgCheck.popEvent(io, index);
 });
-checkingImg
-    .on('connection', function(socket) {
-        socket.emit('server', { msg: "Login Success" });
-    });
 global._online = true;
 
 /**

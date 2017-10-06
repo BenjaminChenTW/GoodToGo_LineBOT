@@ -281,7 +281,7 @@ module.exports = {
                 return textSendlerCallback(lineUserId, '請再接再厲！', sended);
             }
             altText = "好盒器傳給您一張兌換券！";
-            title = "兌換券";
+            title = "兌換券 #" + couponId;
             text = "恭喜您抽中" + couponContent + "！"
             thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/prize/" + couponType;
             actions.push({

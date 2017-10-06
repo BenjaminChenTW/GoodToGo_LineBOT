@@ -48,7 +48,6 @@
         </div>
     </div>
     
-    <script src="/socket.io/socket.io.js"></script>
     <script>
     var online = <%- online %>
     $('#rest_button').css('backgroundColor', (online? 'green': 'red'));
@@ -61,7 +60,7 @@
     
     document.title += " - 對話管理";
     
-    var socket = io.connect(window.location.origin + '/chatroom');
+    var socket = io.connect(window.location.origin);
 
     var isSearchImgButtonSelected = false;
 
