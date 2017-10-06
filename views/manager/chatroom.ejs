@@ -32,8 +32,6 @@
                 <nav id="customer_id"><a class="back_button" onclick="closeDialog()" style='cursor: pointer;'>ㄑ</a><p></p><a class="end_session" id="end_session" style='cursor: pointer;'></a></nav>
                 <div id="message_ul_container">
                 <ul id="message_ul">
-                    <li class='me'><span class="helper"></span><p><a class='box'>asdsasa</a></p></li>
-                    <li class='customer'><span class="helper customer"><img /></span><p><a class='box'>asdsds33333333333</a></p></li>
                 </ul>
                 </div>
             </div>
@@ -123,7 +121,7 @@
         new_a.setAttribute('class', 'list_button');
         new_a.setAttribute('onclick', 'showDialog(this,"'+userId+'",'+'"'+name+'")');
         new_li.setAttribute('customerId', userId);
-        new_img.setAttribute('src', src);
+        if (src) new_img.setAttribute('src', src);
         new_span.setAttribute('class', 'helper');
         new_div.setAttribute('id', 'name');
         new_div.setAttribute('status', status);
@@ -135,7 +133,7 @@
         new_p_time.innerHTML = time;
 
         new_div.appendChild(new_p_text);
-        new_a.appendChild(new_img);
+        if (src) new_a.appendChild(new_img);
         new_a.appendChild(new_span);
         new_a.appendChild(new_div);
         new_a.appendChild(new_p_time);
@@ -213,7 +211,8 @@
                 var total = parseInt(data.checkStatus.amount.bag) + parseInt(data.checkStatus.amount.container) + parseInt(data.checkStatus.amount.tableware);
                 var amount = '提袋(' + data.checkStatus.amount.bag + ') 容器(' + data.checkStatus.amount.container + ') 餐具(' + data.checkStatus.amount.tableware + ') 共 ' + total + ' 次抽獎機會';
                 if (data.checkStatus.typeCode !== undefined) {
-                    amount = '0 (' + reasons[data.checkStatus.typeCode] + ')';
+                    var typeCode = parseInt(data.checkStatus.typeCode);
+                    amount = '0 (' + ((typeCode === 2)? data.checkStatus.reason:reasons[typeCode]) + ')';
                 }
                 var img_index = data.imgIndex;
 

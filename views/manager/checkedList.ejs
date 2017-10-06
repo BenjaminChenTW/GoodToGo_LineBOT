@@ -92,7 +92,8 @@
                         new_td_amount.innerHTML = bag + ', ' + container + ', ' + tableware;
                                                
                     } else {
-                        new_td_amount.innerHTML = '(' + reasons[parseInt(data_list[i].checkedStatus.typeCode)] + ')';
+                        var typeCode = parseInt(data_list[i].checkedStatus.typeCode);
+                        new_td_amount.innerHTML = '(' + ((typeCode === 2)? data_list[i].checkedStatus.reason : reasons[typeCode]) + ')';
                     }
 
                     new_tr.appendChild(new_th);

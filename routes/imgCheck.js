@@ -96,21 +96,26 @@ router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
     });
 });
 
-const decline = ["不在音樂節現場拍攝", "中的容器無法識別為好盒器"]
+const decline = ["該照片不在音樂節現場拍攝", "該照片中的容器無法識別為好盒器"]
 router.post('/decline/:id/:type', function(req, res, next) {
     var picIndex = req.params.id;
     var declineType = req.params.type;
+    var declineReason;
     if (!(picIndex && declineType)) return res.status(404).end();
-    if (!(declineType == 0 || declineType == 1)) return res.status(402).end();
 
     picIndex = parseInt(picIndex);
     declineType = parseInt(declineType);
 
+    if (declineType == 2) declineReason = req.body.otherReason || '';
+    else if (declineType >= 0 || declineType == 1) declineReason = decline[declineType];
+    else return res.status(402).end();
+
     Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
         if (message) {
-            textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已完成審核，\n但由於我們認為該照片' + decline[declineType] + '，\n您無法獲得抽獎資格QQ', function() {
+            textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已完成審核，\n但由於我們認為' + declineReason + '，\n您無法獲得抽獎資格QQ', function() {
                 message.img.checked = true;
                 message.img.checkStatus.typeCode = declineType;
+                message.img.checkStatus.reason = declineReason;
                 message.img.checkStatus.checkTime = Date.now();
                 message.save((err) => {
                     if (err) return debug(JSON.stringify(err));

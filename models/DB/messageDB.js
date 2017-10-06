@@ -12,6 +12,7 @@ var schema = mongoose.Schema({
         checked: Boolean,
         checkStatus: {
             typeCode: Number,
+            reason: String,
             amount: {
                 container: Number,
                 bag: Number,

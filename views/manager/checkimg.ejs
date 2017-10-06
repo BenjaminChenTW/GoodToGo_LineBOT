@@ -54,7 +54,7 @@
                             <option value="1">容器非好盒器</option>
                             <option value='2'>其他</option>
                         </select>
-                        <textarea id='other_reasons' style='display:none ;width: 70%;'></textarea>
+                        <textarea id='other_reasons' style='display: none;width: 94%;margin-top: 3%;'></textarea>
                     </p>
                     <button onclick="submit()" style='cursor:pointer;'>保存</button><button onclick="ignore()" id='ignore_button' style='display:none; cursor:pointer; margin-left: 140px; color: red;'>忽略</button>
                 </div>
@@ -159,7 +159,7 @@
 
         $('#reasons').on('change', function() {
             if (this.value === '2'){
-                document.getElementById('other_reasons').style.display = 'inline-block';
+                document.getElementById('other_reasons').style.display = 'block';
             } else {
                 document.getElementById('other_reasons').style.display = 'none';
             }

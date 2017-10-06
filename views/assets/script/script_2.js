@@ -177,36 +177,61 @@ function submit() {
     var obj = {};
     if (type == 'decline') {
         var text = document.getElementById('other_reasons').value
-        obj = {otherReason:text};
+        obj = { otherReason: text };
+        $.ajax({
+            url: request_url,
+            type: 'POST',
+            data: obj,
+            dataType: 'application/json; charset=utf-8',
+            success: function() {
+                console.log('success');
+
+                document.getElementById('detail').style.display = 'none';
+
+                if (next_container) {
+                    select_picture(next_container.getElementsByClassName('button')[0]);
+                }
+            },
+            error: function(xhr, statusText, err) {
+                console.log('error:' + err);
+                show_failed_box('請檢察網路連線');
+            },
+            complete: function(xhr, statusText) {
+                console.log(xhr.status);
+                if (xhr.status == 402) {
+                    show_failed_box('此照片已被審核');
+                } else if (xhr.status == 200) {
+                    show_success_box();
+                }
+            }
+        });
+    } else {
+        $.ajax({
+            url: request_url,
+            type: 'POST',
+            success: function() {
+                console.log('success');
+
+                document.getElementById('detail').style.display = 'none';
+
+                if (next_container) {
+                    select_picture(next_container.getElementsByClassName('button')[0]);
+                }
+            },
+            error: function(xhr, statusText, err) {
+                console.log('error:' + err);
+                show_failed_box('請檢察網路連線');
+            },
+            complete: function(xhr, statusText) {
+                console.log(xhr.status);
+                if (xhr.status == 402) {
+                    show_failed_box('此照片已被審核');
+                } else if (xhr.status == 200) {
+                    show_success_box();
+                }
+            }
+        });
     }
-
-    $.ajax({
-        url: request_url,
-        type: 'POST',
-        data: JSON.stringify(obj),
-        dataType: 'application/json; charset=utf-8',
-        success: function() {
-            console.log('success');
-
-            document.getElementById('detail').style.display = 'none';
-
-            if (next_container) {
-                select_picture(next_container.getElementsByClassName('button')[0]);
-            }
-        },
-        error: function(xhr, statusText, err) {
-            console.log('error:' + xhr.status);
-            show_failed_box('請檢察網路連線');
-        },
-        complete: function(xhr, statusText) {
-            console.log(xhr.status);
-            if (xhr.status == 402) {
-                show_failed_box('此照片已被審核');
-            } else if (xhr.status == 200) {
-                show_success_box();
-            }
-        }
-    });
 }
 
 var wait_for_check = [];
@@ -224,7 +249,7 @@ function create_message(type, message, img, shouldScroll = true, pos = 'back', m
 
     if (type === 'customer') {
         new_span.setAttribute('class', 'helper customer');
-        new_span.appendChild(img);
+        if (img) new_span.appendChild(img);
         new_msg.setAttribute('class', 'customer');
     } else if (type === 'system') {
         new_span.setAttribute('class', 'helper');
@@ -331,7 +356,8 @@ function showDialog(customer, customerId, customerName) {
                 }
 
                 if (record.type === 'customer') {
-                    img = customer.getElementsByTagName('img')[0].cloneNode(true);
+                    var imgtag = customer.getElementsByTagName('img')[0] || false
+                    img = (imgtag) ? imgtag.cloneNode(true) : null;
                 }
                 create_message(record.type, record.text, img, true, 'front');
 

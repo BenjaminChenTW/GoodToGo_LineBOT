@@ -63,7 +63,7 @@ socket.on('pop', function(object) {
     if (remain == false) {
         document.getElementById('checkimg').style.display = 'none';
     }
-    
+
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         if (remain != false)
             document.getElementById('checkimg').style.display = 'block';
