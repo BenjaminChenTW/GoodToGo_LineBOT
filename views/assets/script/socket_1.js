@@ -3,6 +3,16 @@ var socket = io.connect(window.location.origin);
 socket.on('init', function(obj) {
     console.log('has unchecked img: ' + obj.img);
     console.log('has unread message: ' + obj.chatroom);
+    if (obj.img) {
+        if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
+            document.getElementById('checkimg').style.display = 'block';
+        }
+    }
+    if (obj.chatroom) {
+        if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
+            document.getElementById('chatroom').style.display = 'block';
+        }
+    }
 });
 
 /*
@@ -13,6 +23,7 @@ socket.on('add', function(index) {
 
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         document.getElementById('checkimg').style.display = 'block';
+        return;
     }
 
     if (index <= end_index) {
@@ -43,6 +54,7 @@ socket.on('add', function(index) {
 socket.on('pop', function(index) {
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         document.getElementById('checkimg').style.display = 'block';
+        return;
     }
     console.log('pop: ' + index);
 
@@ -75,6 +87,11 @@ socket.on('pop', function(index) {
  */
 
 socket.on('server', function(obj) {
+    if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
+        document.getElementById('chatroom').style.display = 'block';
+        return;
+    }
+
     if (typeof obj.statusCode !== 'undefined') {
         switch (obj.statusCode) {
             case 0:
@@ -145,6 +162,7 @@ socket.on('server', function(obj) {
 socket.on('user', function(obj) {
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
         document.getElementById('chatroom').style.display = 'block';
+        return;
     }
 
     let time = custom_date(new Date(), true);
