@@ -45,9 +45,9 @@
     </div>
     <script>
         var userId = <%-"'" + userId + "'"%>;
-        var hasCoupon = fasle;
+        var isEmpty = <%- isEmpty %>;
 
-        if (!hasCoupon) {
+        if (isEmpty) {
             var list_view = document.getElementById('main_list_view');
             var new_text = document.createElement('p');
             new_text.setAttribute('id','default');
