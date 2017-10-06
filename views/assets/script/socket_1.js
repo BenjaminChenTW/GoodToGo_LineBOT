@@ -36,7 +36,7 @@ socket.on('add', function(index) {
         dataType: 'JSON',
         success: function(data) {
             let list = data.list;
-
+            console.log("index " + index + " end_index " + end_index)
             for (var i = 0; i < list.length; i++) {
                 if (end_index != pic_data[pic_data.length - 1].indexId) {
                     break;
@@ -68,7 +68,7 @@ socket.on('pop', function(object) {
 
     console.log('pop: ' + index + ' remain: ' + remain);
 
-    if (remain == '0') {
+    if (remain) {
         document.getElementById('checkimg').style.display = 'block';
     }
 
