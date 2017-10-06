@@ -95,12 +95,13 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (!user.notify || user === undefined) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
+            if (!user) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (global._online === false) returnStr += '我們將於上線時回復您的訊息！';
             if (user) {
                 var displayName = user.event.source.displayName;
                 var pictureUrl = user.event.source.pictureUrl;
                 if (user.notify) global.aEvent.emit('getMsg', event.source.userId, displayName, pictureUrl, event.message.text);
+                if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
                 regularHandlerCallback(message, {
                     displayName: displayName,
                     pictureUrl: pictureUrl,
