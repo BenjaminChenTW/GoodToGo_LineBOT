@@ -117,6 +117,12 @@
                     break;
                 }
             }
+
+            if ($('.container').length == 0) {
+                $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
+            } else {
+                $('.default_text')[0].innerHTML = '請點選照片以審核';
+            }
         });
 
         load_pic_data(lastIndex);

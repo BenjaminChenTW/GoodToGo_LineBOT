@@ -1,4 +1,5 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
 /* html {
     width: 100vw;
     height: 100vh;
@@ -44,10 +45,6 @@ div.middle p#title_used {
     font-size: 75%;
 }
 
-/* hr {
-    margin: 0px 0px 0px 0px;
-} */
-
 div.bottom {
     height: 16%;
     /* margin: 15px 15px 15px 15px; */
@@ -59,82 +56,12 @@ div.bottom {
     align-items: center;
 }
 
-#top_text {
-    height: 100%;
-    width: auto;
-    margin-top: 13vh;
-    color: white;
-}
-
-#first_line {
-    position: relative;
-    left: 10vw;
-    max-width: 50vw;
-}
-
-#wood_text {
-    text-align: right;
-    height: 10vh;
-}
-
-#wood {
-    position: relative;
-    display: block;
-    width: 100%;
-    text-align: right;
-    font-size: 75%;
-    bottom: 11vh;
-    /* margin-bottom: 1em; */
-}
-
-#water_text {
-    text-align: right;
-    height: 10vh;
-}
-
-#water {
-    position: relative;
-    display: block;
-    width: 100%;
-    text-align: right;
-    font-size: 75%;
-    bottom: 11vh;
-    /* margin-bottom: 1em; */
-}
-
-#carbon_text {
-    text-align: right;
-    height: 10vh;
-}
-
-#carbon {
-    position: relative;
-    display: block;
-    width: 100%;
-    text-align: right;
-    font-size: 75%;
-    bottom: 11vh;
-    /* margin-bottom: 1em; */
-}
-
 #reuse_icon {
     top: -5px;
     display: inline;
     max-height: 5.8vh;
     position: relative;
     margin-left: 43px;
-}
-
-#beforeAmount {
-    color: white;
-    margin: 0;
-    width: auto;
-    font-size: 65%;
-    font-weight: 200;
-    /* display: inline-block; */
-    position: relative;
-    margin-left: 43px;
-    top: -1.25vh;
 }
 
 #unit {
@@ -153,6 +80,27 @@ div.bottom {
     color: #00b2d4;
 }
 
+#beforeAmount {
+    color: white;
+    margin: 0;
+    width: auto;
+    font-size: 65%;
+    font-weight: 200;
+    position: relative;
+    margin-left: 43px;
+    top: -1.25vh;
+}
+
+#amount {
+    margin: 0;
+    margin-left: 15px;
+    position: relative;
+    color: rgb(255, 233, 92);
+    display: inline-block;
+    font-size: 200%;
+    top: -1.25vh;
+}
+
 #afterAmount {
     color: white;
     margin: 0;
@@ -165,14 +113,47 @@ div.bottom {
     top: -1.25vh;
 }
 
-#amount {
-    margin: 0;
-    margin-left: 15px;
+#top_text {
+    height: 100%;
+    width: auto;
+    margin-top: 13vh;
+    color: white;
+}
+
+#first_line {
     position: relative;
-    color: rgb(255, 233, 92);
+    left: 10vw;
+    max-width: 50vw;
+}
+
+hr {
+    margin: 0.8em 0 0.8em 0;
+}
+
+div img#cup_icon,
+img#chopsticks_icon,
+img#plasticbag_icon {
+    position: absolute;
+    max-width: 10vh;
+    width: 10vh;
+    height: auto;
+}
+
+#water_text,
+#wood_text,
+#carbon_text {
+    height: 10vh;
     display: inline-block;
-    font-size: 200%;
-    top: -1.25vh;
+}
+
+#water,
+#carbon,
+#wood {
+    position: relative;
+    display: block;
+    text-align: right;
+    font-size: 75%;
+    margin: 0px;
 }
 
 #bottom_text {
@@ -194,36 +175,10 @@ div.bottom {
     font-size: 400%;
 }
 
-#cup_icon {
-    position: sticky;
-    display: inline;
-    width: 10vh;
-    height: auto;
-    max-width: 10vh;
-    right: 80%;
-}
-
-#chopsticks_icon {
-    position: sticky;
-    display: inline;
-    width: 10vh;
-    height: auto;
-    max-width: 10vh;
-    right: 80%;
-}
-
-#plasticbag_icon {
-    position: sticky;
-    display: inline;
-    width: 10vh;
-    height: auto;
-    max-width: 10vh;
-    right: 80%;
-}
-
 #unit_bottom {
     position: relative;
-    display: block;
+    text-align: right;
     font-size: 130%;
-    bottom: 10.5vh;
+    margin: 0px;
+    bottom: 0;
 }

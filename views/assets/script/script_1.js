@@ -152,8 +152,7 @@ function ignore() {
 }
 
 function submit() {
-
-    $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
+    document.getElementById('detail').style.display = 'none';
 
     let id = selected_picture.getAttribute('indexId');
     var request_url = '/img/';
@@ -373,27 +372,6 @@ function clear_message_field() {
     let new_ul = document.createElement('ul');
     new_ul.setAttribute('id', 'message_ul');
     msg_ul_container.appendChild(new_ul);
-
-    var customer_msg_index;
-    $('#message_ul').on('scroll', function() {
-        if (this.scrollTop == 0) {
-            var scroll_pos = this.scrollHeight - this.scrollTop;
-            var data = customer_message_data;
-            for (var i = customer_msg_index + 1; i < customer_msg_index + 31; i++) {
-                var img = undefined;
-                let record = data.userMessage[i];
-
-                if (!record) break;
-
-                if (record.type === 'customer') {
-                    img = selected_customer.getElementsByTagName('img')[0].cloneNode(true);
-                }
-                create_message(record.type, record.text, img, false, 'front');
-            }
-            this.scrollTop = this.scrollHeight - scroll_pos;
-            customer_msg_index += 30;
-        }
-    });
 }
 
 function closeDialog() {
