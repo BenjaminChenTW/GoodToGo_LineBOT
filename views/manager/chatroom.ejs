@@ -295,6 +295,7 @@
     })
 
     socket.on('status', function(obj){
+        var btn = document.getElementById('rest_button');
         if (obj.result) {
             btn.textContent = '上線中';
             btn.style.backgroundColor = 'green';
