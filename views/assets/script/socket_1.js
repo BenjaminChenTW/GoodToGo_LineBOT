@@ -47,9 +47,9 @@ socket.on('add', function(index) {
             }
 
             if (list.length == 0) {
-                var imgstr = "/getImg/" + list[i].indexId;
-                create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
-                end_index = data.list[i].indexId;
+                var imgstr = "/getImg/" + list[0].indexId;
+                create_pic('back', list[0].indexId, imgstr, list[0].userName, list[0].uploadTime, list[0].ignoreButton);
+                end_index = data.list[0].indexId;
             }
 
             pic_data = pic_data.concat(list);
