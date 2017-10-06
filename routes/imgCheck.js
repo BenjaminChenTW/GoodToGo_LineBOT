@@ -131,10 +131,10 @@ router.post('/ignore/:id', function(req, res, next) {
     Message.findOne({ "img.id": picIndex }, 'read event.source.userId', function(err, message) {
         if (message) {
             textSendler(message.event.source.userId, '您的照片 #' + picIndex + ' 已取消審核。', function() {
-                global.imgEvent.emit('popImg', picIndex);
                 message.read = true;
                 message.save((err) => {
                     if (err) debug(JSON.stringify(err));
+                    global.imgEvent.emit('popImg', picIndex);
                     res.status(200).end();
                 });
             });
