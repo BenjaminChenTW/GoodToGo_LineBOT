@@ -142,7 +142,7 @@ app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 app.use('/lotteryRecord', lottery.record);
-app.use('/', function(req, res) { res.redirect('/img'); });
+app.get('/', function(req, res) { res.redirect('/img'); });
 
 /**
  * Error handle

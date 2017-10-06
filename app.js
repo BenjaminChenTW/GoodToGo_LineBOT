@@ -33,6 +33,8 @@ var lottery = require('./routes/lottery');
 var getImg = require('./routes/getImg');
 var usage = require('./routes/usage');
 var config = require('./config/config.js');
+var hasUnread = require('./models/chatroomProcess.js').checkUnRead;
+var hasUnchecked = require('./models/imgProcess.js').checkUnckecked;
 
 function httpRequest(req, res) {
     var pathname = url.parse(req.url).pathname;
@@ -83,13 +85,6 @@ global.aEvent = new EventEmitter();
 global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
     chatroom.getMsg(io, userId, userName, imgUrl, msg);
 });
-io
-    .on('connection', function(socket) {
-        socket.emit('init', { msg: "Login Success" });
-        socket.on('sendMsg', function(obj) {
-            chatroom.sendMsg(socket, obj.userId, obj.msg)
-        });
-    });
 global.imgEvent = new EventEmitter();
 global.imgEvent.on('addImg', function(index) {
     imgCheck.addEvent(io, index);
@@ -97,6 +92,20 @@ global.imgEvent.on('addImg', function(index) {
 global.imgEvent.on('popImg', function(index) {
     imgCheck.popEvent(io, index);
 });
+io
+    .on('connection', function(socket) {
+        hasUnread(function(unread) {
+            hasUnchecked(function(unchecked) {
+                socket.emit('init', {
+                    img: unchecked,
+                    chatroom: unread
+                });
+            });
+        });
+        socket.on('sendMsg', function(obj) {
+            chatroom.sendMsg(socket, obj.userId, obj.msg)
+        });
+    });
 global._online = true;
 
 /**
@@ -156,7 +165,7 @@ app.use('/img', imgCheck.router);
 app.use('/checkedList', checkedList);
 app.use('/chatroom', chatroom.router);
 app.use('/lotteryRecord', lottery.record);
-app.use('/', function(req, res) { res.redirect('/img'); });
+app.get('/', function(req, res) { res.redirect('/img'); });
 
 /**
  * Error handle
