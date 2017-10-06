@@ -38,7 +38,7 @@ socket.on('add', function(index) {
             let list = data.list;
 
             for (var i = 0; i < list.length; i++) {
-                if ((index - end_index + pic_data.length + i) > 20) {
+                if (end_index != pic_data[pic_data.length - 1].indexId) {
                     break;
                 }
                 var imgstr = "/getImg/" + list[i].indexId;
@@ -46,7 +46,7 @@ socket.on('add', function(index) {
                 end_index = data.list[i].indexId;
             }
 
-            if (list.length == 0) {
+            if (pic_data.length == 0) {
                 var imgstr = "/getImg/" + list[0].indexId;
                 create_pic('back', list[0].indexId, imgstr, list[0].userName, list[0].uploadTime, list[0].ignoreButton);
                 end_index = data.list[0].indexId;
