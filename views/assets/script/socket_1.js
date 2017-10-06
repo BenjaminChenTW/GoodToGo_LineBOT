@@ -60,7 +60,7 @@ socket.on('pop', function(object) {
     var index = object.index;
     var remain = object.remain;
     console.log('pop: ' + index + ' remain: ' + remain);
-    if (!remain) {
+    if (remain == false) {
         document.getElementById('checkimg').style.display = 'none';
     }
     
