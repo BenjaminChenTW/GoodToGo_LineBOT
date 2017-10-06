@@ -11,6 +11,7 @@ var lottery = require('../models/lotteryProcess.js').getTicket;
 var saveFile = require('../models/lotteryProcess.js').saveFile;
 var Message = require('../models/DB/messageDB.js');
 var Coupon = require('../models/DB/couponDB.js');
+var hasUnchecked = require('../models/imgProcess.js').checkUnckecked;
 
 var couponIndex = 0;
 Coupon.findOne({}, 'couponId', { sort: { 'CouponId': -1 } }, function(err, coupon) {
@@ -149,6 +150,8 @@ module.exports = {
         socket.emit('add', index);
     },
     popEvent: function(socket, index) {
-        socket.emit('pop', index);
+        hasUnchecked(function(amount) {
+            socket.emit('pop', { index: index, remain: amount });
+        })
     }
 };
