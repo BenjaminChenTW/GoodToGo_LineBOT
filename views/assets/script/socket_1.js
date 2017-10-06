@@ -99,15 +99,14 @@ socket.on('pop', function(object) {
  */
 
 socket.on('server', function(obj) {
-    if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
-        document.getElementById('chatroom').style.display = 'block';
-        return;
-    }
-
     if (typeof obj.statusCode !== 'undefined') {
         switch (obj.statusCode) {
             case 0:
                 console.log('chatroom: ' + obj.statusCode);
+                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
+                    document.getElementById('chatroom').style.display = 'block';
+                    return;
+                }
 
                 let time = custom_date(new Date(), true);
 
