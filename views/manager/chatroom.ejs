@@ -71,7 +71,42 @@
             switch (obj.statusCode) {
                 case 0 :
                     console.log('IN0: ' + obj.statusCode);
+
+                    let time = custom_date(new Date(), true);
+
+                    var msg = document.getElementsByClassName(wait_for_check[0])[0].textContent;
                     wait_for_check.shift();
+
+                    for (var i = 0 ; i < document.getElementById('customers_list').childNodes.length ; i++) {
+                        if (document.getElementById('customers_list').childNodes[i].nodeType === 3) {
+                            continue;
+                            }
+                        if (document.getElementById('customers_list').childNodes[i].getAttribute('customerId') == selected_customer.getAttribute('customerId')) {
+                            document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = msg;
+                            document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
+                
+                            document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].removeAttribute('status');
+                            document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].removeAttribute('status');
+                            document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].removeAttribute('status');
+
+                            document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
+                            break;
+                        }
+                    }
+
+                    for (var i = 0 ; i < extraRoomList.length ; i++) {
+                        if (extraRoomList[i].userId == selected_customer.getAttribute('customerId')) {
+                            extraRoomList[i].text = msg;
+                            extraRoomList[i].hasRead = true;
+                            extraRoomList[i].time = (new Date()).getTime();
+
+                            var node = extraRoomList[i];
+                            extraRoomList.splice(i,1);
+                            extraRoomList.splice(0, 0, node);
+
+                            break;
+                        }
+                    }
                     break;
                 case 1 :
                     console.log('IN1: ' + obj.statusCode);
@@ -175,8 +210,6 @@
             return;
         }
 
-        let time = custom_date(new Date(), true);
-
         let msg_id = 'msg_'+msg_order_id;
         msg_order_id += 1;
         create_message('me', msg, undefined, true, 'back', msg_id);
@@ -184,36 +217,6 @@
         socket.emit('sendMsg', {userId:selected_customer.getAttribute('customerId'), msg:msg});
         document.getElementById('message_text').value = '';
         
-        for (var i = 0 ; i < document.getElementById('customers_list').childNodes.length ; i++) {
-            if (document.getElementById('customers_list').childNodes[i].nodeType === 3) {
-                continue;
-            }
-            if (document.getElementById('customers_list').childNodes[i].getAttribute('customerId') == selected_customer.getAttribute('customerId')) {
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].textContent = msg;
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].textContent = time;
-                
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].removeAttribute('status');
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].removeAttribute('status');
-                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].removeAttribute('status');
-
-                document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
-                break;
-            }
-        }
-
-        for (var i = 0 ; i < extraRoomList.length ; i++) {
-            if (extraRoomList[i].userId == selected_customer.getAttribute('customerId')) {
-                extraRoomList[i].text = msg;
-                extraRoomList[i].hasRead = true;
-                extraRoomList[i].time = (new Date()).getTime();
-
-                var node = extraRoomList[i];
-                extraRoomList.splice(i,1);
-                extraRoomList.splice(0, 0, node);
-
-                break;
-            }
-        }
     })
 
     $('#message_text').keydown(function(event){
@@ -379,9 +382,13 @@
         }
     });
     var customer_msg_index;
-    $('#message_ul').on('scroll', function(){
-        if (this.scrollTop == 0) {
-            var scroll_pos = this.scrollHeight - this.scrollTop;
+    document.addEventListener('scroll', function(event){console.log('scrolling');
+        if (event.target.id !== 'message_ul') { // or any other filtering condition        
+            console.log('scrolling', event.target);
+            return;
+        }
+        if (event.target.scrollTop == 0) {
+            var scroll_pos = event.target.scrollHeight - event.target.scrollTop;
             var data = customer_message_data;
             for (var i = customer_msg_index+1; i < customer_msg_index + 31; i++) {
                 var img = undefined;
@@ -394,10 +401,10 @@
                 }
                 create_message(record.type, record.text, img, false, 'front');
             }
-            this.scrollTop = this.scrollHeight - scroll_pos;
+            event.target.scrollTop = event.target.scrollHeight - scroll_pos;
             customer_msg_index += 30;
         }
-    });
+    },true);
 
     $('#clear').on('click', function(){
         while(document.getElementById('customers_list').firstChild){

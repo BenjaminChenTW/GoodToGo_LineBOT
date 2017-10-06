@@ -296,6 +296,8 @@ function showDialog(customer, customerId, customerName) {
         return;
     }
 
+    customer_msg_index = 0;
+
     document.getElementsByClassName('manager')[0].setAttribute('status', 'collapse');
 
     clear_message_field();
@@ -365,9 +367,33 @@ function showDialog(customer, customerId, customerName) {
 
 function clear_message_field() {
     var msg_ul = document.getElementById('message_ul');
+    var msg_ul_container = document.getElementById('message_ul_container');
 
-    while (msg_ul.firstChild)
-        msg_ul.removeChild(msg_ul.firstChild);
+    msg_ul_container.removeChild(msg_ul);
+    let new_ul = document.createElement('ul');
+    new_ul.setAttribute('id', 'message_ul');
+    msg_ul_container.appendChild(new_ul);
+
+    var customer_msg_index;
+    $('#message_ul').on('scroll', function() {
+        if (this.scrollTop == 0) {
+            var scroll_pos = this.scrollHeight - this.scrollTop;
+            var data = customer_message_data;
+            for (var i = customer_msg_index + 1; i < customer_msg_index + 31; i++) {
+                var img = undefined;
+                let record = data.userMessage[i];
+
+                if (!record) break;
+
+                if (record.type === 'customer') {
+                    img = selected_customer.getElementsByTagName('img')[0].cloneNode(true);
+                }
+                create_message(record.type, record.text, img, false, 'front');
+            }
+            this.scrollTop = this.scrollHeight - scroll_pos;
+            customer_msg_index += 30;
+        }
+    });
 }
 
 function closeDialog() {
