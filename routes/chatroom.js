@@ -77,8 +77,8 @@ module.exports = {
         }, function(userName, imgUrl, reject) {
             if (reject) return socket.emit('server', { statusCode: 3, msg: reject.text });
             hasUnread(function(hasUnread) {
-                socket.emit('server', { statusCode: 0, msg: "Sended", unread: hasUnread });
-                socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg });
+                socket.emit('server', { statusCode: 0, msg: "Sended" });
+                socket.broadcast.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: 'manager', msg: msg, unread: hasUnread });
             });
         });
     },
