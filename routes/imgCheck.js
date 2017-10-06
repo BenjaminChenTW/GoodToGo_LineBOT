@@ -150,8 +150,8 @@ module.exports = {
         socket.emit('add', index);
     },
     popEvent: function(socket, index) {
-        hasUnchecked(function(amount) {
-            socket.emit('pop', { index: index, remain: amount });
-        })
+        hasUnchecked(function(hasRemain) {
+            socket.emit('pop', { index: index, remain: hasRemain });
+        });
     }
 };

@@ -36,7 +36,7 @@ socket.on('add', function(index) {
         dataType: 'JSON',
         success: function(data) {
             let list = data.list;
-
+            console.log("index " + index + " end_index " + end_index)
             for (var i = 0; i < list.length; i++) {
                 if ((index - end_index + pic_data.length + i) > 20) {
                     break;
