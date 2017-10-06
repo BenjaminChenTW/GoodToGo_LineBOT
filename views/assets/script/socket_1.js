@@ -52,6 +52,7 @@ socket.on('add', function(index) {
 });
 
 socket.on('pop', function(object) {
+<<<<<<< HEAD
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         document.getElementById('checkimg').style.display = 'block';
         return;
@@ -62,8 +63,20 @@ socket.on('pop', function(object) {
 
     console.log('pop: ' + index + ' remain: ' + remain);
 
+=======
+    console.log('pop: ' + index);
+    
+    var index = object.index;
+    var remain = object.remain;
+    
+>>>>>>> 73df38fdc10647cdc0b2fcf0b6750a911844cd5c
     if (remain == '0') {
         document.getElementById('checkimg').style.display = 'block';
+    }
+
+    if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
+        document.getElementById('checkimg').style.display = 'block';
+        return;
     }
 
     var pics = document.getElementsByClassName('container')
