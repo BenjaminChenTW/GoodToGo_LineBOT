@@ -46,7 +46,7 @@ router.get('/:id', function(req, res, next) {
         Message.findOne({ 'img.id': index }, 'img.contentType img.data', function(err, img) {
             if (!img) return res.status(404).end();
             res.set('Content-Type', img.img.contentType);
-            res.set('Cache-Control', 'public, max-age=' + 60 * 60);
+            res.set('Cache-Control', 'public, max-age=' + 60 * 60 * 3);
             res.write(img.img.data, 'binary');
             res.end(null, 'binary');
         });
