@@ -104,7 +104,7 @@ socket.on('server', function(obj) {
             case 0:
                 console.log('chatroom: ' + obj.statusCode);
 
-                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話' && !(obj.unread)) {
+                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話' && obj.unread == false) {
                     document.getElementById('chatroom').style.display = 'none';
                     return;
                 }
