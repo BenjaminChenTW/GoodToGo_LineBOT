@@ -38,9 +38,8 @@ socket.on('add', function(index) {
             let list = data.list;
             console.log("index " + index + " end_index " + end_index)
             for (var i = 0; i < list.length; i++) {
-                if (end_index != pic_data[pic_data.length - 1].indexId) {
-                    break;
-                }
+                if (pic_data.length == 0) break;
+                if (end_index != pic_data[pic_data.length - 1].indexId) break;
                 var imgstr = "/getImg/" + list[i].indexId;
                 create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
                 end_index = data.list[i].indexId;
