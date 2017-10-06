@@ -1,8 +1,8 @@
 var socket = io.connect(window.location.origin);
 
 socket.on('init', function(obj) {
-    console.log('has unchecked img' + obj.img);
-    console.log('has unread message' + obj.chatroom);
+    console.log('has unchecked img: ' + obj.img);
+    console.log('has unread message: ' + obj.chatroom);
 });
 
 /*
