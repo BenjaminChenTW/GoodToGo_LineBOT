@@ -30,6 +30,9 @@
 
 <script>
     var couponList = <%- JSON.stringify(couponList) %>;
+    if ($('#time').text() === '0'){
+        $('input#start').css('background-color', 'gray');
+    }
 </script>
 
 </html>

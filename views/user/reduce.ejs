@@ -36,41 +36,42 @@
     </body>
 
     <script>
-        $('p#unit_bottom').each(function () {
-            $(this).prop('Counter',0).animate({
-                Counter: $(this).text().slice(0, $(this).text().length - 2)
-            }, {
-                duration: 800,
-                easing: 'easeOutQuint',
-                step: function (now) {
-                    $(this).text(Math.ceil(now) + " 個");
-                }
+        $(document).ready(function(){
+            $('p#unit_bottom').each(function () {
+                $(this).prop('Counter',0).animate({
+                    Counter: $(this).text().slice(0, $(this).text().length - 2)
+                }, {
+                    duration: 800,
+                    easing: 'easeOutQuint',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now) + " 個");
+                    }
+                });
             });
-        });
 
-        $('#amount').each(function () {
-            $(this).prop('Counter',0).animate({
-                Counter: $(this).text()
-            }, {
-                duration: 800,
-                easing: 'easeOutQuint',
-                step: function (now) {
-                    $(this).text(now.toFixed(3));
-                }
+            $('#amount').each(function () {
+                $(this).prop('Counter',0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 800,
+                    easing: 'easeOutQuint',
+                    step: function (now) {
+                        $(this).text(now.toFixed(3));
+                    }
+                });
             });
-        });
 
-        $('#total_amount').each(function () {
-            $(this).prop('Counter',0).animate({
-                Counter: $(this).text()
-            }, {
-                duration: 800,
-                easing: 'easeOutQuint',
-                step: function (now) {
-                    $(this).text(Math.ceil(now));
-                }
+            $('#total_amount').each(function () {
+                $(this).prop('Counter',0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 800,
+                    easing: 'easeOutQuint',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
             });
         });
     </script>
-
 </html>
