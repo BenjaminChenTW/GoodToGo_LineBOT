@@ -1122,8 +1122,10 @@ a.href:active {
     background-color: red;
 
     position: absolute;
-    right: 6pt;
-    top: 0;
+    right: 3.5pt;
+    top: calc(50% - 2.5pt);
     
+    z-index: 100;
+
     box-shadow: 1px 1px rgba(0, 0, 0, 0.4);
 }
