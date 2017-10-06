@@ -68,7 +68,7 @@ socket.on('pop', function(object) {
 
     console.log('pop: ' + index + ' remain: ' + remain);
 
-    if (remain == '0') {
+    if (remain) {
         document.getElementById('checkimg').style.display = 'block';
     }
 
