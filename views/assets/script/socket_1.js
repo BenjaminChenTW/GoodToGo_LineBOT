@@ -57,10 +57,10 @@ socket.on('pop', function(object) {
         return;
     }
 
-    console.log('pop: ' + index);
-
     var index = object.index;
     var remain = object.remain;
+
+    console.log('pop: ' + index + ' remain: ' + remain);
 
     if (remain == '0') {
         document.getElementById('checkimg').style.display = 'block';
