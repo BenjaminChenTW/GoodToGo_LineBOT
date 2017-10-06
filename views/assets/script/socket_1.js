@@ -36,11 +36,17 @@ socket.on('add', function(index) {
         dataType: 'JSON',
         success: function(data) {
             let list = data.list;
-            console.log('add success')
+
             for (var i = 0; i < list.length; i++) {
                 if ((index - end_index + pic_data.length + i) > 20) {
                     break;
                 }
+                var imgstr = "/getImg/" + list[i].indexId;
+                create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
+                end_index = data.list[i].indexId;
+            }
+
+            if (list.length == 0) {
                 var imgstr = "/getImg/" + list[i].indexId;
                 create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
                 end_index = data.list[i].indexId;
