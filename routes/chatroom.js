@@ -64,8 +64,8 @@ router.post('/terminateSession/:id', function(req, res, next) {
 
 router.post('/changestatus', function(req, res, next) {
     global._online = !global._online;
-    console.log = global._online
-    res.json({ online: global._online });
+    global.aEvent.emit('changeStatus', global._online);
+    res.status(200).end();
 });
 
 module.exports = {
@@ -84,5 +84,8 @@ module.exports = {
     },
     getMsg: function(io, userId, userName, imgUrl, msg, type = 'customer') {
         io.emit('user', { user: userId, name: userName, imgUrl: imgUrl, type: type, msg: msg });
+    },
+    changeStatus: function(io, result) {
+        io.emit('status', { result: result });
     }
 };

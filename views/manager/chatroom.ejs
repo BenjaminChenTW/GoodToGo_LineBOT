@@ -294,20 +294,21 @@
         })
     })
 
+    socket.on('status', function(obj){
+        if (obj.result) {
+            btn.textContent = '上線中';
+            btn.style.backgroundColor = 'green';
+        } else {
+            btn.textContent = '已離線'
+            btn.style.backgroundColor = 'red';
+        }
+    });
+
     function change_status(btn) {
         $.ajax({
             url: '/chatroom/changestatus',
             type: 'POST',
-            success: function(data){
-                if (data.online) {
-                    btn.textContent = '上線中';
-                    btn.style.backgroundColor = 'green';
-                } else {
-                    btn.textContent = '已離線'
-                    btn.style.backgroundColor = 'red';
-                }
-            }
-        })
+            success: function(){}});
     }
 
     load_customers();

@@ -85,6 +85,9 @@ global.aEvent = new EventEmitter();
 global.aEvent.on('getMsg', function(userId, userName, imgUrl, msg) {
     chatroom.getMsg(io, userId, userName, imgUrl, msg);
 });
+global.aEvent.on('changeStatus', function(result) {
+    chatroom.changeStatus(io, result);
+});
 global.imgEvent = new EventEmitter();
 global.imgEvent.on('addImg', function(index) {
     imgCheck.addEvent(io, index);
