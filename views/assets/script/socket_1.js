@@ -103,7 +103,8 @@ socket.on('server', function(obj) {
         switch (obj.statusCode) {
             case 0:
                 console.log('chatroom: ' + obj.statusCode);
-                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
+
+                if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話' && !(obj.unread)) {
                     document.getElementById('chatroom').style.display = 'none';
                     return;
                 }
