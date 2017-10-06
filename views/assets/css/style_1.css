@@ -1081,14 +1081,14 @@ End of lottery record page
 }
 
 .default_text {
-    width: auto;
+    width: 100%;
     display: inline-block;
     position: fixed;
     top: calc(50vh - 25px);
     margin: 0 auto;
+    left: 0;
     color: #888;
     text-align: center;
-    left: calc(50vw - 88px);
     font-size: 22px;
 }
 
