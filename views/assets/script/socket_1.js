@@ -36,7 +36,7 @@ socket.on('add', function(index) {
         dataType: 'JSON',
         success: function(data) {
             let list = data.list;
-
+            console.log('add success')
             for (var i = 0; i < list.length; i++) {
                 if ((index - end_index + pic_data.length + i) > 20) {
                     break;
@@ -57,7 +57,7 @@ socket.on('pop', function(object) {
         return;
     }
 
-    console.log('pop: ' + index);    
+    console.log('pop: ' + index);
 
     var index = object.index;
     var remain = object.remain;
