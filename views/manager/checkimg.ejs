@@ -65,65 +65,6 @@
         var lastIndex = <%- JSON.stringify(lastIndex) %>;
         document.title += " - 照片審核";
         
-        var socket = io.connect(window.location.origin);
-        socket.on('server', function(obj){
-            console.log('msg: ' + obj.msg);
-        });
-        socket.on('add', function(index){
-            console.log('add: ' + index);
-
-            if (index <= end_index) {
-                return;
-            }
-            
-            $.ajax({
-                url: '/img/' + index,
-                type: 'GET',
-                dataType: 'JSON',
-                success: function(data){
-                    let list = data.list;
-
-                    for (var i = 0 ; i < list.length ; i++) {
-                        if ((index - end_index + pic_data.length + i) > 20) {
-                            break;
-                        }
-                        var imgstr = "/getImg/" + list[i].indexId;
-                        create_pic('back', data.list[i].indexId, imgstr, list[i].userName, list[i].uploadTime, list[i].ignoreButton);
-                        end_index = data.list[i].indexId;
-                    }
-
-                    pic_data = pic_data.concat(list);
-                }
-            });
-        });
-
-        socket.on('pop', function(index){
-            console.log('pop: ' + index);
-
-            var pics = document.getElementsByClassName('container')
-            var gallery = document.getElementById('picture_view');
-
-            for (var i = 0 ; i < pics.length ; i++) {
-                if (pics[i].firstChild.firstChild.getAttribute('indexId') == index) {
-                    gallery.removeChild(pics[i]);
-                    break;
-                }
-            }
-
-            for (var i = 0 ; i < pic_data.length ; i++ ) {
-                if (pic_data[i].indexId == index) {
-                    pic_data.splice(i, 1);
-                    break;
-                }
-            }
-
-            if ($('.container').length == 0) {
-                $('.default_text')[0].innerHTML = '已經審核完全部照片了噢～';
-            } else {
-                $('.default_text')[0].innerHTML = '請點選照片以審核';
-            }
-        });
-
         load_pic_data(lastIndex);
 
         $( "#picture_view" ).on( "scroll", function() {
