@@ -45,11 +45,13 @@
     </div>
     <script>
         var userId = <%-"'" + userId + "'"%>;
+        var hasCoupon = fasle;
 
-        if (!$('#user_coupons').firstChild) {
+        if (!hasCoupon) {
             var list_view = document.getElementById('main_list_view');
             var new_text = document.createElement('p');
-            new_text.textContent = '您目前還沒有兌換券呦～';
+            new_text.setAttribute('id','default');
+            new_text.textContent = '您目前還沒抽中任何獎品，趕快拍下您在爵士音樂節的無痕飲食行動照片，就有機會獲得獎品哦！';
             list_view.insertBefore(new_text, list_view.firstChild);
         }
 
@@ -92,7 +94,6 @@
             document.getElementById('redeem_page').style.display = 'none';
             document.getElementById('main_list_view').style.display = 'block';
 
-            // document.getElementById('main_nav').textContent = '我的獎品兌換券';
             btn.style.display = 'none';
 
         };
