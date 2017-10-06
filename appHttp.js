@@ -110,9 +110,7 @@ app.use(favicon(path.join(__dirname, 'views/assets', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/assets', express.static(path.join(__dirname, 'views/assets'), {
-    maxAge: 60 * 60 * 24
-}));
+app.use('/assets', express.static(path.join(__dirname, 'views/assets')));
 
 /**
  * Status Monitir init
