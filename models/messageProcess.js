@@ -95,7 +95,7 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'notify event.source', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (!user.notify) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
+            if (!user.notify || user === undefined) returnStr += "若需聯絡客服，請按聯絡客服鍵。";
             if (global._online === false) returnStr += '我們將於上線時回復您的訊息！';
             if (user) {
                 var displayName = user.event.source.displayName;
