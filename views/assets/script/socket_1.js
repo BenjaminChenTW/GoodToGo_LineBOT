@@ -1,16 +1,14 @@
 var socket = io.connect(window.location.origin);
-var socket = io.connect('bot.goodtogo.tw');
 
 socket.on('init', function(obj) {
-    console.log('has unchecked img' + obj.img);
-    console.log('has unread message' + obj.chatroom);
+    console.log('has unchecked img: ' + obj.img);
+    console.log('has unread message: ' + obj.chatroom);
     if (obj.img) {
         if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
             document.getElementById('checkimg').style.display = 'block';
         }
     }
-
-    if(obj.chatroom) {
+    if (obj.chatroom) {
         if (document.getElementsByClassName('active')[0].firstChild.textContent != '對話') {
             document.getElementById('chatroom').style.display = 'block';
         }

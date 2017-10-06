@@ -11,6 +11,7 @@ function regularHandlerCallback(message, user, returnStr, callback) {
     message.event.source['displayName'] = user.displayName;
     message.event.source['pictureUrl'] = user.pictureUrl;
     message['notify'] = user.isNotify;
+    message['read'] = user.read;
     message.save(function(err) {
         if (err) return callback(false, message.event.replyToken);
         return callback(true, message.event.replyToken, returnStr);
@@ -103,7 +104,8 @@ module.exports = {
                 regularHandlerCallback(message, {
                     displayName: displayName,
                     pictureUrl: pictureUrl,
-                    isNotify: user.notify
+                    isNotify: user.notify,
+                    read: (!user.notify)
                 }, returnStr, callback);
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
@@ -119,6 +121,7 @@ module.exports = {
                     }
                     var resData = JSON.parse(body);
                     resData.isNotify = false;
+                    resData.read = true;
                     regularHandlerCallback(message, resData, returnStr, callback);
                 });
             }
