@@ -62,7 +62,8 @@ router.get('/coupons/:userId', function(req, res, next) {
                     sponsor: prizeList[coupons[i].prizeType].sponsor
                 });
             }
-            res.render('user/coupons', { userId: userId, select: -1, list: renderList });
+            var isEmpty = (renderList.length == 0) ? true : false;
+            res.render('user/coupons', { userId: userId, select: -1, list: renderList, isEmpty: isEmpty });
         });
     });
 });
