@@ -51,12 +51,20 @@ socket.on('add', function(index) {
     });
 });
 
-socket.on('pop', function(index) {
+socket.on('pop', function(object) {
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         document.getElementById('checkimg').style.display = 'block';
         return;
     }
-    console.log('pop: ' + index);
+
+    console.log('pop: ' + index);    
+
+    var index = object.index;
+    var remain = object.remain;
+
+    if (remain == '0') {
+        document.getElementById('checkimg').style.display = 'block';
+    }
 
     var pics = document.getElementsByClassName('container')
     var gallery = document.getElementById('picture_view');
