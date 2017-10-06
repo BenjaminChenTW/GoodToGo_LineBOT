@@ -58,18 +58,16 @@ socket.on('add', function(index) {
 });
 
 socket.on('pop', function(object) {
+    var index = object.index;
+    var remain = object.remain;
+    console.log('pop: ' + index + ' remain: ' + remain);
+    if (remain) {
+        document.getElementById('checkimg').style.display = 'none';
+        return;
+    }
     if (document.getElementsByClassName('active')[0].firstChild.textContent != '審核') {
         document.getElementById('checkimg').style.display = 'block';
         return;
-    }
-
-    var index = object.index;
-    var remain = object.remain;
-
-    console.log('pop: ' + index + ' remain: ' + remain);
-
-    if (remain) {
-        document.getElementById('checkimg').style.display = 'block';
     }
 
     var pics = document.getElementsByClassName('container')
