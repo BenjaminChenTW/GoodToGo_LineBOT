@@ -283,13 +283,14 @@ module.exports = {
                     "label": "開始抽獎！",
                     "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
                 });
+                sended();
                 templateSendlerCallback(lineUserId, {
                     altText: altText,
                     thumbnailImageUrl: thumbnailImageUrl,
                     title: title,
                     text: text,
                     actions: actions
-                }, sended);
+                }, () => {});
             });
         } else {
             if (!isWin) {
@@ -304,13 +305,14 @@ module.exports = {
                 "label": "兌換",
                 "uri": "https://bot.goodtogo.tw/lottery/coupons/" + lineUserId + "/" + couponId
             });
+            sended();
             templateSendlerCallback(lineUserId, {
                 altText: altText,
                 thumbnailImageUrl: thumbnailImageUrl,
                 title: title,
                 text: text,
                 actions: actions
-            }, sended);
+            }, function() {});
         }
     }
 };
