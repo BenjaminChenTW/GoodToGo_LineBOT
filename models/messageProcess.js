@@ -164,7 +164,15 @@ module.exports = {
         });
     },
     normalHandler: function(route, event, callback) {
-        var returnStr = "https://bot.goodtogo.tw/" + route + '/' + event.source.userId;
+        if (route === 'usage') {
+            var url = "https://bot.goodtogo.tw/assets/icon/BotUsage.jpg";
+        } else if (route === 'lottery/coupons') {
+            var url = "https://bot.goodtogo.tw/assets/icon/BotCoupon.jpg";
+        }
+        var returnStr = {
+            url: url,
+            msg: ("https://bot.goodtogo.tw/" + route + '/' + event.source.userId)
+        };
         message = new Message();
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {

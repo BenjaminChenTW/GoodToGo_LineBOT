@@ -13,9 +13,9 @@ module.exports = {
             if (event.message.text === "聯絡客服") {
                 contactHandler(event, buttonsReply);
             } else if (event.message.text === "我們的環境貢獻") {
-                normalHandler('usage', event, textReply);
+                normalHandler('usage', event, imagemapReply);
             } else if (event.message.text === "我的獎品兌換券") {
-                normalHandler('lottery/coupons', event, textReply);
+                normalHandler('lottery/coupons', event, imagemapReply);
             } else {
                 textHandler(event, textReply);
             }
@@ -87,3 +87,34 @@ function buttonsReply(success, replyToken, message) {
         debug(JSON.stringify(err.originalError.response.data));
     });
 };
+
+function imagemapReply(success, replyToken, message) {
+    var echo = {};
+    if (!success) {
+        echo = { type: 'text', text: '伺服器維修中...請聯繫客服或再嘗試一次！' };
+    } else {
+        echo = {
+            "type": "imagemap",
+            "baseUrl": message.url,
+            "altText": "資料準備好囉，點我看資訊~",
+            "baseSize": {
+                "height": 1040,
+                "width": 1040
+            },
+            "actions": [{
+                "type": "uri",
+                "linkUri": message.msg,
+                "area": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1040,
+                    "height": 1040
+                }
+            }]
+        };
+    }
+    return client.replyMessage(replyToken, echo).catch((err) => {
+        debug(JSON.stringify(err.originalError.response.config.data));
+        debug(JSON.stringify(err.originalError.response.data));
+    });
+}
