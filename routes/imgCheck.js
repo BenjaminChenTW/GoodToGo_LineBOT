@@ -46,7 +46,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
         Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
             if (err) return res.status(403).end();
             if (message) {
-                funcList = [];
+                var funcList = [];
                 for (var i = 0; i < amount; i++) {
                     funcList.push(
                         new Promise((resolve, reject) => {
@@ -77,6 +77,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                                 return res.status(402).end();
                             }
                         }
+                        // console.log('pass')
                         templateSendler(message.event.source.userId, function() {
                             message.img.checked = true;
                             message.img.checkStatus.amount = {
