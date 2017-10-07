@@ -183,6 +183,7 @@ function submit() {
             type: 'POST',
             data: obj,
             dataType: 'application/json; charset=utf-8',
+            timeout: 10000,
             success: function() {
                 console.log('success');
 
