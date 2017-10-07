@@ -11,6 +11,19 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
     prizeList = JSON.parse(data);
 });
 
+router.get('/msg/:id/:res', function(req, res, next) {
+    var index = req.params.id;
+    fs.readFile("./views/assets/image/" + index + ".jpg", function(err, data) {
+        if (err) {
+            res.status(404).end();
+        } else {
+            res.set('Cache-Control', 'public, max-age=0');
+            res.write(data, 'binary');
+            res.end(null, 'binary');
+        }
+    });
+});
+
 router.get('/poster/:id', function(req, res, next) {
     var index = req.params.id;
     fs.readFile("./views/assets/image/" + index + ".png", 'base64', function(err, data) {
