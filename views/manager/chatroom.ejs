@@ -109,7 +109,7 @@
         }
     });
 
-    function create_customer_list(name, src, userId, text, time, status) {
+    function create_customer_list(name, src, userId, text, time, status, pos) {
         var new_li = document.createElement('li');
         var new_a = document.createElement('a');
         var new_span = document.createElement('span');
@@ -139,7 +139,11 @@
         new_a.appendChild(new_p_time);
         new_li.appendChild(new_a);
 
-        document.getElementById('customers_list').insertBefore(new_li,0);
+        if (pos == 'front'){
+            document.getElementById('customers_list').insertBefore(new_li,document.getElementById('customers_list').firstChild);
+        }else{
+            document.getElementById('customers_list').appendChild(new_li);
+        }
 
         if (selected_customer != undefined) {
             if (selected_customer.getAttribute('customerId') == userId) {

@@ -233,7 +233,7 @@ socket.on('user', function(obj) {
     }
 
     if (!isUpdated) {
-        create_customer_list(obj.name, obj.imgUrl, obj.user, obj.msg, custom_date(new Date(), true), 'unread');
+        create_customer_list(obj.name, obj.imgUrl, obj.user, obj.msg, custom_date(new Date(), true), 'unread','front');
     }
 
     console.log('user: ' + obj.user)
