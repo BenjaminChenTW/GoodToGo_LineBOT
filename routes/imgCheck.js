@@ -16,6 +16,7 @@ var hasUnchecked = require('../models/imgProcess.js').checkUnckecked;
 var couponIndex = 0;
 Coupon.findOne({}, 'couponId', { sort: { 'couponId': -1 } }, function(err, coupon) {
     if (coupon) couponIndex = coupon.couponId + 1;
+    debug(couponIndex)
 });
 
 router.get('/', function(req, res, next) {
