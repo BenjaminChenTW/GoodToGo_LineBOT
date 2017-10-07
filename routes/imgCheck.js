@@ -87,7 +87,10 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                             };
                             message.img.checkStatus.checkTime = Date.now();
                             message.save((err) => {
-                                if (err) return debug('2: ' + JSON.stringify(err));
+                                if (err) {
+                                    res.status(403).end();
+                                    return debug('2: ' + JSON.stringify(err));
+                                }
                                 global.imgEvent.emit('popImg', picIndex);
                                 res.status(200).end();
                             });
