@@ -16,7 +16,7 @@ var hasUnchecked = require('../models/imgProcess.js').checkUnckecked;
 var couponIndex = 0;
 Coupon.findOne({}, 'couponId', { sort: { 'couponId': -1 } }, function(err, coupon) {
     if (coupon) couponIndex = coupon.couponId + 1;
-    debug(couponIndex)
+    // debug(couponIndex)
 });
 
 router.get('/', function(req, res, next) {
@@ -94,7 +94,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                                 global.imgEvent.emit('popImg', picIndex);
                                 res.status(200).end();
                             });
-                        }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
+                        }, false, picIndex, ("容器-" + container + " 袋子-" + bag + " 餐具-" + tableware));
                     })
                     .catch((err) => {
                         debug(err);
