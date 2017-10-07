@@ -92,7 +92,10 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                             });
                         }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => {
+                        debug(err);
+                        return res.status(403).end();
+                    });
             } else {
                 res.status(402).end();
             }
