@@ -209,6 +209,10 @@ socket.on('user', function(obj) {
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].setAttribute('status', 'unread');
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].setAttribute('status', 'unread');
                 document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].setAttribute('status', 'unread');
+            } else if (type == 'manager') {
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].removeAttribute('status');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[2].childNodes[1].removeAttribute('status');
+                document.getElementById('customers_list').childNodes[i].firstChild.childNodes[3].removeAttribute('status');
             }
 
             document.getElementById('customers_list').insertBefore(document.getElementById('customers_list').childNodes[i], document.getElementById('customers_list').firstChild);
