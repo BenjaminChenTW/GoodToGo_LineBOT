@@ -42,58 +42,60 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
     if (!(picIndex && container && bag && tableware)) return res.status(404).end();
     var amount = parseInt(container) + parseInt(bag) + parseInt(tableware);
     if (amount <= 0) return res.status(402).end();
-    Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
-        if (message) {
-            funcList = [];
-            for (var i = 0; i < amount; i++) {
-                funcList.push(
-                    new Promise((resolve, reject) => {
-                        lottery(function(isWin, rank, name) {
-                            coupon = new Coupon();
-                            coupon.userId = message.event.source.userId;
-                            coupon.userName = message.event.source.displayName;
-                            coupon.picIndex = picIndex;
-                            coupon.couponId = couponIndex++;
-                            coupon.prizeType = rank;
-                            coupon.prizeName = name;
-                            coupon.isWin = isWin;
-                            coupon.save((err) => {
-                                if (err) return reject(err);
-                                resolve();
+    process.nextTick(function() {
+        Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
+            if (message) {
+                funcList = [];
+                for (var i = 0; i < amount; i++) {
+                    funcList.push(
+                        new Promise((resolve, reject) => {
+                            lottery(function(isWin, rank, name) {
+                                coupon = new Coupon();
+                                coupon.userId = message.event.source.userId;
+                                coupon.userName = message.event.source.displayName;
+                                coupon.picIndex = picIndex;
+                                coupon.couponId = couponIndex++;
+                                coupon.prizeType = rank;
+                                coupon.prizeName = name;
+                                coupon.isWin = isWin;
+                                coupon.save((err) => {
+                                    if (err) return reject(err);
+                                    resolve();
+                                });
                             });
-                        });
-                    })
-                );
-            }
-            Promise
-                .all(funcList)
-                .then((err) => {
-                    saveFile();
-                    for (var i = 0; i < err.length; i++) {
-                        if (err[i]) {
-                            debug('1: ' + JSON.stringify(err));
-                            return res.status(402).end();
+                        })
+                    );
+                }
+                Promise
+                    .all(funcList)
+                    .then((err) => {
+                        saveFile();
+                        for (var i = 0; i < err.length; i++) {
+                            if (err[i]) {
+                                debug('1: ' + JSON.stringify(err));
+                                return res.status(402).end();
+                            }
                         }
-                    }
-                    templateSendler(message.event.source.userId, function() {
-                        message.img.checked = true;
-                        message.img.checkStatus.amount = {
-                            container: container,
-                            bag: bag,
-                            tableware: tableware
-                        };
-                        message.img.checkStatus.checkTime = Date.now();
-                        message.save((err) => {
-                            if (err) return debug('2: ' + JSON.stringify(err));
-                            global.imgEvent.emit('popImg', picIndex);
-                            res.status(200).end();
-                        });
-                    }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
-                })
-                .catch((err) => console.log(err));
-        } else {
-            res.status(402).end();
-        }
+                        templateSendler(message.event.source.userId, function() {
+                            message.img.checked = true;
+                            message.img.checkStatus.amount = {
+                                container: container,
+                                bag: bag,
+                                tableware: tableware
+                            };
+                            message.img.checkStatus.checkTime = Date.now();
+                            message.save((err) => {
+                                if (err) return debug('2: ' + JSON.stringify(err));
+                                global.imgEvent.emit('popImg', picIndex);
+                                res.status(200).end();
+                            });
+                        }, false, picIndex, "容器 - " + container + " 袋子 - " + bag + " 餐具 - " + tableware);
+                    })
+                    .catch((err) => console.log(err));
+            } else {
+                res.status(402).end();
+            }
+        });
     });
 });
 
