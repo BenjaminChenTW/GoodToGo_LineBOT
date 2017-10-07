@@ -273,8 +273,11 @@ module.exports = {
         var actions = [];
         if (!couponContent) {
             Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
-                if (err) return debug(JSON.stringify(err));
-                console.log(amount)
+                if (err) {
+                    sended();
+                    return debug(JSON.stringify(err));
+                }
+                // console.log(amount)
                 altText = "好盒器傳給您抽獎券！";
                 thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId;
                 title = "抽獎券";
