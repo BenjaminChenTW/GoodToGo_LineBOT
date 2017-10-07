@@ -44,6 +44,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
     if (amount <= 0) return res.status(402).end();
     process.nextTick(function() {
         Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
+            if (err) return res.status(403).end();
             if (message) {
                 funcList = [];
                 for (var i = 0; i < amount; i++) {
