@@ -175,7 +175,7 @@ function submit() {
 
 
     var obj = {};
-    if (type == 'decline') {
+    if (para == 2) {
         var text = document.getElementById('other_reasons').value
         obj = { otherReason: text };
         $.ajax({
