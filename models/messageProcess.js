@@ -272,12 +272,12 @@ module.exports = {
         var text;
         var actions = [];
         if (!couponContent) {
-            Coupon.count({ "userId": lineUserId, "exchanged": false }, function(err, amount) {
+            Coupon.count({ "userId": lineUserId, "exchanged": false, "read": false }, function(err, amount) {
                 if (err) {
-                    sended();
+                    sended(err);
                     return debug(JSON.stringify(err));
                 }
-                // console.log(amount)
+                console.log("amount : " + amount)
                 altText = "好盒器傳給您抽獎券！";
                 thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId;
                 title = "抽獎券";
@@ -287,14 +287,13 @@ module.exports = {
                     "label": "開始抽獎！",
                     "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
                 });
-                sended();
                 templateSendlerCallback(lineUserId, {
                     altText: altText,
                     thumbnailImageUrl: thumbnailImageUrl,
                     title: title,
                     text: text,
                     actions: actions
-                }, () => {});
+                }, sended);
             });
         } else {
             if (!isWin) {
@@ -309,14 +308,13 @@ module.exports = {
                 "label": "兌換",
                 "uri": "https://bot.goodtogo.tw/lottery/coupons/" + lineUserId + "/" + couponId
             });
-            sended();
             templateSendlerCallback(lineUserId, {
                 altText: altText,
                 thumbnailImageUrl: thumbnailImageUrl,
                 title: title,
                 text: text,
                 actions: actions
-            }, function() {});
+            }, sended);
         }
     }
 };

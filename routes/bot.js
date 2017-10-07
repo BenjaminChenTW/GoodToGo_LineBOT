@@ -29,6 +29,7 @@ module.exports = {
         client.pushMessage(id, message)
             .then((res) => sended(name, imgUrl))
             .catch((err) => {
+                sended(err);
                 debug(JSON.stringify(err.originalError.response.config.data));
                 debug(JSON.stringify(err.originalError.response.data));
             });
