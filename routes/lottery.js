@@ -82,7 +82,7 @@ router.get('/coupons/:userId/:couponId', function(req, res, next) {
             renderList = [];
             var found = false;
             for (var i = 0; i < coupons.length; i++) {
-                if (coupons[i].couponId === couponId) found = true;
+                if (coupons[i].couponId === couponId && coupons[i].exchanged === false) found = true;
                 renderList.push({
                     used: (coupons[i].exchanged ? "used" : "unused"),
                     couponeId: "#" + coupons[i].couponId,
@@ -91,8 +91,7 @@ router.get('/coupons/:userId/:couponId', function(req, res, next) {
                     sponsor: prizeList[coupons[i].prizeType].sponsor
                 });
             }
-            console.log(found)
-            if (!found) return res.status(404).end();
+            if (!found || coupons.length === 0) return res.redirect('/lottery/coupons/' + userId);
             res.render('user/coupons', { userId: userId, select: couponId, list: renderList, isEmpty: false });
         });
     });
@@ -108,20 +107,10 @@ router.post('/exchange/:couponId', function(req, res, next) {
             coupon.exchangedTime = Date.now();
             coupon.save((err) => {
                 if (err) return debug(JSON.stringify(err));
-                // res.render('exchange', {
-                //     couponId: couponId,
-                //     type: coupon.prizeType,
-                //     couponContent: coupon.prizeName
-                // });
                 res.status(200).end();
             });
         } else {
             res.status(404).end();
-            // res.render('hasExchange', {
-            //     couponId: couponId,
-            //     type: coupon.prizeType,
-            //     couponContent: coupon.prizeName
-            // });
         }
     });
 });
@@ -153,13 +142,13 @@ recordRouter.get('/', function(req, res, next) {
                             getTime: coupons[i].readTime,
                             exchangedTime: coupons[i].exchangedTime
                         });
+                        prizeList[coupons[i].prizeType].amount++;
                         prizeList[coupons[i].prizeType].gotPrizeAmount =
                             (prizeList[coupons[i].prizeType].gotPrizeAmount ? (prizeList[coupons[i].prizeType].gotPrizeAmount + 1) : 1);
                         if (coupons[i].exchanged)
                             prizeList[coupons[i].prizeType].exchangedAmount =
                             (prizeList[coupons[i].prizeType].exchangedAmount ? (prizeList[coupons[i].prizeType].exchangedAmount + 1) : 1);
                     }
-                    prizeList[coupons[i].prizeType].amount++;
                     prizeList[coupons[i].prizeType].giveoutAmount =
                         (prizeList[coupons[i].prizeType].giveoutAmount ? (prizeList[coupons[i].prizeType].giveoutAmount + 1) : 1);
                 } else {
