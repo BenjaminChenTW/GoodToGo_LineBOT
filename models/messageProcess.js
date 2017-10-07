@@ -211,26 +211,27 @@ module.exports = {
                 if (user.notify) {
                     var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
                     var imgText = '使用者傳來一張圖片！\n' + imgUrl;
+
+                    imgMessage = new Message();
+                    imgMessage.event = {
+                        message: {
+                            text: imgText,
+                            type: 'text'
+                        },
+                        timestamp: Date.now(),
+                        source: {
+                            type: 'system',
+                            userId: event.source.userId,
+                            displayName: user.event.source.displayName,
+                            pictureUrl: user.event.source.pictureUrl
+                        }
+                    };
+                    imgMessage.read = true;
+                    imgMessage['notify'] = true;
+                    imgMessage.save(function(err) {
+                        if (err) debug(JSON.stringify(err));
+                    });
                 }
-                imgMessage = new Message();
-                imgMessage.event = {
-                    message: {
-                        text: imgText,
-                        type: 'text'
-                    },
-                    timestamp: Date.now(),
-                    source: {
-                        type: 'system',
-                        userId: event.source.userId,
-                        displayName: user.event.source.displayName,
-                        pictureUrl: user.event.source.pictureUrl
-                    }
-                };
-                imgMessage.read = true;
-                imgMessage['notify'] = true;
-                imgMessage.save(function(err) {
-                    if (err) debug(JSON.stringify(err));
-                });
 
                 function emitAEvent() {
                     global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
