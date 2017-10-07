@@ -98,8 +98,8 @@ function imagemapReply(success, replyToken, message) {
             "baseUrl": message.url,
             "altText": "資料準備好囉，點我看資訊~",
             "baseSize": {
-                "height": 1040,
-                "width": 1040
+                "height": 768,
+                "width": 1024
             },
             "actions": [{
                 "type": "uri",
@@ -107,8 +107,8 @@ function imagemapReply(success, replyToken, message) {
                 "area": {
                     "x": 0,
                     "y": 0,
-                    "width": 1040,
-                    "height": 1040
+                    "height": 768,
+                    "width": 1024
                 }
             }]
         };

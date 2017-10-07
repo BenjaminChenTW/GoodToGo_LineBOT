@@ -13,8 +13,9 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
 
 router.get('/msg/:id/:res', function(req, res, next) {
     var index = req.params.id;
-    fs.readFile("./views/assets/image/" + index + ".jpg", function(err, data) {
+    fs.readFile("./views/assets/image/" + index.slice(0, index.length - 1) + ".jpg", function(err, data) {
         if (err) {
+            console.log(err)
             res.status(404).end();
         } else {
             res.set('Cache-Control', 'public, max-age=0');

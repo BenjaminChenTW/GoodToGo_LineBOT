@@ -165,9 +165,9 @@ module.exports = {
     },
     normalHandler: function(route, event, callback) {
         if (route === 'usage') {
-            var url = "https://bot.goodtogo.tw/getImg/msg/BotUsage";
+            var url = "https://bot.goodtogo.tw/getImg/msg/BotUsage1";
         } else if (route === 'lottery/coupons') {
-            var url = "https://bot.goodtogo.tw/getImg/msg/BotCoupon";
+            var url = "https://bot.goodtogo.tw/getImg/msg/BotCoupon1";
         }
         var returnStr = {
             url: url,
