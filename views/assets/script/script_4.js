@@ -174,12 +174,9 @@ function submit() {
     request_url += type + '/' + id + '/' + para;
 
     var obj = {};
-    console.log(para)
-    console.log(typeof para)
     if (para === '2') {
         var text = document.getElementById('other_reasons').value
         obj = { otherReason: text };
-        console.log(obj)
         $.ajax({
             url: request_url,
             type: 'POST',
@@ -328,7 +325,7 @@ function showDialog(customer, customerId, customerName) {
     text_field.style.display = 'block';
 
     var nav_text = message_field.getElementsByTagName('nav')[0].getElementsByTagName('p')[0];
-    nav_text.textContent = customerName;
+    nav_text.textContent = customerName + " - " + customerId;;
 
     document.getElementById('default_words').style.display = 'none';
 
