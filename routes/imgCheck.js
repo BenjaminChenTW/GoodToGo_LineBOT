@@ -42,8 +42,10 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
     if (!(picIndex && container && bag && tableware)) return res.status(404).end();
     var amount = parseInt(container) + parseInt(bag) + parseInt(tableware);
     if (amount <= 0) return res.status(402).end();
+    debug(req.url + " : get");
     process.nextTick(function() {
         Message.findOne({ "img.id": picIndex, "img.checked": false }, 'event.source img.checked img.checkStatus', function(err, message) {
+            debug(req.url + " : first query");
             if (err) return res.status(403).end();
             if (message) {
                 var funcList = [];
@@ -70,6 +72,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                 Promise
                     .all(funcList)
                     .then((err) => {
+                        debug(req.url + " : promise all");
                         saveFile();
                         for (var i = 0; i < err.length; i++) {
                             if (err[i]) {
@@ -78,7 +81,12 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                             }
                         }
                         // console.log('pass')
-                        templateSendler(message.event.source.userId, function() {
+                        templateSendler(message.event.source.userId, function(err) {
+                            debug(req.url + " : temp. callback (send msg success)");
+                            if (err) {
+                                res.status(403).end();
+                                return debug('2: ' + JSON.stringify(err));
+                            }
                             message.img.checked = true;
                             message.img.checkStatus.amount = {
                                 container: container,
@@ -87,9 +95,10 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                             };
                             message.img.checkStatus.checkTime = Date.now();
                             message.save((err) => {
+                                debug(req.url + " : save");
                                 if (err) {
                                     res.status(403).end();
-                                    return debug('2: ' + JSON.stringify(err));
+                                    return debug('3: ' + JSON.stringify(err));
                                 }
                                 global.imgEvent.emit('popImg', picIndex);
                                 res.status(200).end();
