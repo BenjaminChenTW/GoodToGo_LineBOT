@@ -207,9 +207,11 @@ module.exports = {
         message.event = event;
         Message.findOne({ 'event.source.userId': event.source.userId }, 'event.source notify', { sort: { 'event.timestamp': -1 } }, function(err, user) {
             if (err) return debug(JSON.stringify(err));
-            if (user.notify) {
-                var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
-                var imgText = '使用者傳來一張圖片！\n' + imgUrl;
+            if (user) {
+                if (user.notify) {
+                    var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
+                    var imgText = '使用者傳來一張圖片！\n' + imgUrl;
+                }
                 imgMessage = new Message();
                 imgMessage.event = {
                     message: {
