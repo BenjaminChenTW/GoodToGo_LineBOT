@@ -93,7 +93,7 @@ router.get('/coupons/:userId/:couponId', function(req, res, next) {
             }
             console.log(found)
             if (!found) return res.status(404).end();
-            res.render('user/coupons', { userId: userId, select: couponId, select: couponId, list: renderList });
+            res.render('user/coupons', { userId: userId, select: couponId, list: renderList, isEmpty: false });
         });
     });
 });
