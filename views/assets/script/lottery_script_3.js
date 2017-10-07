@@ -40,9 +40,6 @@ function changeView(page) {
             .then(() => endView(obj));
     } else if (page === 0) {
         $('div').remove();
-        if ($('#time').text() === '0'){
-            $('input#start').css('background-color', 'gray');
-        }
         $('body').html('<div class="content">' +
             '<p id="first_part">您目前有抽獎機會</p>' +
             '<div class="top_icons">' +
@@ -58,11 +55,14 @@ function changeView(page) {
             '</div>' +
             '<input type="button" id="start" value="開始抽獎" onclick="changeView(1)">' +
             '</div>');
+        if ($('#time').text() === '0') {
+            $('input#start').css('background-color', 'gray');
+        }
     }
 }
 
 function endView(data) {
-   var htmlStr;
+    var htmlStr;
     htmlStr = (data.isWin) ?
         ('<div class="content">' +
             '<img id="gift" src="/assets/icon/gotPrize.png" alt="cannot load image">' + // 改成圖片

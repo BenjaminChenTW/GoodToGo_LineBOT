@@ -33,7 +33,7 @@ router.get('/:index', function(req, res, next) {
     });
 });
 
-router.post('/accept/:id/:container/:bag/:tableware', function(req, res, next) {
+router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
     var picIndex = req.params.id;
     var container = req.params.container;
     var bag = req.params.bag;
