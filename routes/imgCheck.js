@@ -14,7 +14,7 @@ var Coupon = require('../models/DB/couponDB.js');
 var hasUnchecked = require('../models/imgProcess.js').checkUnckecked;
 
 var couponIndex = 0;
-Coupon.findOne({}, 'couponId', { sort: { 'CouponId': -1 } }, function(err, coupon) {
+Coupon.findOne({}, 'couponId', { sort: { 'couponId': -1 } }, function(err, coupon) {
     if (coupon) couponIndex = coupon.couponId + 1;
 });
 
