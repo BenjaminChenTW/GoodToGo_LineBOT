@@ -82,7 +82,7 @@ router.get('/coupons/:userId/:couponId', function(req, res, next) {
             renderList = [];
             var found = false;
             for (var i = 0; i < coupons.length; i++) {
-                if (coupons[i].couponId === couponId) found = true;
+                if (coupons[i].couponId === couponId && coupons[i].exchanged === false) found = true;
                 renderList.push({
                     used: (coupons[i].exchanged ? "used" : "unused"),
                     couponeId: "#" + coupons[i].couponId,
