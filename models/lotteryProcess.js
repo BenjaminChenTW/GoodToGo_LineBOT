@@ -41,6 +41,7 @@ module.exports = {
                 return callback(false, rank, prizeList[rank].name);
             }
         }
+        callback(false, rank, prizeList[rank].name)
     },
     saveFile: function() {
         saveFile(prizeList);
