@@ -211,7 +211,6 @@ module.exports = {
                 if (user.notify) {
                     var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
                     var imgText = '使用者傳來一張圖片！\n' + imgUrl;
-
                     imgMessage = new Message();
                     imgMessage.event = {
                         message: {
@@ -229,20 +228,19 @@ module.exports = {
                     imgMessage.read = true;
                     imgMessage['notify'] = true;
                     imgMessage.save(function(err) {
-                        if (err) debug(JSON.stringify(err));
+                        if (err) {
+                            callback(false, event.replyToken);
+                            return debug(JSON.stringify(err));
+                        }
+                        imgHandlerCallback(message, {
+                            displayName: user.event.source.displayName,
+                            pictureUrl: user.event.source.pictureUrl,
+                            isNotify: user.notify
+                        }, event, callback, function() {
+                            global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
+                        });
                     });
                 }
-
-                function emitAEvent() {
-                    global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
-                };
-            }
-            if (user) {
-                imgHandlerCallback(message, {
-                    displayName: user.event.source.displayName,
-                    pictureUrl: user.event.source.pictureUrl,
-                    isNotify: user.notify
-                }, event, callback, emitAEvent);
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
                     'auth': { 'bearer': config.bot.channelAccessToken }
