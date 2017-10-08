@@ -130,7 +130,9 @@ recordRouter.get('/', function(req, res, next) {
             var dateArr = [];
             var keys = Object.keys(prizeList);
             var nowTime = new Date();
-            var checkPointTime = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate(), -8, 0, 0, 0);
+            console.log(nowTime)
+            var checkPointTime = new Date(nowTime.getFullYear(), nowTime.getMonth(), nowTime.getDate(), 0, 0, 0, 0);
+            console.log(checkPointTime)
             for (var i = 0; i < coupons.length; i++) {
                 if (checkPointTime < coupons[i].logTime) {
                     if (coupons[i].isWin || coupons[i].prizeType === 'N') {
@@ -177,6 +179,8 @@ recordRouter.get('/', function(req, res, next) {
                     odds: Math.floor(prizeList[keys[i]].gotPrizeAmount / prizeList[keys[i]].giveoutAmount * 100) || 0
                 });
             }
+            console.log(prizeArr)
+            console.log(dateArr)
             res.render('manager/lotteryRecord', {
                 dateArr: dateArr,
                 prizeArr: prizeArr,
