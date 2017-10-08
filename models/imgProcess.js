@@ -35,9 +35,10 @@ module.exports = {
         } else {
             query = { 'event.message.type': 'image', 'img.checked': checked, 'read': false, 'img.id': { '$gte': index } };
         }
-        Message.find(query, 'img.checkStatus img.checked img.id event notify', { sort: { 'img.id': 1 } }, function(err, messages) {
+        Message.find(query, 'img.checkStatus img.checked img.id event notify', function(err, messages) {
             if (err) return next(err);
             if (!messages) return callback([]);
+            messages.sort(function(a, b) { return a.id - b.id });
             var list = [];
             for (var i = 0; i < messages.length; i++) {
                 list.push(getListObj(messages[i]));
