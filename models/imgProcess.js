@@ -38,7 +38,7 @@ module.exports = {
         Message.find(query, 'img.checkStatus img.checked img.id event notify', function(err, messages) {
             if (err) return next(err);
             if (!messages) return callback([]);
-            messages.sort(function(a, b) { return a.id - b.id });
+            messages.sort(function(a, b) { return a.img.id - b.img.id });
             var list = [];
             for (var i = 0; i < messages.length; i++) {
                 list.push(getListObj(messages[i]));
