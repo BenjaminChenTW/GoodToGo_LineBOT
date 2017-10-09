@@ -240,6 +240,12 @@ module.exports = {
                             global.aEvent.emit('getMsg', event.source.userId, user.event.source.displayName, imgUrl, imgText, 'system');
                         });
                     });
+                } else {
+                    imgHandlerCallback(message, {
+                        displayName: user.event.source.displayName,
+                        pictureUrl: user.event.source.pictureUrl,
+                        isNotify: user.notify
+                    }, event, callback);
                 }
             } else {
                 request('https://api.line.me/v2/bot/profile/' + event.source.userId, {
