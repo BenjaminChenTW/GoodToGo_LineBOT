@@ -36,7 +36,7 @@
     </body>
 
     <script>
-        $(document).ready(function(){
+        window.onload = function(){
             $('p#unit_bottom').each(function () {
                 $(this).prop('Counter',0).animate({
                     Counter: $(this).text().slice(0, $(this).text().length - 2)
@@ -72,6 +72,6 @@
                     }
                 });
             });
-        });
+        };
     </script>
 </html>
