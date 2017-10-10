@@ -13,7 +13,6 @@ fs.readFile("./config/prize.json", 'utf8', function(err, data) {
             i--;
         }
     }
-    console.log(prizeList.rank)
     debug("Prize init!");
 });
 
