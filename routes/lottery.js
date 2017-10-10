@@ -124,7 +124,7 @@ recordRouter.get('/', function(req, res, next) {
             amount: 0,
             name: '獎品已全數發出'
         };
-        Coupon.find({}, {}, { sort: { 'prizeType': 1, 'logTime': -1 } }, function(err, coupons) {
+        Coupon.find({}, {}, { sort: { 'logTime': -1 } }, function(err, coupons) {
             var resultList = [];
             var prizeArr = [];
             var dateArr = [];
@@ -135,7 +135,7 @@ recordRouter.get('/', function(req, res, next) {
             // console.log(checkPointTime)
             for (var i = 0; i < coupons.length; i++) {
                 if (checkPointTime < coupons[i].logTime) {
-                    if (coupons[i].isWin || coupons[i].prizeType === 'N') {
+                    if (coupons[i].isWin || coupons[i].prizeType === 'Z') {
                         resultList.push({
                             type: coupons[i].prizeType,
                             name: coupons[i].userName,
@@ -154,7 +154,7 @@ recordRouter.get('/', function(req, res, next) {
                     prizeList[coupons[i].prizeType].giveoutAmount =
                         (prizeList[coupons[i].prizeType].giveoutAmount ? (prizeList[coupons[i].prizeType].giveoutAmount + 1) : 1);
                 } else {
-                    if (coupons[i].isWin || coupons[i].prizeType === 'N') {
+                    if (coupons[i].isWin || coupons[i].prizeType === 'Z') {
                         resultList.push({
                             type: coupons[i].prizeType,
                             name: coupons[i].userName,

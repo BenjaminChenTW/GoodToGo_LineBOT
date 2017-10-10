@@ -52,7 +52,7 @@ router.post('/accept/:id/:bag/:container/:tableware', function(req, res, next) {
                 for (var i = 0; i < amount; i++) {
                     funcList.push(
                         new Promise((resolve, reject) => {
-                            lottery(function(isWin, rank, name) {
+                            lottery(amount, message.event.source.userId, picIndex, function(isWin, rank, name) {
                                 coupon = new Coupon();
                                 coupon.userId = message.event.source.userId;
                                 coupon.userName = message.event.source.displayName;
