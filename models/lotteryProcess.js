@@ -67,11 +67,10 @@ module.exports = {
         } else { // 使用者抽獎紀錄已被記錄到變數
             list = userRecord[userId];
             for (var i = 0; i < list.length; i++) {
-                if (list[i].picIndex === picIndex) {
-                    if (list[i].prizeType === rank)
-                        return callback(false, rank, prizeList[rank].name);
+                if (list[i].picIndex === picIndex)
                     thisAmount++;
-                }
+                if (list[i].prizeType === rank)
+                    return callback(false, rank, prizeList[rank].name);
             }
             if (prizeList[rank].amount > 0 && thisAmount < (totalAmount / 2)) {
                 var winProb = Math.random();
