@@ -154,12 +154,10 @@
     }
 
     $('#customers_list').on('scroll', function(){
-        if (this.scrollHeight - this.scrollTop !== (this.clientHeight - 5)) {
+        if ((this.scrollHeight - this.scrollTop) > (this.clientHeight + 5)) {
             return;
         }
-
         load_customers();
-
     })
 
     function load_customers(start_index) {
