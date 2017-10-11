@@ -154,7 +154,7 @@
     }
 
     $('#customers_list').on('scroll', function(){
-        if (this.scrollHeight - this.scrollTop !== this.clientHeight) {
+        if (this.scrollHeight - this.scrollTop !== (this.clientHeight + 5)) {
             return;
         }
 
@@ -250,7 +250,7 @@
             console.log('scrolling', event.target);
             return;
         }
-        if (event.target.scrollTop == 0) {
+        if (event.target.scrollTop == 5) {
             var scroll_pos = event.target.scrollHeight - event.target.scrollTop;
             var data = customer_message_data;
             for (var i = customer_msg_index+1; i < customer_msg_index + 31; i++) {

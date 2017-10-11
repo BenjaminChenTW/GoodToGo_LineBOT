@@ -69,7 +69,7 @@
         load_pic_data(lastIndex);
 
         $( "#picture_view" ).on( "scroll", function() {
-            if (this.scrollWidth - this.scrollLeft !== this.clientWidth) {  
+            if (this.scrollWidth - this.scrollLeft !== this.clientWidth + 5) {  
                 return;      
             }
             
