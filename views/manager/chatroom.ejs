@@ -154,13 +154,14 @@
     }
 
     $('#customers_list').on('scroll', function(){
-        if ((this.scrollHeight - this.scrollTop) > (this.clientHeight + 5)) {
+        if ((this.scrollHeight - Math.floor(this.scrollTop)) !== (this.clientHeight + 5)) {
             return;
         }
         load_customers();
     })
 
     function load_customers(start_index) {
+        console.log('load')
         var index = current_last_index;
         if (start_index != undefined) index = start_index; 
 
@@ -243,9 +244,10 @@
         }
     });
     var customer_msg_index;
-    document.addEventListener('scroll', function(event){console.log('scrolling');
+    document.addEventListener('scroll', function(event){
+        // console.log('scrolling');
         if (event.target.id !== 'message_ul') { // or any other filtering condition        
-            console.log('scrolling', event.target);
+            // console.log('scrolling', event.target);
             return;
         }
         if (event.target.scrollTop == 5) {
