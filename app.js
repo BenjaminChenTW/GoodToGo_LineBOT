@@ -39,7 +39,7 @@ var hasUnchecked = require('./models/imgProcess.js').checkUnckecked;
 // function httpRequest(req, res) {
 //     var pathname = url.parse(req.url).pathname;
 //     // redLog("HTTP request from" + req.connection.remoteAddress + " for " + pathname + " received.");
-//     res.writeHead(301, { Location: 'https://bot.goodtogo.tw' + pathname });
+//     res.writeHead(301, { Location: 'https://app.goodtogo.tw' + pathname });
 //     res.end();
 // }
 // http.createServer(httpRequest).listen(80);

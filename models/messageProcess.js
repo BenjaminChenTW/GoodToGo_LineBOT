@@ -165,13 +165,13 @@ module.exports = {
     },
     normalHandler: function(route, event, callback) {
         if (route === 'usage') {
-            var url = "https://bot.goodtogo.tw/getImg/msg/BotUsage1";
+            var url = "https://app.goodtogo.tw/getImg/msg/BotUsage1";
         } else if (route === 'lottery/coupons') {
-            var url = "https://bot.goodtogo.tw/getImg/msg/BotCoupon1";
+            var url = "https://app.goodtogo.tw/getImg/msg/BotCoupon1";
         }
         var returnStr = {
             url: url,
-            msg: ("https://bot.goodtogo.tw/" + route + '/' + event.source.userId)
+            msg: ("https://app.goodtogo.tw/" + route + '/' + event.source.userId)
         };
         message = new Message();
         message.event = event;
@@ -209,7 +209,7 @@ module.exports = {
             if (err) return debug(JSON.stringify(err));
             if (user) {
                 if (user.notify) {
-                    var imgUrl = 'https://bot.goodtogo.tw/getImg/' + idIndex;
+                    var imgUrl = 'https://app.goodtogo.tw/getImg/' + idIndex;
                     var imgText = '使用者傳來一張圖片！\n' + imgUrl;
                     imgMessage = new Message();
                     imgMessage.event = {
@@ -283,13 +283,13 @@ module.exports = {
                 }
                 console.log("amount : " + amount)
                 altText = "好盒器傳給您抽獎券！";
-                thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/" + couponId;
+                thumbnailImageUrl = "https://app.goodtogo.tw/getImg/" + couponId;
                 title = "抽獎券";
                 text = "您的照片 #" + couponId + " 審核通過！\n審核結果：" + couponType + "\n目前您總共有" + amount + "次抽獎機會！";
                 actions.push({
                     "type": "uri",
                     "label": "開始抽獎！",
-                    "uri": "https://bot.goodtogo.tw/lottery/draw/" + lineUserId
+                    "uri": "https://app.goodtogo.tw/lottery/draw/" + lineUserId
                 });
                 templateSendlerCallback(lineUserId, {
                     altText: altText,
@@ -306,11 +306,11 @@ module.exports = {
             altText = "好盒器傳給您一張兌換券！";
             title = "兌換券 #" + couponId;
             text = "恭喜您抽中" + couponContent + "！"
-            thumbnailImageUrl = "https://bot.goodtogo.tw/getImg/prize/" + couponType;
+            thumbnailImageUrl = "https://app.goodtogo.tw/getImg/prize/" + couponType;
             actions.push({
                 "type": "uri",
                 "label": "兌換",
-                "uri": "https://bot.goodtogo.tw/lottery/coupons/" + lineUserId + "/" + couponId
+                "uri": "https://app.goodtogo.tw/lottery/coupons/" + lineUserId + "/" + couponId
             });
             templateSendlerCallback(lineUserId, {
                 altText: altText,
