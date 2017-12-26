@@ -36,7 +36,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl, config.dbOptions, function(err) {
     if (err) throw (err);
     debug('mongoDB connect succeed');
-    // require('./tmp/tmp')
+    // require('./tmp/tmp.2')
 });
 /**
  * EXPRESS init
@@ -49,7 +49,7 @@ var authMiddleWare = basicAuth(config.auth.user, config.auth.pwd);
 /**
  * Get port from environment and store in Express.
  */
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8008');
 app.set('port', port);
 
 /**

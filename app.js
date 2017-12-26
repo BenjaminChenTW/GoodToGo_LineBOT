@@ -36,14 +36,14 @@ var config = require('./config/config.js');
 var hasUnread = require('./models/chatroomProcess.js').checkUnRead;
 var hasUnchecked = require('./models/imgProcess.js').checkUnckecked;
 
-function httpRequest(req, res) {
-    var pathname = url.parse(req.url).pathname;
-    // redLog("HTTP request from" + req.connection.remoteAddress + " for " + pathname + " received.");
-    res.writeHead(301, { Location: 'https://bot.goodtogo.tw' + pathname });
-    res.end();
-}
-http.createServer(httpRequest).listen(80);
-debugServer('HTTP redirect server on.');
+// function httpRequest(req, res) {
+//     var pathname = url.parse(req.url).pathname;
+//     // redLog("HTTP request from" + req.connection.remoteAddress + " for " + pathname + " received.");
+//     res.writeHead(301, { Location: 'https://bot.goodtogo.tw' + pathname });
+//     res.end();
+// }
+// http.createServer(httpRequest).listen(80);
+// debugServer('HTTP redirect server on.');
 
 /**
  * DB init
